@@ -295,3 +295,134 @@ VALUES
         address.id_address = 51
     )
   );
+INSERT INTO suppliers (id_supplier, name, sid, lead_time, phone_number, email)
+VALUES  (
+           nextval ('supplier_id_seq'),
+           'XB Suppliers',
+           '1d545f3d-7dce-4463-9ca6-43f43f03d324',
+           '2',
+           '+254789098987',
+           'xbsuppliers@xb.com'
+         );
+
+INSERT INTO purchases (id_purchases, sid, fk_supplier, invoice_number, date_received, bill_value, purchase_status, fk_warehouse)
+VALUES  (
+           nextval ('purchases_id_seq'),
+           '1d545f3d-7dce-4463-9ca6-43f43f03d324',
+           (
+            SELECT
+              id_supplier
+            FROM
+              suppliers supplier
+            WHERE
+              supplier.id_supplier = 1
+          ),
+           '22362735',
+           '2022-10-11T21:05:42.252271Z',
+           '4234',
+           'PENDING',
+         (
+           SELECT
+             id_warehouse
+           FROM
+             warehouses warehouse
+           WHERE
+             warehouse.id_warehouse = 1
+         )
+         );
+
+INSERT INTO brands(id_brand, sid, name)
+VALUES
+(
+    nextval('brand_id_seq'),
+    '36b327c1-3451-0fb7-8f5b-1324d90de4ec',
+    'sony'
+);
+
+INSERT INTO categories(id_category, sid, name)
+VALUES
+(
+    nextval('category_id_seq'),
+    '18b327c1-0598-4fb7-8f5b-4321d90de4ec',
+    'electronics'
+);
+
+INSERT INTO products (
+    id_product,
+    name,
+    sid,
+    date_received,
+    fk_brand,
+    fk_category,
+    fk_supplier,
+    received_by,
+    sku,
+    price,
+    discount,
+    quantity,
+    description,
+    warehouse
+   )
+   VALUES(
+   nextval ('product_id_seq'),
+   'socket',
+   '18b401c1-0598-4fb7-9f5b-5678d23de4ec',
+   '2022-10-11T21:09:00.252271Z',
+  (
+       SELECT
+         id_brand
+       FROM
+         brands brand
+       WHERE
+         brand.id_brand = 1
+  ),
+    (
+         SELECT
+           id_category
+         FROM
+           categories category
+         WHERE
+           category.id_category = 1
+        ),
+         (
+          SELECT
+            id_supplier
+          FROM
+            suppliers supplier
+          WHERE
+            supplier.id_supplier = 1
+         ),
+        'me',
+        'fjhfgsdhfgsdhfgdshfg',
+        '34534',
+        '0',
+        '4',
+        'this is a socket',
+        '90b327c1-0598-4fb7-8f5b-4321d09de4ec'
+   );
+
+INSERT INTO line_items(
+id_line_item, sid, fk_product, fk_purchases,price, quantity
+)
+VALUES(
+nextval('line_item_id_seq'),
+'14b327c1-6789-5fb7-8f5b-4321d00de4ec',
+  (
+      SELECT
+        id_product
+      FROM
+        products product
+      WHERE
+        product.id_product = 1
+  ),
+     (
+         SELECT
+           id_purchases
+         FROM
+           purchases purchase
+         WHERE
+           purchase.id_purchases= 1
+     ),
+     '4',
+     '6564'
+);

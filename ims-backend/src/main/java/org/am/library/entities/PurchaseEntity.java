@@ -29,11 +29,13 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import static org.am.library.entities.util.EntityConstants.FK_WAREHOUSE_COLUMN_NAME;
+
 @Entity
-@Table(name = PurchasesEntity.PURCHASES_TABLE_NAME,
+@Table(name = PurchaseEntity.PURCHASES_TABLE_NAME,
         uniqueConstraints = {
-                @UniqueConstraint(name = PurchasesEntity.INVOICE_NUMBER_UNIQUE_INDEX_NAME, columnNames = PurchasesEntity.INVOICE_NUMBER_COLUMN_NAME),
-                @UniqueConstraint(name = PurchasesEntity.SID_UNIQUE_INDEX_NAME, columnNames = EntityConstants.SID_COLUMN_NAME)
+                @UniqueConstraint(name = PurchaseEntity.INVOICE_NUMBER_UNIQUE_INDEX_NAME, columnNames = PurchaseEntity.INVOICE_NUMBER_COLUMN_NAME),
+                @UniqueConstraint(name = PurchaseEntity.SID_UNIQUE_INDEX_NAME, columnNames = EntityConstants.SID_COLUMN_NAME)
         }
 )
 @Getter
@@ -43,7 +45,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class PurchasesEntity {
+public class PurchaseEntity {
 
     private static final String PURCHASES_ID_SEQUENCE = "purchases_id_seq";
 
@@ -56,6 +58,8 @@ public class PurchasesEntity {
     private static final String SUPPLIER_ID_RELATION_FOREIGN_KEY = "fk_purchases_supplier";
 
     private static final String FK_SUPPLIER_COLUMN_NAME = "fk_supplier";
+
+    private static final String WAREHOUSE_PURCHASES_FOREIGN_KEY = "fk_purchases_warehouse";
 
     static final String INVOICE_NUMBER_UNIQUE_INDEX_NAME = "purchases_invoice_number_unique_idx";
 
@@ -73,7 +77,7 @@ public class PurchasesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = PURCHASES_SEQUENCE)
-    @SequenceGenerator(name = PurchasesEntity.PURCHASES_SEQUENCE, sequenceName = PurchasesEntity.PURCHASES_ID_SEQUENCE)
+    @SequenceGenerator(name = PurchaseEntity.PURCHASES_SEQUENCE, sequenceName = PurchaseEntity.PURCHASES_ID_SEQUENCE)
     @Column(name = ID_PURCHASES_COLUMN_NAME)
     private int id;
 
@@ -85,8 +89,8 @@ public class PurchasesEntity {
     @JoinColumn(name = FK_SUPPLIER_COLUMN_NAME, foreignKey = @ForeignKey(name = SUPPLIER_ID_RELATION_FOREIGN_KEY), nullable = false)
     private SupplierEntity supplier;
 
-    @OneToMany(targetEntity = LineItemEntity.class, fetch = FetchType.LAZY, mappedBy = LineItemEntity.PURCHASES_COLUMN_NAME)
-    private List<LineItemEntity> lineItems;
+    @OneToMany(targetEntity = PurchaseProductEntity.class, fetch = FetchType.LAZY, mappedBy = PurchaseProductEntity.PURCHASES_COLUMN_NAME)
+    private List<PurchaseProductEntity> lineItems;
 
     @Column(name = INVOICE_NUMBER_COLUMN_NAME)
     private int invoiceNumber;
@@ -95,8 +99,12 @@ public class PurchasesEntity {
     private Instant dateReceived;
 
     @Column(name = BILL_VALUE)
-    private int billValue;
+    private float billValue;
 
     @Column(name = PURCHASE_STATUS)
     private PurchaseStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = FK_WAREHOUSE_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_PURCHASES_FOREIGN_KEY), nullable = false)
+    private WarehouseEntity warehouse;
 }

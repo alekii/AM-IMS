@@ -8,9 +8,9 @@ CREATE TABLE products (
   fk_supplier         INT NOT NULL,
   received_by         VARCHAR(255),
   sku                 VARCHAR(255),
-  serial_number       VARCHAR(255),
-  invoice_number      INT NOT NULL,
   price               FLOAT NOT NULL,
+  discount            FLOAT,
+  quantity            INT NOT NULL,
   description         VARCHAR(1024),
   PRIMARY KEY (id_product)
 );
@@ -56,6 +56,7 @@ CREATE TABLE line_items (
   fk_product              INT NOT NULL,
   fk_purchases            INT NOT NULL,
   price                   FLOAT NOT NULL,
+  quantity                INT NOT NULL,
   PRIMARY KEY (id_line_item)
 );
 
@@ -83,7 +84,6 @@ ALTER TABLE suppliers ADD CONSTRAINT supplier_phone_number_unique_idx UNIQUE (ph
 ALTER TABLE suppliers ADD CONSTRAINT supplier_email_unique_idx UNIQUE (email);
 ALTER TABLE suppliers ADD CONSTRAINT supplier_name_unique_idx UNIQUE (name);
 ALTER TABLE suppliers ADD CONSTRAINT supplier_sid_unique_idx UNIQUE (sid);
-
 
 ALTER TABLE purchases ADD CONSTRAINT fk_purchases_supplier FOREIGN KEY (fk_supplier) REFERENCES suppliers (id_supplier);
 ALTER TABLE purchases ADD CONSTRAINT purchases_invoice_number_unique_idx UNIQUE (invoice_number);

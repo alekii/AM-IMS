@@ -17,4 +17,12 @@ public class EntityConstants {
     public static final String BRAND_FOREIGN_KEY_COLUMN_NAME = "fk_brand";
 
     public static final int NAME_MAX_LENGTH = 50;
+
+    public static final String FK_WAREHOUSE_COLUMN_NAME = "fk_warehouse";
+
+    public static final String WAREHOUSE_ID_RELATION_FOREIGN_KEY = "fk_warehouse_id";
+
+    public static final String WAREHOUSE_COLUMN_NAME = "warehouse";
+
+    public static final String PRICE_COLUMN_NAME = "price";
 }

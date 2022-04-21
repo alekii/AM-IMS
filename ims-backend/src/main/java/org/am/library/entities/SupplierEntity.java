@@ -80,8 +80,8 @@ public class SupplierEntity {
     @OneToMany(targetEntity = ProductEntity.class, fetch = FetchType.LAZY, mappedBy = EntityConstants.NAME_COLUMN_NAME)
     private List<ProductEntity> products;
 
-    @OneToMany(targetEntity = PurchasesEntity.class, fetch = FetchType.LAZY, mappedBy = PurchasesEntity.SUPPLIER_COLUMN_NAME)
-    private List<PurchasesEntity> purchases;
+    @OneToMany(targetEntity = PurchaseEntity.class, fetch = FetchType.LAZY, mappedBy = PurchaseEntity.SUPPLIER_COLUMN_NAME)
+    private List<PurchaseEntity> purchases;
 
     @Column(name = LEAD_TIME_COLUMN_NAME)
     private int leadTime;

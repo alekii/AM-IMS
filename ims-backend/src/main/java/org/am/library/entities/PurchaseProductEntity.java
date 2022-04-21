@@ -23,10 +23,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.UUID;
 
+import static org.am.library.entities.util.EntityConstants.PRICE_COLUMN_NAME;
+
 @Entity
-@Table(name = LineItemEntity.LINE_ITEM_TABLE_NAME,
+@Table(name = PurchaseProductEntity.LINE_ITEM_TABLE_NAME,
         uniqueConstraints = {
-                @UniqueConstraint(name = LineItemEntity.SID_UNIQUE_INDEX_NAME, columnNames = EntityConstants.SID_COLUMN_NAME)
+                @UniqueConstraint(name = PurchaseProductEntity.SID_UNIQUE_INDEX_NAME, columnNames = EntityConstants.SID_COLUMN_NAME)
         }
 )
 @Getter
@@ -35,7 +37,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class LineItemEntity {
+public class PurchaseProductEntity {
 
     private static final String FK_PRODUCT_COLUMN_NAME = "fk_product";
 
@@ -64,7 +66,7 @@ public class LineItemEntity {
     @Id
     @Column(name = ID_LINE_ITEM_COLUMN_NAME, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = LINE_ITEM_SEQUENCE)
-    @SequenceGenerator(name = LineItemEntity.LINE_ITEM_SEQUENCE, sequenceName = LineItemEntity.LINE_ITEM_ID_SEQUENCE)
+    @SequenceGenerator(name = PurchaseProductEntity.LINE_ITEM_SEQUENCE, sequenceName = PurchaseProductEntity.LINE_ITEM_ID_SEQUENCE)
     private int id;
 
     @Column(name = EntityConstants.SID_COLUMN_NAME, nullable = false, updatable = false)
@@ -77,8 +79,11 @@ public class LineItemEntity {
 
     @ManyToOne
     @JoinColumn(name = FK_PURCHASES_COLUMN_NAME, foreignKey = @ForeignKey(name = PURCHASES_ID_RELATION_FOREIGN_KEY), nullable = false)
-    private PurchasesEntity purchases;
+    private PurchaseEntity purchases;
 
     @Column(name = QUANTITY_COLUMN_NAME, nullable = false)
     private int quantity;
+
+    @Column(name = PRICE_COLUMN_NAME, nullable = false)
+    private float price;
 }

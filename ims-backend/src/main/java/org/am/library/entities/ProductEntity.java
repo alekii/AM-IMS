@@ -29,8 +29,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import static org.am.library.entities.util.EntityConstants.FK_WAREHOUSE_COLUMN_NAME;
-import static org.am.library.entities.util.EntityConstants.WAREHOUSE_ID_RELATION_FOREIGN_KEY;
+import static org.am.library.entities.util.EntityConstants.PRICE_COLUMN_NAME;
+import static org.am.library.entities.util.EntityConstants.WAREHOUSE_COLUMN_NAME;
 
 @Entity
 @Table(name = ProductEntity.PRODUCT_TABLE_NAME,
@@ -61,13 +61,9 @@ public class ProductEntity {
 
     private static final String PRODUCT_SKU = "sku";
 
-    private static final String PRODUCT_SERIAL_NUMBER = "serial_number";
-
     private static final String FK_SUPPLIER_COLUMN_NAME = "fk_supplier";
 
     private static final String PRODUCT_INVOICE_NUMBER = "invoice_number";
-
-    private static final String PRICE_COLUMN_NAME = "price";
 
     private static final String PRODUCT_BRAND_FOREIGN_KEY = "fk_product_brand";
 
@@ -76,6 +72,10 @@ public class ProductEntity {
     private static final String DESCRIPTION_COLUMN_NAME = "description";
 
     private static final String IMAGE_PATH_COLUMN_NAME = "image_path";
+
+    private static final String DISCOUNT_COLUMN_NAME = "discount";
+
+    private static final String QUANTITY_COLUMN_NAME = "quantity";
 
     static final String PRODUCT_ID_SEQUENCE = "product_id_seq";
 
@@ -122,17 +122,17 @@ public class ProductEntity {
     @Column(name = PRODUCT_SKU, nullable = false)
     private String sku;
 
-    @Column(name = PRODUCT_SERIAL_NUMBER, nullable = false)
-    private String serial_number;
-
-    @Column(name = PRODUCT_INVOICE_NUMBER, nullable = false)
-    private int invoiceNumber;
-
-    @OneToMany(targetEntity = LineItemEntity.class, fetch = FetchType.LAZY, mappedBy = LineItemEntity.PRODUCT_COLUMN_NAME)
-    private List<LineItemEntity> lineItems;
+    @OneToMany(targetEntity = PurchaseProductEntity.class, fetch = FetchType.LAZY, mappedBy = PurchaseProductEntity.PRODUCT_COLUMN_NAME)
+    private List<PurchaseProductEntity> lineItems;
 
     @Column(name = PRICE_COLUMN_NAME, nullable = false)
     private Double price;
+
+    @Column(name = DISCOUNT_COLUMN_NAME)
+    private Double discount;
+
+    @Column(name = QUANTITY_COLUMN_NAME, nullable = false)
+    private int quantity;
 
     @Column(name = DESCRIPTION_COLUMN_NAME)
     private String description;
@@ -140,7 +140,6 @@ public class ProductEntity {
     @OneToMany(targetEntity = ImageEntity.class, fetch = FetchType.LAZY, mappedBy = ImageEntity.IMAGE_COLUMN_NAME)
     private List<ImageEntity> images;
 
-    @ManyToOne
-    @JoinColumn(name = FK_WAREHOUSE_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ID_RELATION_FOREIGN_KEY), nullable = false)
-    private WarehouseEntity warehouse;
+    @Column(name = WAREHOUSE_COLUMN_NAME)
+    private UUID warehouseSid;
 }

@@ -18,7 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import static org.am.library.entities.WarehouseTownCoverageEntity.FK_TOWN_COLUMN_NAME;
-import static org.am.library.entities.WarehouseTownCoverageEntity.FK_WAREHOUSE_COLUMN_NAME;
+import static org.am.library.entities.util.EntityConstants.FK_WAREHOUSE_COLUMN_NAME;
+import static org.am.library.entities.util.EntityConstants.WAREHOUSE_ID_RELATION_FOREIGN_KEY;
 
 @Entity
 @Table(name = WarehouseTownCoverageEntity.WAREHOUSE_TOWN_COVERAGE_TABLE_NAME, uniqueConstraints = {
@@ -42,10 +43,6 @@ WarehouseTownCoverageEntity {
 
     protected static final String TOWN_ID_RELATION_FOREIGN_KEY = "fk_warehouse_id";
 
-    protected static final String FK_WAREHOUSE_COLUMN_NAME = "fk_warehouse";
-
-    protected static final String WAREHOUSE_ID_RELATION_FOREIGN_KEY = "fk_warehouse_id";
-
     protected static final String FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID = "warehouse_town_coverage_town_unique_idx";
 
     protected static final String SEQUENCE_GENERATOR_NAME = "warehouse_town_coverages_sequence";
@@ -53,8 +50,6 @@ WarehouseTownCoverageEntity {
     protected static final String COUNTIES_SEQUENCE_ID_SEQ = "warehouse_town_coverages_id_seq";
 
     static final String ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME = "id_warehouse_town_coverage";
-
-    public static final String WAREHOUSE_COLUMN_NAME = "warehouse";
 
     @Id
     @Column(name = ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME, nullable = false)

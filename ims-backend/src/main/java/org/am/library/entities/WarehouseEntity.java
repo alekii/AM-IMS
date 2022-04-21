@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.am.library.entities.util.EntityConstants.CREATED_AT_COLUMN_NAME;
+import static org.am.library.entities.util.EntityConstants.WAREHOUSE_COLUMN_NAME;
 
 @Entity
 @Table(name = WarehouseEntity.WAREHOUSE_TABLE_NAME,
@@ -91,7 +92,7 @@ public class WarehouseEntity {
     @Column(name = PHONE_NUMBER_COLUMN_NAME)
     private String phoneNumber;
 
-    @OneToMany(targetEntity = WarehouseTownCoverageEntity.class, fetch = FetchType.LAZY, mappedBy = WarehouseTownCoverageEntity.WAREHOUSE_COLUMN_NAME)
+    @OneToMany(targetEntity = WarehouseTownCoverageEntity.class, fetch = FetchType.LAZY, mappedBy = WAREHOUSE_COLUMN_NAME)
     private List<WarehouseTownCoverageEntity> warehouseTownCoverages;
 
     @Column(name = TRACKING_NUMBERS_COUNT_COLUMN_NAME)
@@ -99,4 +100,7 @@ public class WarehouseEntity {
 
     @Column(name = CREATED_AT_COLUMN_NAME)
     private Instant createdAt;
+
+    @OneToMany(targetEntity = PurchaseEntity.class, fetch = FetchType.LAZY, mappedBy = WAREHOUSE_COLUMN_NAME)
+    private List<PurchaseEntity> purchases;
 }

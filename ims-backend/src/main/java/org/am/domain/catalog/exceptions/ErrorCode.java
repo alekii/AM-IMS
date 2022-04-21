@@ -14,7 +14,9 @@ public enum ErrorCode {
     INVALID_EMAIL_ADDRESS(20006),
     //stock
     PRODUCT_NOT_FOUND(30000),
-    PURCHASE_NOT_FOUND(30001);
+    PURCHASE_NOT_FOUND(30001),
+    CATEGORY_NOT_FOUND(30002),
+    BRAND_NOT_FOUND(30003);
 
     private final int id;
 

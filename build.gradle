@@ -2,18 +2,45 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
 
+group 'org.am'
+version '1.0-SNAPSHOT'
+
+project.ext{
+        mapstructVersion = '1.4.1.Final'
+        springBootVersion = '2.6.2'
+        lombokVersion = '1.18.12'
+        springVersion = '5.3.14'
+        flywayVersion = '8.0.5'
+        jacksonVersion = '2.11.1'
+        javaFakerVersion = '1.0.2'
+        jUnit5Version = '5.7.1'
+        javaxValidationApi = '2.0.1.Final'
+    }
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation group: 'javax.validation', name: 'validation-api', version: javaxValidationApi
+
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    testImplementation group: 'org.junit.jupiter', name:'junit-jupiter-api', version:'5.8.1'
+    testRuntimeOnly group: 'org.junit.jupiter', name:'junit-jupiter-engine', version:'5.8.1'
 }
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        //exceptionFormat = 'full'
+       // howStandardStreams = true
+    }
 }

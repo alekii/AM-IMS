@@ -1,3 +1,3 @@
 FROM postgres:12.11-alpine
 
-COPY init-databases.sh /initdb.d/
+COPY init-database.sh /docker-entrypoint-initdb.d/

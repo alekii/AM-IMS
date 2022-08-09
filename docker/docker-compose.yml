@@ -1,12 +1,11 @@
-version: "1"
+version: "3"
 
 services:
   ims-db:
-    image: postgres:12.11-alpine
-    container_name: db
     build: db
     environment:
       - DB=ims
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
       - ${EXPOSED_DATABASE_PORT:-5432}:5432

@@ -1,3 +1,9 @@
 #!/bin/bash
- PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -c "DROP DATABASE IF EXISTS $DB;" &&
- PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE $DB;"
+set -e
+
+function exec_sql() {
+    psql -v ON_ERROR_STOP=1 --dbname "$DB" --username "$POSTGRES_USER" --command "$1"
+}
+
+exec_sql "DROP DATABASE IF EXISTS $DB;"
+exec_sql "CREATE DATABASE $DB;"

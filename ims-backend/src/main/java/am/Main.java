@@ -1,4 +1,4 @@
-package org.am;
+package am;
 
 public class Main {
 

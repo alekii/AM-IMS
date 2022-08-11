@@ -1,0 +1,1 @@
+CREATE SEQUENCE warehouse_id_seq START 1 INCREMENT 10;

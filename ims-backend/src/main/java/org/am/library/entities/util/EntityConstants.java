@@ -8,4 +8,6 @@ public class EntityConstants {
 
     public static final String ADDRESS_FOREIGN_KEY_COLUMN_NAME = "fk_address";
 
+    public static final int ALLOCATION_SIZE = 1;
+
 }

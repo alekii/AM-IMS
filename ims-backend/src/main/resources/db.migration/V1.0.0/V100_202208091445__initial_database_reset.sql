@@ -1,1 +1,0 @@
-DROP SEQUENCE IF EXISTS "warehouse_id_seq " CASCADE;

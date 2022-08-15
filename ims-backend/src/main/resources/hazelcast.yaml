@@ -1,0 +1,34 @@
+hazelcast:
+  cluster-name: hazelcast-ims-dev
+  network:
+    join:
+      multicast:
+        enabled: false
+      tcp-ip:
+        enabled: true
+        interface: 127.0.0.1
+        member-list:
+          - 127.0.0.1
+
+  metrics:
+    enabled: true
+    management-center:
+      enabled: true
+      retention-seconds: 5
+    jmx:
+      enabled: true
+    collection-frequency-seconds: 5
+
+  map:
+    default:
+      async-backup-count: 0
+      statistics-enabled: true
+      time-to-live-seconds: 0
+      max-idle-seconds: 0
+      eviction:
+        eviction-policy: NONE
+        max-size-policy: PER_NODE
+        size: 0
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy

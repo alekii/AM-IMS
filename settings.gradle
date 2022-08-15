@@ -1,4 +1,3 @@
 rootProject.name = 'AM-IMS'
 include 'ims-backend'
-include 'ms'
 

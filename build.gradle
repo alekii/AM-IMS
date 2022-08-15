@@ -1,80 +1,31 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id "org.flywaydb.flyway" version "8.0.5"
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
 
-group 'org.am'
-version '1.0-SNAPSHOT'
+    group 'org.am'
 
-ext {
-    mapstructVersion = '1.4.1.Final'
-    hibernateTypes52Version = '2.9.2'
-    hibernateValidatorVersion = '6.2.0.Final'
-    springBootVersion = '2.6.2'
-    lombokVersion = '1.18.12'
-    springVersion = '5.3.14'
-    flywayVersion = '8.0.5'
-    jacksonVersion = '2.11.1'
-    javaFakerVersion = '1.0.2'
-    jUnit5Version = '5.7.1'
-    javaxValidationApi = '2.0.1.Final'
-    queryDslVersion = '4.2.2'
-    postgresqlVersion = '42.3.1'
-    jacksonDatatypeJSR310 = '2.11.1'
-}
-
-flyway {
-    url = project.hasProperty('url') ? project.getProperty('url') : 'jdbc:postgresql://localhost:5432/ims'
-    user = project.hasProperty('user') ? project.getProperty('user') : 'postgres'
-    password = project.hasProperty('password') ? project.getProperty('password') : 'postgres'
-    table = 'flyway_schema_history'
-    baselineOnMigrate = true
-    locations = ['classpath:db/migration']
-}
-
-dependencies {
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-
-    //Spring
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
-
-    // Data sources
-    implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
-
-    //Hibernate
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonDatatypeJSR310
-    implementation group: 'com.vladmihalcea', name: 'hibernate-types-52', version: hibernateTypes52Version
-
-    // Validation
-    implementation group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidatorVersion
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
-
-    //Query DSL
-    implementation group: 'com.querydsl', name: 'querydsl-jpa', version: queryDslVersion
-
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-    implementation group: 'javax.validation', name: 'validation-api', version: javaxValidationApi
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springBootVersion
-
-    //Annotation Processors
-    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
-    annotationProcessor("com.querydsl:querydsl-apt:$queryDslVersion:jpa")
-    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-
-    testImplementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
-    testImplementation group: 'org.junit.jupiter', name:'junit-jupiter-api', version:'5.8.1'
-    testRuntimeOnly group: 'org.junit.jupiter', name:'junit-jupiter-engine', version:'5.8.1'
+    ext {
+        mapstructVersion = '1.4.1.Final'
+        hibernateTypes52Version = '2.9.2'
+        hibernateValidatorVersion = '6.2.0.Final'
+        springBootVersion = '2.6.2'
+        lombokVersion = '1.18.12'
+        springVersion = '5.3.14'
+        flywayVersion = '8.0.5'
+        jacksonVersion = '2.11.1'
+        javaFakerVersion = '1.0.2'
+        jUnit5Version = '5.7.1'
+        javaxValidationApi = '2.0.1.Final'
+        queryDslVersion = '4.2.2'
+        postgresqlVersion = '42.3.1'
+        jacksonDatatypeJSR310 = '2.11.1'
+        javaxmlBindingApiVersion = '2.4.0-b180830.0359'
+    }
 }
 
 test {

@@ -48,10 +48,10 @@ ALTER TABLE towns ADD CONSTRAINT fk_towns_county FOREIGN KEY (fk_county) REFEREN
 ALTER TABLE towns ADD CONSTRAINT towns_sid_unique_idx UNIQUE (sid);
 ALTER TABLE counties ADD CONSTRAINT counties_sid_unique_idx UNIQUE (sid);
 ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_warehouse_id FOREIGN KEY (fk_town) REFERENCES warehouses (id_warehouse);
-ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_town_id FOREIGN KEY (fk_warehouse) REFERENCES towns (id_town);
+ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_town_id FOREIGN KEY (fk_warehouse) REFERENCES towns (id_town); 
 ALTER TABLE warehouse_town_coverages ADD CONSTRAINT warehouse_town_coverage_town_unique_idx UNIQUE (fk_warehouse);
 ALTER TABLE warehouse_town_coverages ADD CONSTRAINT warehouse_town_coverage_town_unique_idx UNIQUE (fk_town);
-
+ 
 CREATE SEQUENCE warehouse_id_seq START 1 INCREMENT 10;
 CREATE SEQUENCE address_id_seq START 1 INCREMENT 10;
 CREATE SEQUENCE towns_id_seq START 1 INCREMENT 1;

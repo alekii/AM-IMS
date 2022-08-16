@@ -58,7 +58,7 @@ public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Warehouse.WAREHOUSE_SEQUENCE)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private int id;
 
     @Column(name=NAME, length = NAME_MAX_LENGTH)
     private String name;

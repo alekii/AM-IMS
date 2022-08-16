@@ -37,9 +37,10 @@ public class WarehouseTownCoverage {
 
     protected static final String WAREHOUSE_TOWN_COVERAGE_TABLE_NAME = "warehouse_town_coverages";
 
+    static final String ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME = "id_warehouse_town_coverage";
     protected static final String FK_TOWN_COLUMN_NAME = "fk_town";
 
-    protected static final String TOWN_ID_RELATION_FOREIGN_KEY = "fk_warehouse_town_coverages_towns"; 
+    protected static final String TOWN_ID_RELATION_FOREIGN_KEY = "fk_warehouse_id";
 
     public static final String WAREHOUSE_COLUMN_NAME = "warehouse";
     
@@ -54,8 +55,8 @@ public class WarehouseTownCoverage {
     protected static final String COUNTIES_SEQUENCE_ID_SEQ = "warehouse_town_coverages_id_seq";
 
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME, nullable = false)
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = FK_WAREHOUSE_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ID_RELATION_FOREIGN_KEY), nullable = false)

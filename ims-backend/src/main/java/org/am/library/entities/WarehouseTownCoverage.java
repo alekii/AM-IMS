@@ -18,12 +18,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import static org.am.library.entities.WarehouseTownCoverage.FK_TOWN_COLUMN_NAME;
-import static org.am.library.entities.WarehouseTownCoverage.FK_WAREHOUSE_COLUMN_NAME;
+import static org.am.library.entities.Address.ID_ADDRESS_UNIQUE_INDEX_NAME;
+import static org.am.library.entities.WarehouseTownCoverage.ID_WAREHOUSE_UNIQUE_INDEX_NAME;
 
 @Entity 
 @Table(name = WarehouseTownCoverage.WAREHOUSE_TOWN_COVERAGE_TABLE_NAME, uniqueConstraints = {
-        @UniqueConstraint(columnNames = {FK_WAREHOUSE_COLUMN_NAME, FK_TOWN_COLUMN_NAME}, name = WarehouseTownCoverage.FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID)
+        @UniqueConstraint(columnNames = {ID_WAREHOUSE_UNIQUE_INDEX_NAME, ID_ADDRESS_UNIQUE_INDEX_NAME}, name = WarehouseTownCoverage.FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID)
 })
 @SequenceGenerator(name = WarehouseTownCoverage.SEQUENCE_GENERATOR_NAME, sequenceName = WarehouseTownCoverage.COUNTIES_SEQUENCE_ID_SEQ,
         allocationSize = EntityConstants.ALLOCATION_SIZE)
@@ -34,6 +34,10 @@ import static org.am.library.entities.WarehouseTownCoverage.FK_WAREHOUSE_COLUMN_
 @NoArgsConstructor
 @AllArgsConstructor
 public class WarehouseTownCoverage {
+
+    protected static final String ID_WAREHOUSE_UNIQUE_INDEX_NAME = "warehouse_unique_id";
+
+    protected static final String ID_TOWN_UNIQUE_INDEX_NAME = "town_unique_id";
 
     protected static final String WAREHOUSE_TOWN_COVERAGE_TABLE_NAME = "warehouse_town_coverages";
 

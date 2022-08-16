@@ -24,7 +24,7 @@ import javax.persistence.UniqueConstraint;
 @Table(name = Address.ADDRESS_TABLE_NAME, uniqueConstraints = {
         @UniqueConstraint(name = Address.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {Address.ID_ADDRESS_COLUMN_NAME})
 } )
-@SequenceGenerator(name = Address.SEQUENCE_GENERATOR_NAME, sequenceName = Address.SEQUENCE_GENERATOR_NAME)
+@SequenceGenerator(name = Address.SEQUENCE_GENERATOR_NAME, sequenceName = Address.ADDRESS_SEQUENCE_ID_SEQ)
 @DynamicUpdate
 @Getter
 @Setter
@@ -49,7 +49,9 @@ public class Address {
 
     private static final String TOWN_FOREIGN_KEY = "fk_address_town";
 
-    static final String SEQUENCE_GENERATOR_NAME = "address_id_seq";
+    static final String SEQUENCE_GENERATOR_NAME = "address_sequence";
+
+    static final String ADDRESS_SEQUENCE_ID_SEQ = "address_id_seq";
 
     static final String ID_ADDRESS_UNIQUE_INDEX_NAME = "addresses_unique_id_address";
 

@@ -1,2 +1,4 @@
 DROP SEQUENCE IF EXISTS "warehouse_id_seq" CASCADE;
-DROP TABLE IF EXISTS "person" CASCADE;
+DROP SEQUENCE IF EXISTS "towns_id_seq" CASCADE;
+DROP SEQUENCE IF EXISTS "counties_id_seq" CASCADE;
+DROP SEQUENCE IF EXISTS "warehouse_town_coverages_id_seq" CASCADE;

@@ -7,18 +7,22 @@ import org.am.library.entities.QCounty;
 import org.am.library.entities.QTown;
 import org.am.library.entities.Warehouse;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
 
 import static org.am.library.entities.QTown.town;
 import static org.am.library.entities.QWarehouse.warehouse;
 
-public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implements WarehouseQueryDslRepository{
+@Repository
+public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implements WarehouseQueryDslRepository {
 
     public WarehouseRepositoryImpl() {
 
         super(Warehouse.class);
     }
+
     @Override
     public WarehouseProjection findByIdFetch(int id) {
+
         final QAddress qAddress = QAddress.address;
         final QTown qTown = town;
         final QCounty qCounty = QCounty.county;

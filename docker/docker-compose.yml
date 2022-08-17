@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  ims-db:
+  db:
     build: db
     environment:
       - DB=ims

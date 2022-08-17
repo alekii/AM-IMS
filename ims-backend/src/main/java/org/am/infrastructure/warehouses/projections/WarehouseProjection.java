@@ -3,6 +3,7 @@ package org.am.infrastructure.warehouses.projections;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
 import java.util.UUID;
 
 @Getter
@@ -20,15 +21,7 @@ public class WarehouseProjection {
 
     final private Integer trackingNumberCount;
 
-    final private String networkName;
-
-    final private String networkCode;
-
     final private String addressStreet;
-
-    final private String addressStreetNumber;
-
-    final private String addressPostCode;
 
     final private String addressMapUrl;
 
@@ -43,5 +36,4 @@ public class WarehouseProjection {
     final private UUID countySid;
 
     final private String countyName;
-
 }

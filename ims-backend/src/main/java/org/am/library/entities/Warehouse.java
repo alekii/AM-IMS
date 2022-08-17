@@ -52,8 +52,11 @@ public class Warehouse {
 
     private static final String WAREHOUSE_ADDRESS_FOREIGN_KEY = "fk_warehouse_address";
 
+    private static final String CONTACT_NAME_COLUMN_NAME = "contact_name";
+
     private static final String PHONE_NUMBER_COLUMN_NAME = "phone_number";
 
+    private static final String TRACKING_NUMBERS_COUNT_COLUMN_NAME = "tracking_numbers_count";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Warehouse.WAREHOUSE_SEQUENCE)
@@ -71,10 +74,16 @@ public class Warehouse {
     @JoinColumn(name = EntityConstants.ADDRESS_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ADDRESS_FOREIGN_KEY))
     private Address warehouseAddress;
 
+    @Column(name = CONTACT_NAME_COLUMN_NAME)
+    private String contactName;
+
     @Column(name = PHONE_NUMBER_COLUMN_NAME)
     private String phoneNumber;
 
     @OneToMany(targetEntity = WarehouseTownCoverage.class, fetch = FetchType.LAZY, mappedBy = WarehouseTownCoverage.WAREHOUSE_COLUMN_NAME)
     private List<WarehouseTownCoverage> warehouseTownCoverages;
+
+    @Column(name = TRACKING_NUMBERS_COUNT_COLUMN_NAME)
+    private Integer trackingNumbersCount;
 
 }

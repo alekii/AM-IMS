@@ -53,7 +53,7 @@ public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implement
                         )
                 )
                 .fetchOne();
-
+        
         return warehouseProjection;
     }
 }

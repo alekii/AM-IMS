@@ -9,7 +9,7 @@ plugins {
     id "org.flywaydb.flyway" version "8.0.5"
 }
 
-application{
+application {
     mainClass = 'org.am.Main'
 }
 
@@ -68,8 +68,13 @@ dependencies {
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     testImplementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
-    testImplementation group: 'org.junit.jupiter', name:'junit-jupiter-api', version:'5.8.1'
-    testRuntimeOnly group: 'org.junit.jupiter', name:'junit-jupiter-engine', version:'5.8.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
+    testImplementation group: 'org.reflections', name: 'reflections', version: reflectionsVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
+    testImplementation group: 'com.github.javafaker', name: 'javafaker', version: javaFakerVersion
+
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
 }
 
 test {
@@ -77,9 +82,9 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
         //exceptionFormat = 'full'
-       // howStandardStreams = true
+        // howStandardStreams = true
     }
-    finalizedBy jacocoTestReport
+    //finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
@@ -89,7 +94,7 @@ jacocoTestReport {
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
-    finalizedBy jacocoTestCoverageVerification
+    //  finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestCoverageVerification {

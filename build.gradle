@@ -15,6 +15,8 @@ subprojects {
         hibernateValidatorVersion = '6.2.0.Final'
         springBootVersion = '2.6.2'
         lombokVersion = '1.18.12'
+        javaFakerVersion = '1.0.2'
+        reflectionsVersion = '0.9.11'
         springVersion = '5.3.14'
         flywayVersion = '8.0.5'
         jacksonVersion = '2.11.1'
@@ -33,7 +35,7 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
         //exceptionFormat = 'full'
-       // howStandardStreams = true
+        // howStandardStreams = true
     }
     finalizedBy jacocoTestReport
 }

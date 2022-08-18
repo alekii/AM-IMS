@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = Address.ADDRESS_TABLE_NAME, uniqueConstraints = {
         @UniqueConstraint(name = Address.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {Address.ID_ADDRESS_COLUMN_NAME})
-} )
+})
 @SequenceGenerator(name = Address.SEQUENCE_GENERATOR_NAME, sequenceName = Address.ADDRESS_SEQUENCE_ID_SEQ)
 @DynamicUpdate
 @Getter
@@ -32,10 +32,6 @@ import javax.persistence.UniqueConstraint;
 @AllArgsConstructor
 @Builder
 public class Address {
-
-    static final String ADDRESS_TABLE_NAME = "addresses";
-
-    static final String ID_ADDRESS_COLUMN_NAME = "id_address";
 
     private static final String STREET_NAME = "street_name";
 
@@ -49,6 +45,10 @@ public class Address {
 
     private static final String TOWN_FOREIGN_KEY = "fk_address_town";
 
+    static final String ADDRESS_TABLE_NAME = "addresses";
+
+    static final String ID_ADDRESS_COLUMN_NAME = "id_address";
+
     static final String SEQUENCE_GENERATOR_NAME = "address_sequence";
 
     static final String ADDRESS_SEQUENCE_ID_SEQ = "address_id_seq";
@@ -60,7 +60,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_GENERATOR_NAME)
     private int id;
 
-    @Column(name=STREET_NAME, nullable = false)
+    @Column(name = STREET_NAME, nullable = false)
     private String street;
 
     @Column(name = LATITUDE)

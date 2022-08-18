@@ -28,25 +28,16 @@ import java.util.UUID;
 @Table(name = Warehouse.WAREHOUSE_TABLE_NAME,
         uniqueConstraints = {
                 @UniqueConstraint(name = Warehouse.NAME_SID_UNIQUE_INDEX_NAME,
-                                  columnNames = {EntityConstants.NAME_COLUMN_NAME, EntityConstants.SID_COLUMN_NAME})
+                        columnNames = {EntityConstants.NAME_COLUMN_NAME, EntityConstants.SID_COLUMN_NAME})
         }
 )
 @SequenceGenerator(name = Warehouse.WAREHOUSE_SEQUENCE, sequenceName = Warehouse.WAREHOUSE_ID_SEQUENCE)
 @Getter
 @Setter
-@Builder
+@Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Warehouse {
-    static final String WAREHOUSE_TABLE_NAME = "warehouses";
-
-    static final String NAME = "name";
-
-    static final String NAME_SID_UNIQUE_INDEX_NAME = "warehouse_name_sid_unique_idx";
-
-    static final String WAREHOUSE_SEQUENCE = "warehouse_sequence";
-
-    static final String WAREHOUSE_ID_SEQUENCE = "warehouse_id_seq";
 
     private static final int NAME_MAX_LENGTH = 50;
 
@@ -58,12 +49,22 @@ public class Warehouse {
 
     private static final String TRACKING_NUMBERS_COUNT_COLUMN_NAME = "tracking_numbers_count";
 
+    static final String WAREHOUSE_TABLE_NAME = "warehouses";
+
+    static final String NAME = "name";
+
+    static final String NAME_SID_UNIQUE_INDEX_NAME = "warehouse_name_sid_unique_idx";
+
+    static final String WAREHOUSE_SEQUENCE = "warehouse_sequence";
+
+    static final String WAREHOUSE_ID_SEQUENCE = "warehouse_id_seq";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Warehouse.WAREHOUSE_SEQUENCE)
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name=NAME, length = NAME_MAX_LENGTH)
+    @Column(name = NAME, length = NAME_MAX_LENGTH)
     private String name;
 
     @NotNull
@@ -85,5 +86,4 @@ public class Warehouse {
 
     @Column(name = TRACKING_NUMBERS_COUNT_COLUMN_NAME)
     private Integer trackingNumbersCount;
-
 }

@@ -16,8 +16,8 @@ spring:
     hikari:
       pool-name: ims
   flyway:
-      check-location: true
-      locations: filesystem:${IMS_HOME}/ims-backend/src/main/resources/
+    check-location: true
+    locations: filesystem:/home/alex/project/AM-IMS/ims-backend/src/main/resources/
 
   jpa:
     open-in-view: true

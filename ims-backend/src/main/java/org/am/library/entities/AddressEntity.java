@@ -21,17 +21,17 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = Address.ADDRESS_TABLE_NAME, uniqueConstraints = {
-        @UniqueConstraint(name = Address.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {Address.ID_ADDRESS_COLUMN_NAME})
+@Table(name = AddressEntity.ADDRESS_TABLE_NAME, uniqueConstraints = {
+        @UniqueConstraint(name = AddressEntity.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {AddressEntity.ID_ADDRESS_COLUMN_NAME})
 })
-@SequenceGenerator(name = Address.SEQUENCE_GENERATOR_NAME, sequenceName = Address.ADDRESS_SEQUENCE_ID_SEQ)
+@SequenceGenerator(name = AddressEntity.SEQUENCE_GENERATOR_NAME, sequenceName = AddressEntity.ADDRESS_SEQUENCE_ID_SEQ)
 @DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Address {
+@Builder(builderClassName = "Builder")
+public class AddressEntity {
 
     private static final String STREET_NAME = "street_name";
 
@@ -72,7 +72,7 @@ public class Address {
     @Column(name = MAP_URL_NAME)
     private String mapUrl;
 
-    @ManyToOne(targetEntity = Town.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = TownEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = TOWN_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = TOWN_FOREIGN_KEY))
-    private Town town;
+    private TownEntity town;
 }

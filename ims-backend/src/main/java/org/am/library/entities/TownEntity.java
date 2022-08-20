@@ -24,31 +24,35 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = Town.TOWNS_TABLE_NAME, uniqueConstraints = {
-        @UniqueConstraint(columnNames = Town.SID, name = Town.TOWN_SID_UNIQUE_IDX)
+@Table(name = TownEntity.TOWNS_TABLE_NAME, uniqueConstraints = {
+        @UniqueConstraint(columnNames = TownEntity.SID, name = TownEntity.TOWN_SID_UNIQUE_IDX)
 })
-@SequenceGenerator(name = Town.TOWN_SEQUENCE_NAME, sequenceName = Town.TOWN_SEQUENCE_ID_SEQ, allocationSize = Town.ALLOCATION_SIZE)
+@SequenceGenerator(name = TownEntity.TOWN_SEQUENCE_NAME, sequenceName = TownEntity.TOWN_SEQUENCE_ID_SEQ, allocationSize = TownEntity.ALLOCATION_SIZE)
 @DynamicUpdate
 @Getter
 @Setter
-@Builder
+@Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Town {
+public class TownEntity {
+
+    private static final String FK_COUNTY = "fk_county";
+
+    private static final String FK_TOWNS_COUNTY = "fk_towns_county";
 
     static final String TOWNS_TABLE_NAME = "towns";
+
     static final String ID_TOWN = "id_town";
+
     static final String SID = "sid";
+
     static final String NAME = "name";
+
     static final String TOWN_SID_UNIQUE_IDX = "towns_sid_unique_idx";
 
     static final String TOWN_SEQUENCE_ID_SEQ = "towns_id_seq";
 
     static final String TOWN_SEQUENCE_NAME = "towns_sequence";
-
-    private static final String FK_COUNTY = "fk_county";
-
-    private static final String FK_TOWNS_COUNTY = "fk_towns_county";
 
     public static final int ALLOCATION_SIZE = 1;
 
@@ -65,10 +69,10 @@ public class Town {
 
     @ManyToOne
     @JoinColumn(name = FK_COUNTY, foreignKey = @ForeignKey(name = FK_TOWNS_COUNTY), nullable = false)
-    private County county;
+    private CountyEntity county;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "town")
-    private List<WarehouseTownCoverage> warehouseTownCoverages;
+    private List<WarehouseTownCoverageEntity> warehouseTownCoverages;
 
     public String getCountyName() {
 

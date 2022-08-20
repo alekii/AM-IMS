@@ -8,8 +8,8 @@ CREATE TABLE warehouses (
 );
 
 CREATE TABLE addresses (
-  id_address           INT4 NOT NULL,
-  street                 VARCHAR(255),
+  id_address             INT4 NOT NULL,
+  street_name            VARCHAR(255),
   latitude               FLOAT,
   longitude              FLOAT,
   map_url                VARCHAR(255),
@@ -29,7 +29,6 @@ CREATE TABLE counties (
   id_county              INT2 NOT NULL,
   name                   VARCHAR(45),
   sid                    VARCHAR(255),
-  county                 INT NOT NULL,
   PRIMARY KEY (id_county)
 );
 

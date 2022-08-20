@@ -17,6 +17,7 @@ subprojects {
         lombokVersion = '1.18.12'
         javaFakerVersion = '1.0.2'
         reflectionsVersion = '0.9.11'
+        testContainersVersion = '1.16.3'
         springVersion = '5.3.14'
         flywayVersion = '8.0.5'
         jacksonVersion = '2.11.1'

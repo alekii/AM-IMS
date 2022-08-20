@@ -2,46 +2,45 @@ package org.am.infrastructure.warehouses;
 
 import com.querydsl.core.types.Projections;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
-import org.am.library.entities.QAddress;
-import org.am.library.entities.QCounty;
-import org.am.library.entities.QTown;
-import org.am.library.entities.Warehouse;
+import org.am.library.entities.QAddressEntity;
+import org.am.library.entities.QCountyEntity;
+import org.am.library.entities.QTownEntity;
+import org.am.library.entities.WarehouseEntity;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
-import static org.am.library.entities.QTown.town;
-import static org.am.library.entities.QWarehouse.warehouse;
+import static org.am.library.entities.QWarehouseEntity.warehouseEntity;
 
 @Repository
 public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implements WarehouseQueryDslRepository {
 
     public WarehouseRepositoryImpl() {
 
-        super(Warehouse.class);
+        super(WarehouseEntity.class);
     }
 
     @Override
     public WarehouseProjection findByIdFetch(int id) {
 
-        final QAddress qAddress = QAddress.address;
-        final QTown qTown = town;
-        final QCounty qCounty = QCounty.county;
+        final QAddressEntity qAddress = QAddressEntity.addressEntity;
+        final QTownEntity qTown = QTownEntity.townEntity;
+        final QCountyEntity qCounty = QCountyEntity.countyEntity;
 
-        WarehouseProjection warehouseProjection = from(warehouse)
-                .innerJoin(warehouse.warehouseAddress, qAddress)
+        WarehouseProjection warehouseProjection = from(warehouseEntity)
+                .innerJoin(warehouseEntity.warehouseAddress, qAddress)
                 .innerJoin(qAddress.town, qTown)
                 .innerJoin(qTown.county, qCounty)
                 .where(
-                        warehouse.id.eq(id)
+                        warehouseEntity.id.eq(id)
                 )
                 .select(
                         Projections.constructor(
                                 WarehouseProjection.class,
-                                warehouse.sid,
-                                warehouse.name,
-                                warehouse.contactName,
-                                warehouse.phoneNumber,
-                                warehouse.trackingNumbersCount,
+                                warehouseEntity.sid,
+                                warehouseEntity.name,
+                                warehouseEntity.contactName,
+                                warehouseEntity.phoneNumber,
+                                warehouseEntity.trackingNumbersCount,
                                 qAddress.street,
                                 qAddress.mapUrl,
                                 qAddress.longitude,
@@ -53,7 +52,7 @@ public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implement
                         )
                 )
                 .fetchOne();
-        
+
         return warehouseProjection;
     }
 }

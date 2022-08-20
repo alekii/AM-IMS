@@ -1,8 +1,7 @@
 package org.am.persistence.jpa.repositories;
 
-import org.am.fakers.EntityFaker;
 import org.am.infrastructure.warehouses.WarehouseRepository;
-import org.am.library.entities.Warehouse;
+import org.am.library.entities.WarehouseEntity;
 import org.am.persistence.jpa.configuration.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +15,15 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
-    private EntityFaker entityFaker;
-
     @Test
     void testWarehouseSaveGeneratesId() {
 
         //Given
-        Warehouse warehouse = entityFaker.warehouse().build();
+        WarehouseEntity warehouse = faker.entityFaker.buildWarehousewithCoverages().build();
         integrationTestPersister.save(warehouse);
 
         //When
-        List<Warehouse> warehouses = warehouseRepository.findAll();
+        List<WarehouseEntity> warehouses = warehouseRepository.findAll();
 
         //Then
         assertThat(warehouses).isNotEmpty().hasSize(1);

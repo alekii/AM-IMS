@@ -25,19 +25,19 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = Warehouse.WAREHOUSE_TABLE_NAME,
+@Table(name = WarehouseEntity.WAREHOUSE_TABLE_NAME,
         uniqueConstraints = {
-                @UniqueConstraint(name = Warehouse.NAME_SID_UNIQUE_INDEX_NAME,
+                @UniqueConstraint(name = WarehouseEntity.NAME_SID_UNIQUE_INDEX_NAME,
                         columnNames = {EntityConstants.NAME_COLUMN_NAME, EntityConstants.SID_COLUMN_NAME})
         }
 )
-@SequenceGenerator(name = Warehouse.WAREHOUSE_SEQUENCE, sequenceName = Warehouse.WAREHOUSE_ID_SEQUENCE)
+@SequenceGenerator(name = WarehouseEntity.WAREHOUSE_SEQUENCE, sequenceName = WarehouseEntity.WAREHOUSE_ID_SEQUENCE)
 @Getter
 @Setter
 @Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Warehouse {
+public class WarehouseEntity {
 
     private static final int NAME_MAX_LENGTH = 50;
 
@@ -48,6 +48,8 @@ public class Warehouse {
     private static final String PHONE_NUMBER_COLUMN_NAME = "phone_number";
 
     private static final String TRACKING_NUMBERS_COUNT_COLUMN_NAME = "tracking_numbers_count";
+
+    private static final String ID_WAREHOUSE_COLUMN_NAME = "id_warehouse";
 
     static final String WAREHOUSE_TABLE_NAME = "warehouses";
 
@@ -60,8 +62,8 @@ public class Warehouse {
     static final String WAREHOUSE_ID_SEQUENCE = "warehouse_id_seq";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Warehouse.WAREHOUSE_SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = WarehouseEntity.WAREHOUSE_SEQUENCE)
+    @Column(name = ID_WAREHOUSE_COLUMN_NAME)
     private int id;
 
     @Column(name = NAME, length = NAME_MAX_LENGTH)
@@ -71,9 +73,9 @@ public class Warehouse {
     @Column(name = EntityConstants.SID_COLUMN_NAME, nullable = false, updatable = false)
     private UUID sid;
 
-    @OneToOne(targetEntity = Address.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = AddressEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = EntityConstants.ADDRESS_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ADDRESS_FOREIGN_KEY))
-    private Address warehouseAddress;
+    private AddressEntity warehouseAddress;
 
     @Column(name = CONTACT_NAME_COLUMN_NAME)
     private String contactName;
@@ -81,8 +83,8 @@ public class Warehouse {
     @Column(name = PHONE_NUMBER_COLUMN_NAME)
     private String phoneNumber;
 
-    @OneToMany(targetEntity = WarehouseTownCoverage.class, fetch = FetchType.LAZY, mappedBy = WarehouseTownCoverage.WAREHOUSE_COLUMN_NAME)
-    private List<WarehouseTownCoverage> warehouseTownCoverages;
+    @OneToMany(targetEntity = WarehouseTownCoverageEntity.class, fetch = FetchType.LAZY, mappedBy = WarehouseTownCoverageEntity.WAREHOUSE_COLUMN_NAME)
+    private List<WarehouseTownCoverageEntity> warehouseTownCoverages;
 
     @Column(name = TRACKING_NUMBERS_COUNT_COLUMN_NAME)
     private Integer trackingNumbersCount;

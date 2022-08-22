@@ -19,21 +19,25 @@ import javax.persistence.UniqueConstraint;
 import java.util.List;
 import java.util.UUID;
 
-import static org.am.library.entities.Town.ALLOCATION_SIZE;
+import static org.am.library.entities.TownEntity.ALLOCATION_SIZE;
 
 @Entity
-@Table(name = County.COUNTIES_TABLE_NAME, uniqueConstraints = {
-        @UniqueConstraint(columnNames = County.SID, name = County.COUNTIES_SID_UNIQUE_IDX)
+@Table(name = CountyEntity.COUNTIES_TABLE_NAME, uniqueConstraints = {
+        @UniqueConstraint(columnNames = CountyEntity.SID, name = CountyEntity.COUNTIES_SID_UNIQUE_IDX)
 })
-@SequenceGenerator(name = County.COUNTY_SEQUENCE_NAME, sequenceName = County.COUNTIES_SEQUENCE_ID_SEQ, allocationSize = ALLOCATION_SIZE)
+@SequenceGenerator(name = CountyEntity.COUNTY_SEQUENCE_NAME, sequenceName = CountyEntity.COUNTIES_SEQUENCE_ID_SEQ, allocationSize = ALLOCATION_SIZE)
 @Getter
 @Setter
-@Builder
+@Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
-public class County {
-    static final String COUNTIES_TABLE_NAME = "counties";
+public class CountyEntity {
+
     private static final String ID_COUNTY = "id_county";
+
+    private static final String NAME = "name";
+
+    static final String COUNTIES_TABLE_NAME = "counties";
 
     static final String SID = "sid";
 
@@ -42,8 +46,6 @@ public class County {
     static final String COUNTIES_SID_UNIQUE_IDX = "counties_sid_unique_idx";
 
     static final String COUNTIES_SEQUENCE_ID_SEQ = "counties_id_seq";
-
-    private static final String NAME = "name";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = COUNTY_SEQUENCE_NAME)
@@ -57,6 +59,5 @@ public class County {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "county")
-    private List<Town> towns;
-
+    private List<TownEntity> towns;
 }

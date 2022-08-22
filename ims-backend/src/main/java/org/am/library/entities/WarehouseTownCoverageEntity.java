@@ -18,38 +18,34 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import static org.am.library.entities.Address.ID_ADDRESS_UNIQUE_INDEX_NAME;
-import static org.am.library.entities.WarehouseTownCoverage.ID_WAREHOUSE_UNIQUE_INDEX_NAME;
+import static org.am.library.entities.WarehouseTownCoverageEntity.FK_TOWN_COLUMN_NAME;
+import static org.am.library.entities.WarehouseTownCoverageEntity.FK_WAREHOUSE_COLUMN_NAME;
 
-@Entity 
-@Table(name = WarehouseTownCoverage.WAREHOUSE_TOWN_COVERAGE_TABLE_NAME, uniqueConstraints = {
-        @UniqueConstraint(columnNames = {ID_WAREHOUSE_UNIQUE_INDEX_NAME, ID_ADDRESS_UNIQUE_INDEX_NAME}, name = WarehouseTownCoverage.FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID)
+@Entity
+@Table(name = WarehouseTownCoverageEntity.WAREHOUSE_TOWN_COVERAGE_TABLE_NAME, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {FK_TOWN_COLUMN_NAME, FK_WAREHOUSE_COLUMN_NAME}, name = WarehouseTownCoverageEntity.FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID)
 })
-@SequenceGenerator(name = WarehouseTownCoverage.SEQUENCE_GENERATOR_NAME, sequenceName = WarehouseTownCoverage.COUNTIES_SEQUENCE_ID_SEQ,
+@SequenceGenerator(name = WarehouseTownCoverageEntity.SEQUENCE_GENERATOR_NAME, sequenceName = WarehouseTownCoverageEntity.COUNTIES_SEQUENCE_ID_SEQ,
         allocationSize = EntityConstants.ALLOCATION_SIZE)
 @DynamicUpdate
-@Builder
+@Builder(builderClassName = "Builder")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WarehouseTownCoverage {
-
-    protected static final String ID_WAREHOUSE_UNIQUE_INDEX_NAME = "warehouse_unique_id";
+public class
+WarehouseTownCoverageEntity {
 
     protected static final String ID_TOWN_UNIQUE_INDEX_NAME = "town_unique_id";
 
     protected static final String WAREHOUSE_TOWN_COVERAGE_TABLE_NAME = "warehouse_town_coverages";
 
-    static final String ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME = "id_warehouse_town_coverage";
     protected static final String FK_TOWN_COLUMN_NAME = "fk_town";
 
     protected static final String TOWN_ID_RELATION_FOREIGN_KEY = "fk_warehouse_id";
 
-    public static final String WAREHOUSE_COLUMN_NAME = "warehouse";
-    
     protected static final String FK_WAREHOUSE_COLUMN_NAME = "fk_warehouse";
-    
+
     protected static final String WAREHOUSE_ID_RELATION_FOREIGN_KEY = "fk_warehouse_id";
 
     protected static final String FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID = "warehouse_town_coverage_town_unique_idx";
@@ -58,16 +54,19 @@ public class WarehouseTownCoverage {
 
     protected static final String COUNTIES_SEQUENCE_ID_SEQ = "warehouse_town_coverages_id_seq";
 
+    static final String ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME = "id_warehouse_town_coverage";
+
+    public static final String WAREHOUSE_COLUMN_NAME = "warehouse";
+
     @Id
     @Column(name = ID_WAREHOUSE_TOWN_COVERAGE_COLUMN_NAME, nullable = false)
     private int id;
 
     @ManyToOne
     @JoinColumn(name = FK_WAREHOUSE_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ID_RELATION_FOREIGN_KEY), nullable = false)
-    private Warehouse warehouse;
+    private WarehouseEntity warehouse;
 
     @ManyToOne
     @JoinColumn(name = FK_TOWN_COLUMN_NAME, foreignKey = @ForeignKey(name = TOWN_ID_RELATION_FOREIGN_KEY), nullable = false)
-    private Town town;
-
+    private TownEntity town;
 }

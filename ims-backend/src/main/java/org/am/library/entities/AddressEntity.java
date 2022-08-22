@@ -21,21 +21,17 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = Address.ADDRESS_TABLE_NAME, uniqueConstraints = {
-        @UniqueConstraint(name = Address.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {Address.ID_ADDRESS_COLUMN_NAME})
-} )
-@SequenceGenerator(name = Address.SEQUENCE_GENERATOR_NAME, sequenceName = Address.ADDRESS_SEQUENCE_ID_SEQ)
+@Table(name = AddressEntity.ADDRESS_TABLE_NAME, uniqueConstraints = {
+        @UniqueConstraint(name = AddressEntity.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {AddressEntity.ID_ADDRESS_COLUMN_NAME})
+})
+@SequenceGenerator(name = AddressEntity.SEQUENCE_GENERATOR_NAME, sequenceName = AddressEntity.ADDRESS_SEQUENCE_ID_SEQ)
 @DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Address {
-
-    static final String ADDRESS_TABLE_NAME = "addresses";
-
-    static final String ID_ADDRESS_COLUMN_NAME = "id_address";
+@Builder(builderClassName = "Builder")
+public class AddressEntity {
 
     private static final String STREET_NAME = "street_name";
 
@@ -49,6 +45,10 @@ public class Address {
 
     private static final String TOWN_FOREIGN_KEY = "fk_address_town";
 
+    static final String ADDRESS_TABLE_NAME = "addresses";
+
+    static final String ID_ADDRESS_COLUMN_NAME = "id_address";
+
     static final String SEQUENCE_GENERATOR_NAME = "address_sequence";
 
     static final String ADDRESS_SEQUENCE_ID_SEQ = "address_id_seq";
@@ -60,7 +60,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_GENERATOR_NAME)
     private int id;
 
-    @Column(name=STREET_NAME, nullable = false)
+    @Column(name = STREET_NAME, nullable = false)
     private String street;
 
     @Column(name = LATITUDE)
@@ -72,7 +72,7 @@ public class Address {
     @Column(name = MAP_URL_NAME)
     private String mapUrl;
 
-    @ManyToOne(targetEntity = Town.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = TownEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = TOWN_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = TOWN_FOREIGN_KEY))
-    private Town town;
+    private TownEntity town;
 }

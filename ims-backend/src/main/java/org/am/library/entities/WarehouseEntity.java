@@ -27,8 +27,8 @@ import java.util.UUID;
 @Entity
 @Table(name = WarehouseEntity.WAREHOUSE_TABLE_NAME,
         uniqueConstraints = {
-                @UniqueConstraint(name = WarehouseEntity.NAME_SID_UNIQUE_INDEX_NAME,
-                        columnNames = {EntityConstants.NAME_COLUMN_NAME, EntityConstants.SID_COLUMN_NAME})
+                @UniqueConstraint(name = WarehouseEntity.NAME_UNIQUE_INDEX_NAME, columnNames = EntityConstants.NAME_COLUMN_NAME),
+                @UniqueConstraint(name = WarehouseEntity.SID_UNIQUE_INDEX_NAME, columnNames = EntityConstants.SID_COLUMN_NAME)
         }
 )
 @SequenceGenerator(name = WarehouseEntity.WAREHOUSE_SEQUENCE, sequenceName = WarehouseEntity.WAREHOUSE_ID_SEQUENCE)
@@ -55,7 +55,9 @@ public class WarehouseEntity {
 
     static final String NAME = "name";
 
-    static final String NAME_SID_UNIQUE_INDEX_NAME = "warehouse_name_sid_unique_idx";
+    static final String NAME_UNIQUE_INDEX_NAME = "warehouse_sid_unique_idx";
+
+    static final String SID_UNIQUE_INDEX_NAME = "warehouse_name_unique_idx";
 
     static final String WAREHOUSE_SEQUENCE = "warehouse_sequence";
 

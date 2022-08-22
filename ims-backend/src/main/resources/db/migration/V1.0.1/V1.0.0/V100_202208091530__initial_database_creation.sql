@@ -40,14 +40,15 @@ CREATE TABLE warehouse_town_coverages (
 );
 
 ALTER TABLE warehouses ADD CONSTRAINT fk_warehouse_address FOREIGN KEY (fk_address) REFERENCES addresses (id_address);
-ALTER TABLE warehouses ADD CONSTRAINT warehouses_name_unique_idx UNIQUE (name);
+ALTER TABLE warehouses ADD CONSTRAINT warehouse_sid_unique_idx UNIQUE (sid);
+ALTER TABLE warehouses ADD CONSTRAINT warehouse_name_unique_idx UNIQUE (name);
 ALTER TABLE addresses ADD CONSTRAINT fk_address_town FOREIGN KEY (fk_town) REFERENCES towns (id_town);
 ALTER TABLE addresses ADD CONSTRAINT addresses_unique_id_address UNIQUE (id_address);
 ALTER TABLE towns ADD CONSTRAINT fk_towns_county FOREIGN KEY (fk_county) REFERENCES counties (id_county);
 ALTER TABLE towns ADD CONSTRAINT towns_sid_unique_idx UNIQUE (sid);
 ALTER TABLE counties ADD CONSTRAINT counties_sid_unique_idx UNIQUE (sid);
-ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_warehouse_id FOREIGN KEY (fk_town) REFERENCES warehouses (id_warehouse);
-ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_town_id FOREIGN KEY (fk_warehouse) REFERENCES towns (id_town); 
+ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_warehouse_id FOREIGN KEY (fk_warehouse) REFERENCES warehouses (id_warehouse);
+ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_town_id FOREIGN KEY (fk_town) REFERENCES towns (id_town);
 ALTER TABLE warehouse_town_coverages ADD CONSTRAINT warehouse_town_coverage_town_unique_idx UNIQUE (fk_warehouse,fk_town);
 
 CREATE SEQUENCE warehouse_id_seq START 1 INCREMENT 10;

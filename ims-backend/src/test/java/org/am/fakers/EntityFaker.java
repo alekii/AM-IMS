@@ -10,7 +10,6 @@ import org.am.library.entities.TownEntity;
 import org.am.library.entities.WarehouseEntity;
 import org.am.library.entities.WarehouseTownCoverageEntity;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -28,16 +27,6 @@ public class EntityFaker {
                 .latitude(Double.valueOf(faker.address().latitude()))
                 .longitude(Double.valueOf(faker.address().longitude()))
                 .town(this.town().build());
-    }
-
-    public WarehouseEntity.Builder buildWarehouse() {
-
-        return warehouse(new ArrayList<>());
-    }
-
-    public WarehouseEntity.Builder buildWarehousewithCoverages() {
-
-        return warehouse(buildWarehouseTownCoverages());
     }
 
     public CountyEntity.Builder county() {
@@ -60,7 +49,7 @@ public class EntityFaker {
         return UUID.randomUUID();
     }
 
-    public WarehouseEntity.Builder warehouse(List<WarehouseTownCoverageEntity> warehouseTownCoverages) {
+    public WarehouseEntity.Builder warehouse() {
 
         return WarehouseEntity.builder()
                 .sid(uuid())
@@ -71,15 +60,10 @@ public class EntityFaker {
                 .trackingNumbersCount(faker.number().randomDigit());
     }
 
-    public WarehouseEntity.Builder warehouseBuilder() {
-
-        return warehouse(buildWarehouseTownCoverages());
-    }
-
     public WarehouseTownCoverageEntity.Builder warehouseTownCoverage() {
 
         return WarehouseTownCoverageEntity.builder()
-                .warehouse(this.buildWarehouse().build())
+                .warehouse(this.warehouse().build())
                 .town(this.town().build());
     }
 

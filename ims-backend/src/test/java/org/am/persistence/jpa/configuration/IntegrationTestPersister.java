@@ -35,6 +35,14 @@ public class IntegrationTestPersister {
         return save(entity, new ArrayList<>());
     }
 
+    @Transactional
+    public <E> E saveAndFlush(E entity) {
+
+        E savedEntity = save(entity, new ArrayList<>());
+        entityManager.flush();
+        return savedEntity;
+    }
+
     private boolean isEntity(Class<?> collectionType) {
 
         return collectionType.isAnnotationPresent(Entity.class);

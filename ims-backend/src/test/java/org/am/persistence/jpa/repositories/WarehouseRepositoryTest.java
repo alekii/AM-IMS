@@ -22,7 +22,7 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
     void testWarehouseSaveGeneratesId() {
 
         //Given
-        WarehouseEntity warehouse = faker.entityFaker.warehouse().build();
+        WarehouseEntity warehouse = faker.entity.warehouse().build();
         integrationTestPersister.save(warehouse);
 
         //When
@@ -37,11 +37,11 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
     void testSavingWarehouseWithNotUniqueSidThrowsException() {
 
         //Given
-        WarehouseEntity warehouse = faker.entityFaker.warehouse().build();
+        WarehouseEntity warehouse = faker.entity.warehouse().build();
         integrationTestPersister.save(warehouse);
 
         //When
-        ThrowableAssert.ThrowingCallable saveWithSameSid = () -> integrationTestPersister.saveAndFlush(faker.entityFaker.warehouse()
+        ThrowableAssert.ThrowingCallable saveWithSameSid = () -> integrationTestPersister.saveAndFlush(faker.entity.warehouse()
                                                                                                                .sid(warehouse.getSid())
                                                                                                                .build());
 
@@ -55,11 +55,11 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
     void testSavingWarehouseWithNotUniqueNameThrowsException() {
 
         //Given
-        WarehouseEntity warehouse = faker.entityFaker.warehouse().build();
+        WarehouseEntity warehouse = faker.entity.warehouse().build();
         integrationTestPersister.save(warehouse);
 
         //When
-        ThrowableAssert.ThrowingCallable saveWithSameSid = () -> integrationTestPersister.saveAndFlush(faker.entityFaker.warehouse()
+        ThrowableAssert.ThrowingCallable saveWithSameSid = () -> integrationTestPersister.saveAndFlush(faker.entity.warehouse()
                                                                                                                .name(warehouse.getName())
                                                                                                                .build());
 

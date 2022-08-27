@@ -1,7 +1,7 @@
 package org.am.persistence.jpa.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.am.fakers.FakerIT;
+import org.am.fakers.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ public class BaseIntegrationTest {
     public static DatabaseContainer postgreSQLContainer = DatabaseContainer.getInstance();
 
     @Autowired
-    protected FakerIT faker;
+    protected Faker faker;
 
     @Autowired
     protected IntegrationTestPersister integrationTestPersister;

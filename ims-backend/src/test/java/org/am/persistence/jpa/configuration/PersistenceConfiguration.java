@@ -1,6 +1,6 @@
 package org.am.persistence.jpa.configuration;
 
-import org.am.fakers.FakerIT;
+import org.am.fakers.Faker;
 import org.am.infrastructure.persistence.Configuration.DataSourceConfiguration;
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.SpringBootConfiguration;
@@ -13,16 +13,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootConfiguration
-@ComponentScan(value = {"org.am.persistence.jpa", "org.am.infrastructure"})
+@ComponentScan(value = {"org.am.persistence.jpa", "org.am.infrastructure", "org.am.library"})
 @EnableTransactionManagement
 @EnableAutoConfiguration
 @ContextConfiguration(classes = {DataSourceConfiguration.class})
 public class PersistenceConfiguration {
 
     @Bean
-    public FakerIT fakerIT() {
+    public Faker faker() {
 
-        return new FakerIT();
+        return new Faker();
     }
 
     @ConditionalOnMissingBean(FlywayMigrationStrategy.class)

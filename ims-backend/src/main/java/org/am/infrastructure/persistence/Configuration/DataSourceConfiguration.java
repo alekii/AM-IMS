@@ -30,4 +30,3 @@ public class DataSourceConfiguration {
         return new DataSourceProperties();
     }
 }
-

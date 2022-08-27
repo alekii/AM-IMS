@@ -12,5 +12,5 @@ public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Inte
 
     Optional<WarehouseEntity> findById(final Integer id);
 
-    WarehouseEntity findBySid(final UUID sid);
+    Optional<WarehouseEntity> findBySid(final UUID sid);
 }

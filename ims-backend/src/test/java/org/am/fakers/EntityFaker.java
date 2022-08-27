@@ -56,7 +56,7 @@ public class EntityFaker {
                 .name(faker.company().name())
                 .phoneNumber(faker.phoneNumber().cellPhone())
                 .contactName(faker.name().fullName())
-                .warehouseAddress(this.address().build())
+                .address(this.address().build())
                 .trackingNumbersCount(faker.number().randomDigit());
     }
 

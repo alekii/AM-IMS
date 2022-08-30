@@ -45,3 +45,10 @@ spring:
 flyway:
   migrations:
     enabled: true
+
+ims:
+  swagger:
+    enabled: true
+
+  system:
+    id: ims

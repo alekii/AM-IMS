@@ -17,6 +17,9 @@ repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 11
+targetCompatibility = 11
+
 flyway {
     url = project.hasProperty('url') ? project.getProperty('url') : 'jdbc:postgresql://localhost:5432/ims'
     user = project.hasProperty('user') ? project.getProperty('user') : 'postgres'
@@ -28,6 +31,8 @@ flyway {
 
 dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: swagger2Version
+    compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: swagger2Version
 
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: javaxmlBindingApiVersion
 
@@ -78,6 +83,8 @@ dependencies {
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: testContainersVersion
     testImplementation group: 'org.testcontainers', name: 'testcontainers', version: testContainersVersion
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoJunitJupiterVersion
+
 }
 
 test {

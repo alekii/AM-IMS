@@ -1,7 +1,7 @@
 CREATE TABLE warehouses (
   id_warehouse        INT4 NOT NULL,
-  name                VARCHAR(45),
-  sid                 VARCHAR(255),
+  name                VARCHAR(45) NOT NULL,
+  sid                 VARCHAR(255) NOT NULL,
   phone_number        VARCHAR(255),
   fk_address          INT NOT NULL,
   PRIMARY KEY (id_warehouse)
@@ -9,7 +9,7 @@ CREATE TABLE warehouses (
 
 CREATE TABLE addresses (
   id_address             INT4 NOT NULL,
-  street_name            VARCHAR(255),
+  street_name            VARCHAR(255) NOT NULL,
   latitude               FLOAT,
   longitude              FLOAT,
   map_url                VARCHAR(255),
@@ -19,16 +19,16 @@ CREATE TABLE addresses (
 
 CREATE TABLE towns (
   id_town                INT4 NOT NULL,
-  name                   VARCHAR(45),
-  sid                    VARCHAR(255),
+  name                   VARCHAR(45) NOT NULL,
+  sid                    VARCHAR(255) NOT NULL,
   fk_county              INT NOT NULL,
   PRIMARY KEY (id_town)
 );
 
 CREATE TABLE counties (
   id_county              INT2 NOT NULL,
-  name                   VARCHAR(45),
-  sid                    VARCHAR(255),
+  name                   VARCHAR(45) NOT NULL,
+  sid                    VARCHAR(255) NOT NULL,
   PRIMARY KEY (id_county)
 );
 

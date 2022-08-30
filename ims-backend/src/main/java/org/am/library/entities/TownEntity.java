@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.am.library.entities.util.EntityConstants;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,6 +64,7 @@ public class TownEntity {
     private int id;
 
     @Column(name = SID, nullable = false)
+    @Type(type = EntityConstants.PG_UUID)
     private UUID sid;
 
     @Column(name = NAME, nullable = false)

@@ -7,9 +7,9 @@ import org.am.domain.catalog.Address;
 import org.am.domain.catalog.County;
 import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
-import org.am.fakers.util.TEST_CONSTANTS;
+import org.am.fakers.util.TEST_CONSTANTS; 
 import org.am.rest.services.responses.WarehouseFullResponse;
-import org.am.rest.services.responses.WarehouseMinimumResponse;
+import org.am.rest.services.responses.WarehouseMinimumResponse; 
 
 import java.util.UUID;
 
@@ -23,9 +23,9 @@ public class DomainFaker {
         return Warehouse.builder()
                 .sid(UUID.randomUUID())
                 .name(faker.company().name())
-                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .phoneNumber(faker.phoneNumber().phoneNumber()) 
                 .contactName(faker.name().fullName())
-                .address(this.address().build());
+                .address(this.address().build()); 
     }
 
     public Address.Builder address() {
@@ -56,7 +56,7 @@ public class DomainFaker {
     private UUID uuid() {
 
         return UUID.randomUUID();
-    }
+    } 
 
     public WarehouseFullResponse.WarehouseFullResponseBuilder warehouseFullResponse() {
 
@@ -91,5 +91,5 @@ public class DomainFaker {
                                  .town(faker.address().cityName())
                                  .county(faker.address().state())
                                  .build());
-    }
+    } 
 }

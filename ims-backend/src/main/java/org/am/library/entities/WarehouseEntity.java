@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.am.library.entities.util.EntityConstants;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -73,11 +74,12 @@ public class WarehouseEntity {
 
     @NotNull
     @Column(name = EntityConstants.SID_COLUMN_NAME, nullable = false, updatable = false)
+    @Type(type = EntityConstants.PG_UUID)
     private UUID sid;
 
     @OneToOne(targetEntity = AddressEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = EntityConstants.ADDRESS_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ADDRESS_FOREIGN_KEY))
-    private AddressEntity warehouseAddress;
+    private AddressEntity address;
 
     @Column(name = CONTACT_NAME_COLUMN_NAME)
     private String contactName;

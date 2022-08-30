@@ -27,7 +27,7 @@ public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implement
         final QCountyEntity qCounty = QCountyEntity.countyEntity;
 
         WarehouseProjection warehouseProjection = from(warehouseEntity)
-                .innerJoin(warehouseEntity.warehouseAddress, qAddress)
+                .innerJoin(warehouseEntity.address, qAddress)
                 .innerJoin(qAddress.town, qTown)
                 .innerJoin(qTown.county, qCounty)
                 .where(

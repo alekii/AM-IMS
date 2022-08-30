@@ -68,8 +68,11 @@ public class GetWarehouseUseCaseImplTest {
     @Test
     void getBySid_whenWarehouseDoesNotExist_throwWarehouseNotFoundException() {
 
+        // Given
+        final UUID randomUUID = UUID.randomUUID();
+
         // When
-        final ThrowableAssert.ThrowingCallable throwingCallable = () -> subject.getBySid(UUID.randomUUID());
+        final ThrowableAssert.ThrowingCallable throwingCallable = () -> subject.getBySid(randomUUID);
 
         // Then
         assertThatThrownBy(throwingCallable).isInstanceOf(WarehouseNotFoundException.class);

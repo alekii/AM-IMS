@@ -69,7 +69,7 @@ public class WarehouseEntity {
     @Column(name = ID_WAREHOUSE_COLUMN_NAME)
     private int id;
 
-    @Column(name = NAME, length = NAME_MAX_LENGTH)
+    @Column(name = NAME, length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
     @NotNull

@@ -8,6 +8,8 @@ import org.am.domain.catalog.County;
 import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
+import org.am.rest.services.responses.WarehouseFullResponse;
+import org.am.rest.services.responses.WarehouseMinimumResponse;
 
 import java.util.UUID;
 
@@ -22,7 +24,8 @@ public class DomainFaker {
                 .sid(UUID.randomUUID())
                 .name(faker.company().name())
                 .phoneNumber(faker.phoneNumber().phoneNumber())
-                .contactName(faker.name().fullName());
+                .contactName(faker.name().fullName())
+                .address(this.address().build());
     }
 
     public Address.Builder address() {
@@ -53,5 +56,40 @@ public class DomainFaker {
     private UUID uuid() {
 
         return UUID.randomUUID();
+    }
+
+    public WarehouseFullResponse.WarehouseFullResponseBuilder warehouseFullResponse() {
+
+        return WarehouseFullResponse.builder()
+                .name(faker.company().name())
+                .sid(UUID.randomUUID())
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .contactName(faker.name().fullName())
+                .address(WarehouseFullResponse.AddressResponse.builder()
+                                 .street(faker.address().streetName())
+                                 .mapUrl(faker.internet().url())
+                                 .longitude(Double.valueOf(faker.address().longitude()))
+                                 .latitude(Double.valueOf(faker.address().latitude()))
+                                 .town(WarehouseFullResponse.AddressResponse.TownResponse.builder()
+                                               .name(faker.address().cityName())
+                                               .sid(UUID.randomUUID())
+                                               .county(WarehouseFullResponse.AddressResponse.TownResponse.CountyResponse.builder()
+                                                               .sid(UUID.randomUUID())
+                                                               .name(faker.address().state())
+                                                               .build())
+                                               .build())
+                                 .build());
+    }
+
+    public WarehouseMinimumResponse.WarehouseMinimumResponseBuilder warehouseMinimumResponse() {
+
+        return WarehouseMinimumResponse.builder()
+                .name(faker.company().name())
+                .sid(UUID.randomUUID())
+                .address(WarehouseMinimumResponse.AddressResponse.builder()
+                                 .street(faker.address().streetName())
+                                 .town(faker.address().cityName())
+                                 .county(faker.address().state())
+                                 .build());
     }
 }

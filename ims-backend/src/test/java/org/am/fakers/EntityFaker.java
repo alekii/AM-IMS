@@ -10,6 +10,7 @@ import org.am.library.entities.TownEntity;
 import org.am.library.entities.WarehouseEntity;
 import org.am.library.entities.WarehouseTownCoverageEntity;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +58,8 @@ public class EntityFaker {
                 .phoneNumber(faker.phoneNumber().cellPhone())
                 .contactName(faker.name().fullName())
                 .address(this.address().build())
-                .trackingNumbersCount(faker.number().randomDigit());
+                .trackingNumbersCount(faker.number().randomDigit())
+                .createdAt(Instant.now());
     }
 
     public WarehouseTownCoverageEntity.Builder warehouseTownCoverage() {

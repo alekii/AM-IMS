@@ -2,21 +2,24 @@ package org.am.rest.services.requests.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.am.commons.utils.Converter;
-import org.am.domain.catalog.WarehouseCreation;
+import org.am.domain.catalog.Warehouse;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
-public class WarehouseCreationFromCreateRequestConverter
-        implements Converter<WarehouseCreateRequest, WarehouseCreation> {
+public class WarehouseFromWarehouseCreateRequestConverter
+        implements Converter<WarehouseCreateRequest, Warehouse> {
 
     private final WarehouseAddressFromWarehouseAddressRequestConverter warehouseAddressFromWarehouseAddressRequestConverter;
 
     @Override
-    public WarehouseCreation convert(WarehouseCreateRequest request) {
+    public Warehouse convert(WarehouseCreateRequest request) {
 
-        return WarehouseCreation.builder()
+        return Warehouse.builder()
+                .sid(UUID.randomUUID())
                 .name(request.getContactName())
                 .contactName(request.getContactName())
                 .phoneNumber(request.getPhoneNumber())

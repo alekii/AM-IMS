@@ -22,4 +22,6 @@ public class WarehouseCreation {
     Address address;
 
     UUID sid;
+
+    Integer trackingNumbersCount;
 }

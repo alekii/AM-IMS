@@ -11,6 +11,7 @@ import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +26,7 @@ public class DomainFaker {
                 .name(faker.company().name())
                 .phoneNumber(faker.phoneNumber().phoneNumber())
                 .contactName(faker.name().fullName())
+                .createdAt(Instant.now())
                 .address(this.address().build());
     }
 

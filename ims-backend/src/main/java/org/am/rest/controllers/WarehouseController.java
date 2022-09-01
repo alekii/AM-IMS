@@ -1,5 +1,5 @@
 package org.am.rest.controllers;
- 
+
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.am.rest.RestConstants;
@@ -43,12 +43,11 @@ public class WarehouseController {
     }
 
     @PostMapping
-    @ResponseStatus(value= HttpStatus.CREATED))
+    @ResponseStatus(value = HttpStatus.CREATED)
     @ApiOperation(value = "Create warehouse")
     public WarehouseMinimumResponse createWarehouse(
-            @Valid @RequestBody WarehouseCreateRequest warehouseCreationRequest){
+            @Valid @RequestBody WarehouseCreateRequest warehouseCreationRequest) {
 
-        return warehouseService.
+        return warehouseService.create(warehouseCreationRequest);
     }
-
 }

@@ -3,14 +3,13 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Address;
 import org.am.domain.catalog.Warehouse;
-import org.am.domain.catalog.WarehouseCreation;
 import org.am.domain.catalog.exceptions.validations.TownNotExistException;
 import org.am.infrastructure.Address.AddressRepository;
 import org.am.infrastructure.Towns.TownRepository;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 import org.am.infrastructure.persistence.converters.AddressConverter;
 import org.am.infrastructure.persistence.converters.WarehouseConverter;
-import org.am.infrastructure.persistence.converters.WarehouseCreationToWarehouseEntityConverter;
+import org.am.infrastructure.persistence.converters.WarehouseToWarehouseEntityConverter;
 import org.am.infrastructure.warehouses.WarehouseRepository;
 import org.am.library.entities.AddressEntity;
 import org.am.library.entities.TownEntity;
@@ -36,21 +35,17 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 
     private final WarehouseConverter warehouseConverter;
 
-    private final WarehouseCreationToWarehouseEntityConverter warehouseCreationToWarehouseEntityConverter;
+    private final WarehouseToWarehouseEntityConverter warehouseToWarehouseEntityConverter;
 
     private final AddressConverter addressConverter;
 
     @Override
     @Transactional
-    public Warehouse create(WarehouseCreation warehouseCreation) {
+    public Warehouse create(Warehouse warehouse) {
 
-        final AddressEntity address = buildAndCreateAddress(warehouseCreation.getAddress());
+        final AddressEntity address = buildAndCreateAddress(warehouse.getAddress());
 
-        final UUID warehouseSid = UUID.randomUUID();
-
-        warehouseCreation.setSid(warehouseSid);
-
-        final WarehouseEntity warehouseEntity = warehouseCreationToWarehouseEntityConverter.convert(warehouseCreation, address);
+        final WarehouseEntity warehouseEntity = warehouseToWarehouseEntityConverter.convert(warehouse, address);
 
         return warehouseConverter.convert(warehouseRepository.save(warehouseEntity));
     }

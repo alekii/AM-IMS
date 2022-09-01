@@ -3,7 +3,6 @@ package org.am.domain.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.api.CreateWarehouseUseCase;
 import org.am.domain.catalog.Warehouse;
-import org.am.domain.catalog.WarehouseCreation;
 import org.am.domain.validators.WarehouseValidator;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 
@@ -15,10 +14,10 @@ public class CreateWarehouseUseCaseImpl implements CreateWarehouseUseCase {
     private final WarehouseValidator warehouseValidator;
 
     @Override
-    public Warehouse create(WarehouseCreation warehouseCreation) {
+    public Warehouse create(Warehouse warehouse) {
 
-        warehouseValidator.validatePhoneNumber(warehouseCreation);
+        warehouseValidator.validatePhoneNumber(warehouse);
 
-        return warehouseDAO.create(warehouseCreation);
+        return warehouseDAO.create(warehouse);
     }
 }

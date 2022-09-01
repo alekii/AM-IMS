@@ -22,8 +22,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+
+import static org.am.library.entities.util.EntityConstants.CREATED_AT_COLUMN_NAME;
 
 @Entity
 @Table(name = WarehouseEntity.WAREHOUSE_TABLE_NAME,
@@ -92,4 +95,7 @@ public class WarehouseEntity {
 
     @Column(name = TRACKING_NUMBERS_COUNT_COLUMN_NAME)
     private Integer trackingNumbersCount;
+
+    @Column(name = CREATED_AT_COLUMN_NAME)
+    private Instant createdAt;
 }

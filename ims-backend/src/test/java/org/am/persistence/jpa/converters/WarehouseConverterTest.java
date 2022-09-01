@@ -12,12 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
+import java.util.function.Supplier;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 public class WarehouseConverterTest {
 
     private final Faker faker = new Faker();
+
+    private Supplier<Warehouse> sWarehouse = () -> faker.domain.warehouse().build();
 
     private final WarehouseConverter subject = new WarehouseConverterImpl();
 
@@ -51,6 +56,7 @@ public class WarehouseConverterTest {
                 .name(entity.getName())
                 .phoneNumber(entity.getPhoneNumber())
                 .contactName(entity.getContactName())
+                .createdAt(Instant.now())
                 .address(address)
                 .build();
 
@@ -58,6 +64,8 @@ public class WarehouseConverterTest {
         final Warehouse warehouse = subject.convert(entity);
 
         // Then
-        assertThat(warehouse).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(warehouse).usingRecursiveComparison()
+                .ignoringFields("createdAt")
+                .isEqualTo(expected);
     }
 }

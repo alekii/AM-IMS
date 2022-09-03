@@ -20,7 +20,7 @@ public class WarehouseFromWarehouseCreateRequestConverter
 
         return Warehouse.builder()
                 .sid(UUID.randomUUID())
-                .name(request.getContactName())
+                .name(request.getWarehouseName())
                 .contactName(request.getContactName())
                 .phoneNumber(request.getPhoneNumber())
                 .address(warehouseAddressFromWarehouseAddressRequestConverter.convert(request.getAddress()))

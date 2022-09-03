@@ -42,7 +42,7 @@ public class WarehouseController {
         return warehouseService.findBySid(warehouseSid);
     }
 
-    @PostMapping
+    @PostMapping("/warehouses/create")
     @ResponseStatus(value = HttpStatus.CREATED)
     @ApiOperation(value = "Create warehouse")
     public WarehouseMinimumResponse createWarehouse(

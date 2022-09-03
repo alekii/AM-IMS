@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface AddressConverter extends Converter.WithTwoSources<Address, TownEntity, AddressEntity> {
+public interface AddressToAddressEntityConverter extends Converter.WithTwoSources<Address, TownEntity, AddressEntity> {
 
     @Override
     @Mapping(target = "street", source = "source.street")

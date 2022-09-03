@@ -16,7 +16,6 @@ public class WarehouseModelToMinimumResponseConverter {
 
         return WarehouseMinimumResponse.builder()
                 .sid(warehouse.getSid())
-
                 .name(Optional.ofNullable(warehouse)
                               .map(Warehouse::getName)
                               .orElse(null))

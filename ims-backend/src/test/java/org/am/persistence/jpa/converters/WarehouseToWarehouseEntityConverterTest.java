@@ -2,7 +2,7 @@ package org.am.persistence.jpa.converters;
 
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.Faker;
-import org.am.infrastructure.persistence.converters.AddressConverter;
+import org.am.infrastructure.persistence.converters.AddressToAddressEntityConverter;
 import org.am.infrastructure.persistence.converters.WarehouseToWarehouseEntityConverter;
 import org.am.infrastructure.persistence.converters.WarehouseToWarehouseEntityConverterImpl;
 import org.am.library.entities.AddressEntity;
@@ -27,7 +27,7 @@ public class WarehouseToWarehouseEntityConverterTest {
     private final WarehouseToWarehouseEntityConverter subject = new WarehouseToWarehouseEntityConverterImpl();
 
     @Mock
-    private AddressConverter addressConverter;
+    private AddressToAddressEntityConverter addressToAddressEntityConverter;
 
     private final Warehouse warehouse = faker.domain.warehouse().build();
 
@@ -43,6 +43,7 @@ public class WarehouseToWarehouseEntityConverterTest {
 
     @Test
     public void convert_returnsConvertedWarehouseEntity() {
+
         // When
         final WarehouseEntity convertedWarehouseEntity = subject.convert(warehouse, addressEntity);
 

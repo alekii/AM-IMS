@@ -5,7 +5,9 @@ import org.am.domain.catalog.Address;
 import org.am.domain.catalog.County;
 import org.am.domain.catalog.Town;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WarehouseAddressFromWarehouseAddressRequestConverter
         implements Converter<WarehouseAddressCreationRequest, Address> {
 

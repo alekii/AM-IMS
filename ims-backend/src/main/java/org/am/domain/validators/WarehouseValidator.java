@@ -2,6 +2,7 @@ package org.am.domain.validators;
 
 import org.am.domain.catalog.Warehouse;
 import org.am.domain.catalog.exceptions.validations.InvalidPhoneNumberException;
+import org.am.domain.validators.constants.ValidationConstants;
 
 import java.util.regex.Pattern;
 

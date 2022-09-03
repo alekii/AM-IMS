@@ -3,11 +3,12 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Address;
 import org.am.domain.catalog.Warehouse;
+import org.am.domain.catalog.exceptions.WarehouseAlreadyExistsException;
 import org.am.domain.catalog.exceptions.validations.TownNotExistException;
 import org.am.infrastructure.Address.AddressRepository;
 import org.am.infrastructure.Towns.TownRepository;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
-import org.am.infrastructure.persistence.converters.AddressConverter;
+import org.am.infrastructure.persistence.converters.AddressToAddressEntityConverter;
 import org.am.infrastructure.persistence.converters.WarehouseConverter;
 import org.am.infrastructure.persistence.converters.WarehouseToWarehouseEntityConverter;
 import org.am.infrastructure.warehouses.WarehouseRepository;
@@ -37,11 +38,13 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 
     private final WarehouseToWarehouseEntityConverter warehouseToWarehouseEntityConverter;
 
-    private final AddressConverter addressConverter;
+    private final AddressToAddressEntityConverter addressToAddressEntityConverter;
 
     @Override
     @Transactional
     public Warehouse create(Warehouse warehouse) {
+
+        findWarehouseByName(warehouse.getName());
 
         final AddressEntity address = buildAndCreateAddress(warehouse.getAddress());
 
@@ -50,11 +53,19 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         return warehouseConverter.convert(warehouseRepository.save(warehouseEntity));
     }
 
+    private void findWarehouseByName(String warehouseName) {
+
+        warehouseRepository.findSidByName(warehouseName)
+                .ifPresent(sid -> {
+                    throw WarehouseAlreadyExistsException.forName(warehouseName);
+                });
+    }
+
     private AddressEntity buildAndCreateAddress(final Address address) {
 
         TownEntity town = getTownBySid(address);
 
-        final AddressEntity addressEntity = addressConverter.convert(address, town);
+        final AddressEntity addressEntity = addressToAddressEntityConverter.convert(address, town);
 
         return addressRepository.save(addressEntity);
     }

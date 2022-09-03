@@ -1,4 +1,4 @@
-package org.am.domain;
+package org.am.domain.api;
 
 import org.am.domain.catalog.Warehouse;
 import org.am.domain.catalog.exceptions.WarehouseNotFoundException;

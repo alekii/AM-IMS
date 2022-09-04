@@ -1,12 +1,15 @@
 package org.am.domain.catalog.exceptions.validations;
 
-public class InvalidPhoneNumberException extends RuntimeException {
+import org.am.domain.catalog.exceptions.ErrorCode;
+import org.am.domain.catalog.exceptions.InvalidInputException;
 
-    private static final long serialVersionUID = 8186351614569998689L;
+public class InvalidPhoneNumberException extends InvalidInputException {
+
+    private static final long serialVersionUID = 3854733432677987954L;
 
     private InvalidPhoneNumberException(String message) {
 
-        super(message);
+        super(ErrorCode.INVALID_PHONE_NUMBER, message);
     }
 
     public static InvalidPhoneNumberException forNumber(String phoneNumber) {

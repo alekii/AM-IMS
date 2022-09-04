@@ -1,7 +1,7 @@
 package org.am.domain.api;
 
 import org.am.domain.catalog.Warehouse;
-import org.am.domain.catalog.exceptions.WarehouseNotFoundException;
+import org.am.domain.catalog.exceptions.NotFound.WarehouseNotFoundException;
 import org.am.domain.impl.GetWarehouseUseCaseImpl;
 import org.am.fakers.Faker;
 import org.am.infrastructure.persistence.api.WarehouseDAO;

@@ -3,7 +3,7 @@ package org.am.domain.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.api.GetWarehouseUseCase;
 import org.am.domain.catalog.Warehouse;
-import org.am.domain.catalog.exceptions.WarehouseNotFoundException;
+import org.am.domain.catalog.exceptions.NotFound.WarehouseNotFoundException;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 
 import java.util.List;

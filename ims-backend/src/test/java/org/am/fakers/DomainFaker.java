@@ -41,7 +41,8 @@ public class DomainFaker {
                 .mapUrl(faker.internet().url())
                 .latitude(Double.valueOf(faker.address().latitude()))
                 .longitude(Double.valueOf(faker.address().longitude()))
-                .town(this.town().build());
+                .town(this.town().build())
+                .county(this.county().build());
     }
 
     public County.Builder county() {
@@ -55,8 +56,7 @@ public class DomainFaker {
 
         return Town.builder()
                 .sid(uuid())
-                .name(faker.address().cityName())
-                .county(this.county().build());
+                .name(faker.address().cityName());
     }
 
     private UUID uuid() {
@@ -79,7 +79,7 @@ public class DomainFaker {
                                  .town(WarehouseFullResponse.AddressResponse.TownResponse.builder()
                                                .name(faker.address().cityName())
                                                .sid(UUID.randomUUID())
-                                               .county(WarehouseFullResponse.AddressResponse.TownResponse.CountyResponse.builder()
+                                               .county(WarehouseFullResponse.AddressResponse.CountyResponse.builder()
                                                                .sid(UUID.randomUUID())
                                                                .name(faker.address().state())
                                                                .build())
@@ -115,19 +115,19 @@ public class DomainFaker {
                 .longitude(Double.valueOf(faker.address().longitude()))
                 .street(faker.address().streetName())
                 .mapUrl(faker.internet().url())
-                .town(this.townRequest().build());
+                .town(this.townRequest().build())
+                .county(this.countyRequest().build());
     }
 
     public WarehouseAddressCreationRequest.TownRequest.Builder townRequest() {
 
         return WarehouseAddressCreationRequest.TownRequest.builder()
-                .sid(UUID.randomUUID())
-                .county(this.countyRequest().build());
+                .sid(UUID.randomUUID());
     }
 
-    public WarehouseAddressCreationRequest.TownRequest.CountyRequest.Builder countyRequest() {
+    public WarehouseAddressCreationRequest.CountyRequest.Builder countyRequest() {
 
-        return WarehouseAddressCreationRequest.TownRequest.CountyRequest.builder()
+        return WarehouseAddressCreationRequest.CountyRequest.builder()
                 .sid(UUID.randomUUID());
     }
 }

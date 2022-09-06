@@ -37,8 +37,7 @@ public class WarehouseModelToMinimumResponseConverter {
                               .orElse(null))
 
                 .county(Optional.ofNullable(address)
-                                .map(Address::getTown)
-                                .map(Town::getCounty)
+                                .map(Address::getCounty)
                                 .map(County::getName)
                                 .orElse(null))
                 .build();

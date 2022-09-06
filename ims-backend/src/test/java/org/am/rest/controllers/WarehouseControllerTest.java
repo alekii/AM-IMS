@@ -3,6 +3,7 @@ package org.am.rest.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.am.fakers.Faker;
 import org.am.rest.services.WarehouseService;
+import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
@@ -70,6 +71,163 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder).andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void createWarehouse_whenWarehouseNameIsBlank_returns400() throws Exception {
+
+        // Given
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .warehouseName(" ").build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenWarehousePhoneNumberIsBlank_returns400() throws Exception {
+
+        // Given
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .phoneNumber(" ").build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenContactNameIsBlank_returns400() throws Exception {
+
+        // Given
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .contactName(" ").build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenWarehouseAddressIsNull_returns400() throws Exception {
+
+        // Given
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .address(null)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenWarehouseAddressStreetNameIsEmpty_returns400() throws Exception {
+
+        // Given
+        final WarehouseAddressCreationRequest address = faker.domain.warehouseAddressCreationrequest()
+                .street("")
+                .build();
+
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenWarehouseTownIsNull_returns400() throws Exception {
+
+        // Given
+        final WarehouseAddressCreationRequest address = faker.domain.warehouseAddressCreationrequest()
+                .town(null)
+                .build();
+
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenWarehouseAddressTownSidIsNull_returns400() throws Exception {
+
+        // Given
+        final WarehouseAddressCreationRequest address = faker.domain.warehouseAddressCreationrequest()
+                .town(WarehouseAddressCreationRequest.TownRequest.builder().sid(null).build())
+                .build();
+
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createWarehouse_whenWarehouseAddressCountySidIsNull_returns400() throws Exception {
+
+        // Given
+        final WarehouseAddressCreationRequest address = faker.domain.warehouseAddressCreationrequest()
+                .county(WarehouseAddressCreationRequest.CountyRequest.builder().sid(null).build())
+                .build();
+
+        final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseCreateRequest));
+
+        // Then
+        mvc.perform(requestBuilder).andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test

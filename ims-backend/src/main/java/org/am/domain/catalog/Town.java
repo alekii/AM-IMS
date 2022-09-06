@@ -12,6 +12,4 @@ public class Town {
     UUID sid;
 
     String name;
-
-    County county;
 }

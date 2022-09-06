@@ -19,6 +19,7 @@ public class WarehouseAddressFromWarehouseAddressRequestConverter
                 .longitude(request.getLongitude())
                 .latitude(request.getLatitude())
                 .town(convertTown(request.getTown()))
+                .county(convertCounty(request.getCounty()))
                 .build();
     }
 
@@ -26,11 +27,10 @@ public class WarehouseAddressFromWarehouseAddressRequestConverter
 
         return Town.builder()
                 .sid(town.getSid())
-                .county(convertCounty(town.getCounty()))
                 .build();
     }
 
-    private County convertCounty(WarehouseAddressCreationRequest.TownRequest.CountyRequest county) {
+    private County convertCounty(WarehouseAddressCreationRequest.CountyRequest county) {
 
         return County.builder()
                 .sid(county.getSid())

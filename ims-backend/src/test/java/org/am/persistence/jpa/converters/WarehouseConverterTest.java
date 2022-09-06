@@ -32,33 +32,7 @@ public class WarehouseConverterTest {
         // Given
         final WarehouseEntity entity = faker.entity.warehouse().build();
 
-        final County county = County.builder()
-                .sid(entity.getAddress().getTown().getCounty().getSid())
-                .name(entity.getAddress().getTown().getCounty().getName())
-                .build();
-
-        final Town town = Town.builder()
-                .sid(entity.getAddress().getTown().getSid())
-                .name(entity.getAddress().getTown().getName())
-                .county(county)
-                .build();
-
-        final Address address = Address.builder()
-                .street(entity.getAddress().getStreet())
-                .mapUrl(entity.getAddress().getMapUrl())
-                .longitude(entity.getAddress().getLongitude())
-                .latitude(entity.getAddress().getLatitude())
-                .town(town)
-                .build();
-
-        final Warehouse expected = Warehouse.builder()
-                .sid(entity.getSid())
-                .name(entity.getName())
-                .phoneNumber(entity.getPhoneNumber())
-                .contactName(entity.getContactName())
-                .createdAt(Instant.now())
-                .address(address)
-                .build();
+        final Warehouse expected = buildWarehouse(entity);
 
         // When
         final Warehouse warehouse = subject.convert(entity);
@@ -67,5 +41,30 @@ public class WarehouseConverterTest {
         assertThat(warehouse).usingRecursiveComparison()
                 .ignoringFields("createdAt")
                 .isEqualTo(expected);
+    }
+
+    private Warehouse buildWarehouse(WarehouseEntity entity) {
+
+        return Warehouse.builder()
+                .sid(entity.getSid())
+                .name(entity.getName())
+                .phoneNumber(entity.getPhoneNumber())
+                .contactName(entity.getContactName())
+                .createdAt(Instant.now())
+                .address(Address.builder()
+                                 .street(entity.getAddress().getStreet())
+                                 .mapUrl(entity.getAddress().getMapUrl())
+                                 .longitude(entity.getAddress().getLongitude())
+                                 .latitude(entity.getAddress().getLatitude())
+                                 .town(Town.builder()
+                                               .sid(entity.getAddress().getTown().getSid())
+                                               .name(entity.getAddress().getTown().getName())
+                                               .build())
+                                 .county(County.builder()
+                                                 .sid(entity.getAddress().getTown().getCounty().getSid())
+                                                 .name(entity.getAddress().getTown().getCounty().getName())
+                                                 .build())
+                                 .build())
+                .build();
     }
 }

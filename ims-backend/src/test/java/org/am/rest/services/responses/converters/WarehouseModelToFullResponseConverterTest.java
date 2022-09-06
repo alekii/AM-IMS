@@ -1,7 +1,6 @@
 package org.am.rest.services.responses.converters;
 
 import org.am.domain.catalog.Address;
-import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.Faker;
 import org.am.rest.services.responses.WarehouseFullResponse;
@@ -70,17 +69,14 @@ public class WarehouseModelToFullResponseConverterTest {
                 warehouseModelToFullResponseConverter.convert(warehouse);
 
         // Then
-        Assert.assertNull(convertedWarehouseFullResponse.getAddress().getTown().getCounty().getSid());
+        Assert.assertNull(convertedWarehouseFullResponse.getAddress().getCounty().getSid());
     }
 
     private Warehouse buildWarehouseWithCountyNull() {
 
         return Warehouse.builder()
                 .address(Address.builder()
-                                 .town(Town.builder()
-                                               .name("Nairobi")
-                                               .county(null)
-                                               .build())
+                                 .town(faker.domain.town().build())
                                  .build())
                 .build();
     }
@@ -90,7 +86,7 @@ public class WarehouseModelToFullResponseConverterTest {
         return Warehouse.builder()
                 .address(Address.builder()
                                  .street("Fourth Street")
-                                 .town(null)
+                                 .county(faker.domain.county().build())
                                  .build())
                 .build();
     }
@@ -116,11 +112,11 @@ public class WarehouseModelToFullResponseConverterTest {
                 .town(WarehouseFullResponse.AddressResponse.TownResponse.builder()
                               .sid(address.getTown().getSid())
                               .name(address.getTown().getName())
-                              .county(WarehouseFullResponse.AddressResponse.TownResponse.CountyResponse.builder()
-                                              .name(address.getTown().getCounty().getName())
-                                              .sid(address.getTown().getCounty().getSid())
-                                              .build())
                               .build())
+                .county(WarehouseFullResponse.AddressResponse.CountyResponse.builder()
+                                .name(address.getCounty().getName())
+                                .sid(address.getCounty().getSid())
+                                .build())
                 .build();
     }
 }

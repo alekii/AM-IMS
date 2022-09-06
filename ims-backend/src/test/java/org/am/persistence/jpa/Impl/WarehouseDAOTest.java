@@ -95,7 +95,14 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
 
         //Then
         assertThat(result).isNotEmpty();
-        assertThat(result.get()).usingRecursiveComparison().isEqualTo(entity);
+        assertThat(result.get())
+                .usingRecursiveComparison()
+                .ignoringFields("address.county")
+                .isEqualTo(entity);
+
+        assertThat(result.get().getAddress().getCounty())
+                .usingRecursiveComparison()
+                .isEqualTo(entity.getAddress().getTown().getCounty());
     }
 
     @Test
@@ -129,11 +136,11 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
                                  .town(Town.builder()
                                                .sid(addressEntity.getTown().getSid())
                                                .name(addressEntity.getTown().getName())
-                                               .county(County.builder()
-                                                               .sid(addressEntity.getTown().getCounty().getSid())
-                                                               .name(addressEntity.getTown().getCounty().getName())
-                                                               .build())
                                                .build())
+                                 .county(County.builder()
+                                                 .sid(addressEntity.getTown().getCounty().getSid())
+                                                 .name(addressEntity.getTown().getCounty().getName())
+                                                 .build())
                                  .street(addressEntity.getStreet())
                                  .build())
                 .build();
@@ -148,11 +155,11 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
                                  .town(Town.builder()
                                                .sid(UUID.randomUUID())
                                                .name(addressEntity.getTown().getName())
-                                               .county(County.builder()
-                                                               .sid(addressEntity.getTown().getCounty().getSid())
-                                                               .name(addressEntity.getTown().getCounty().getName())
-                                                               .build())
                                                .build())
+                                 .county(County.builder()
+                                                 .sid(addressEntity.getTown().getCounty().getSid())
+                                                 .name(addressEntity.getTown().getCounty().getName())
+                                                 .build())
                                  .street(addressEntity.getStreet())
                                  .build())
                 .build();

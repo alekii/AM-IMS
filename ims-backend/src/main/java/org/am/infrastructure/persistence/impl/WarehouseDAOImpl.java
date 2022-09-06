@@ -74,7 +74,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 
         final TownEntity town = findTownBySid(address.getTown().getSid());
 
-        if (!town.getCounty().getSid().equals(address.getTown().getCounty().getSid())) {
+        if (!town.getCounty().getSid().equals(address.getCounty().getSid())) {
             throw TownNotExistException.forSid(address.getTown().getSid());
         }
         return town;

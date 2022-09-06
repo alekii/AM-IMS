@@ -30,19 +30,19 @@ public class EntityFaker {
                 .town(this.town().build());
     }
 
-    public CountyEntity.Builder county() {
-
-        return CountyEntity.builder()
-                .sid(uuid())
-                .name(TEST_CONSTANTS.COUNTY);
-    }
-
     public TownEntity.Builder town() {
 
         return TownEntity.builder()
                 .sid(uuid())
                 .name(faker.address().cityName())
                 .county(this.county().build());
+    }
+    
+    public CountyEntity.Builder county() {
+
+        return CountyEntity.builder()
+                .sid(uuid())
+                .name(TEST_CONSTANTS.COUNTY);
     }
 
     public UUID uuid() {

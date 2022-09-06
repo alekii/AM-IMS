@@ -16,4 +16,6 @@ public class Address {
     String mapUrl;
 
     Town town;
+
+    County county;
 }

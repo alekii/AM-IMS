@@ -36,6 +36,8 @@ public class WarehouseFullResponse {
 
         TownResponse town;
 
+        CountyResponse county;
+
         @Value
         @Builder
         @RequiredArgsConstructor
@@ -46,16 +48,16 @@ public class WarehouseFullResponse {
             String name;
 
             CountyResponse county;
+        }
 
-            @Value
-            @Builder
-            @RequiredArgsConstructor
-            public static class CountyResponse {
+        @Value
+        @Builder
+        @RequiredArgsConstructor
+        public static class CountyResponse {
 
-                UUID sid;
+            UUID sid;
 
-                String name;
-            }
+            String name;
         }
     }
 }

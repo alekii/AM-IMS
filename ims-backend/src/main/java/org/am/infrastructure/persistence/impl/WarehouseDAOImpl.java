@@ -3,6 +3,7 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Address;
 import org.am.domain.catalog.Warehouse;
+import org.am.domain.catalog.exceptions.conflicts.TownCountyMismatch;
 import org.am.domain.catalog.exceptions.conflicts.TownNotExistException;
 import org.am.domain.catalog.exceptions.conflicts.WarehouseAlreadyExistsException;
 import org.am.infrastructure.Address.AddressRepository;
@@ -18,6 +19,7 @@ import org.am.library.entities.WarehouseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,8 +51,9 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         final AddressEntity address = buildAndCreateAddress(warehouse.getAddress());
 
         final WarehouseEntity warehouseEntity = warehouseToWarehouseEntityConverter.convert(warehouse, address);
-
-        return warehouseConverter.convert(warehouseRepository.save(warehouseEntity));
+        warehouseEntity.setCreatedAt(Instant.now());
+        WarehouseEntity toConvert = warehouseRepository.save(warehouseEntity);
+        return warehouseConverter.convert(toConvert);
     }
 
     private void findWarehouseByName(String warehouseName) {
@@ -75,7 +78,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         final TownEntity town = findTownBySid(address.getTown().getSid());
 
         if (!town.getCounty().getSid().equals(address.getCounty().getSid())) {
-            throw TownNotExistException.forSid(address.getTown().getSid());
+            throw TownCountyMismatch.forSid(address.getTown().getSid());
         }
         return town;
     }

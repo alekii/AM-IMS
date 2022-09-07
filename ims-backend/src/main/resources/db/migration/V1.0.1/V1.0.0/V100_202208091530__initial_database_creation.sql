@@ -51,8 +51,20 @@ ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_warehouse_id FOREIGN KEY 
 ALTER TABLE warehouse_town_coverages ADD CONSTRAINT fk_town_id FOREIGN KEY (fk_town) REFERENCES towns (id_town);
 ALTER TABLE warehouse_town_coverages ADD CONSTRAINT warehouse_town_coverage_town_unique_idx UNIQUE (fk_warehouse,fk_town);
 
-CREATE SEQUENCE warehouse_id_seq START 1 INCREMENT 10;
-CREATE SEQUENCE address_id_seq START 1 INCREMENT 10;
-CREATE SEQUENCE towns_id_seq START 1 INCREMENT 1;
-CREATE SEQUENCE counties_id_seq START 1 INCREMENT 1;
-CREATE SEQUENCE warehouse_town_coverages_id_seq START 1 INCREMENT 1;
+CREATE SEQUENCE warehouse_id_seq START 1 INCREMENT BY 50;
+CREATE SEQUENCE address_id_seq START 1 INCREMENT BY 10;
+CREATE SEQUENCE towns_id_seq START 1 INCREMENT BY 10;
+CREATE SEQUENCE counties_id_seq START 1 INCREMENT BY 10;
+CREATE SEQUENCE warehouse_town_coverages_id_seq START 1 INCREMENT BY 10;
+
+SELECT setval(
+  'warehouse_id_seq',
+  (SELECT max(id_warehouse) FROM warehouses)
+);
+
+ALTER TABLE warehouses ALTER COLUMN id_warehouse SET DEFAULT nextval('warehouse_id_seq');
+ALTER SEQUENCE warehouse_id_seq OWNED BY warehouses.id_warehouse;
+ALTER TABLE addresses ALTER COLUMN id_address SET DEFAULT nextval('address_id_seq');
+ALTER TABLE counties ALTER COLUMN id_county SET DEFAULT nextval('counties_id_seq');
+ALTER TABLE towns ALTER COLUMN id_town SET DEFAULT nextval('towns_id_seq');
+ALTER TABLE warehouse_town_coverages ALTER COLUMN id_warehouse_town_coverage SET DEFAULT nextval('warehouse_town_coverages_id_seq');

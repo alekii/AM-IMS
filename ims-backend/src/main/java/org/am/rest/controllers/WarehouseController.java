@@ -8,6 +8,7 @@ import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,18 +37,19 @@ public class WarehouseController {
 
     @GetMapping("/warehouses/{warehouseSid}")
     @ApiOperation(value = "Find Warehouse by SID.")
-    public WarehouseFullResponse findBySid(
+    public ResponseEntity<WarehouseFullResponse> findBySid(
             @Valid @PathVariable final UUID warehouseSid) {
 
-        return warehouseService.findBySid(warehouseSid);
+        return new ResponseEntity<>(warehouseService.findBySid(warehouseSid), HttpStatus.OK);
     }
 
     @PostMapping("/warehouses/create")
     @ResponseStatus(value = HttpStatus.CREATED)
     @ApiOperation(value = "Create warehouse")
-    public WarehouseMinimumResponse createWarehouse(
+    public ResponseEntity<WarehouseMinimumResponse> createWarehouse(
             @Valid @RequestBody WarehouseCreateRequest warehouseCreationRequest) {
 
-        return warehouseService.create(warehouseCreationRequest);
+        WarehouseMinimumResponse warehouseMinimumResponse = warehouseService.create(warehouseCreationRequest);
+        return new ResponseEntity<>(warehouseMinimumResponse, HttpStatus.CREATED);
     }
 }

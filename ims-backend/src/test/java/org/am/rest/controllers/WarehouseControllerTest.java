@@ -20,13 +20,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,7 +63,7 @@ public class WarehouseControllerTest {
         final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest().build();
         final WarehouseMinimumResponse warehouseMinimumResponse = faker.domain.warehouseMinimumResponse().build();
 
-        doReturn(warehouseMinimumResponse).when(warehouseService).create(eq(warehouseCreateRequest));
+        doReturn(warehouseMinimumResponse).when(warehouseService).create(any(WarehouseCreateRequest.class));
 
         // When
         final MockHttpServletRequestBuilder requestBuilder = post("/api/warehouses/create")
@@ -69,8 +71,14 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
-                .andExpect(status().isCreated());
+        mvc.perform(requestBuilder)
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.sid", is(warehouseMinimumResponse.getSid().toString())))
+                .andExpect(jsonPath("$.name", is(warehouseMinimumResponse.getName())))
+                .andExpect(jsonPath("$.address.street", is(warehouseMinimumResponse.getAddress().getStreet())))
+                .andExpect(jsonPath("$.address.town", is(warehouseMinimumResponse.getAddress().getTown())))
+                .andExpect(jsonPath("$.address.county", is(warehouseMinimumResponse.getAddress().getCounty())));
     }
 
     @Test
@@ -86,7 +94,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -103,7 +111,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -120,7 +128,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -138,7 +146,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -160,7 +168,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -182,7 +190,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -204,7 +212,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -226,7 +234,7 @@ public class WarehouseControllerTest {
                 .content(objectMapper.writeValueAsString(warehouseCreateRequest));
 
         // Then
-        mvc.perform(requestBuilder).andDo(print())
+        mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
 
@@ -242,7 +250,7 @@ public class WarehouseControllerTest {
         MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses");
 
         // Then
-        final ResultActions result = mvc.perform(requestBuilder).andDo(print());
+        final ResultActions result = mvc.perform(requestBuilder);
 
         result
                 .andExpect(status().isOk())
@@ -264,11 +272,24 @@ public class WarehouseControllerTest {
         MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses/{warehouseSid}", warehouseSid);
 
         // Then
-        final ResultActions result = mvc.perform(requestBuilder).andDo(print());
+        final ResultActions result = mvc.perform(requestBuilder);
 
         result
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("warehouseFullResponse", warehouseFullResponse));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.sid", is(warehouseFullResponse.getSid().toString())))
+                .andExpect(jsonPath("$.name", is(warehouseFullResponse.getName())))
+                .andExpect(jsonPath("$.phoneNumber", is(warehouseFullResponse.getPhoneNumber())))
+                .andExpect(jsonPath("$.contactName", is(warehouseFullResponse.getContactName())))
+                .andExpect(jsonPath("$.address.street", is(warehouseFullResponse.getAddress().getStreet())))
+                .andExpect(jsonPath("$.address.street", is(warehouseFullResponse.getAddress().getStreet())))
+                .andExpect(jsonPath("$.address.mapUrl", is(warehouseFullResponse.getAddress().getMapUrl())))
+                .andExpect(jsonPath("$.address.longitude", is(warehouseFullResponse.getAddress().getLongitude())))
+                .andExpect(jsonPath("$.address.latitude", is(warehouseFullResponse.getAddress().getLatitude())))
+                .andExpect(jsonPath("$.address.town.sid", is(warehouseFullResponse.getAddress().getTown().getSid().toString())))
+                .andExpect(jsonPath("$.address.town.name", is(warehouseFullResponse.getAddress().getTown().getName())))
+                .andExpect(jsonPath("$.address.county.sid", is(warehouseFullResponse.getAddress().getCounty().getSid().toString())))
+                .andExpect(jsonPath("$.address.county.name", is(warehouseFullResponse.getAddress().getCounty().getName())));
     }
 
     @Test
@@ -278,8 +299,7 @@ public class WarehouseControllerTest {
         final MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses/{warehouseSid}", 1);
 
         //Then
-        mvc.perform(requestBuilder)
-                .andExpect(status().isBadRequest());
+        mvc.perform(requestBuilder).andExpect(status().isBadRequest());
 
         verifyNoInteractions(warehouseService);
     }

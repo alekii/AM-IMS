@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.am.library.entities.util.EntityConstants;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
@@ -29,8 +28,7 @@ import java.util.UUID;
 @Table(name = TownEntity.TOWNS_TABLE_NAME, uniqueConstraints = {
         @UniqueConstraint(columnNames = TownEntity.SID, name = TownEntity.TOWN_SID_UNIQUE_IDX)
 })
-@SequenceGenerator(name = TownEntity.TOWN_SEQUENCE_NAME, sequenceName = TownEntity.TOWN_SEQUENCE_ID_SEQ, allocationSize = TownEntity.ALLOCATION_SIZE)
-@DynamicUpdate
+@SequenceGenerator(name = TownEntity.TOWN_SEQUENCE_NAME, sequenceName = TownEntity.TOWN_SEQUENCE_ID_SEQ)
 @Getter
 @Setter
 @Builder(builderClassName = "Builder")

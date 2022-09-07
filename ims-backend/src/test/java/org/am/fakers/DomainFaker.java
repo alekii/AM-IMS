@@ -79,11 +79,11 @@ public class DomainFaker {
                                  .town(WarehouseFullResponse.AddressResponse.TownResponse.builder()
                                                .name(faker.address().cityName())
                                                .sid(UUID.randomUUID())
-                                               .county(WarehouseFullResponse.AddressResponse.CountyResponse.builder()
-                                                               .sid(UUID.randomUUID())
-                                                               .name(faker.address().state())
-                                                               .build())
                                                .build())
+                                 .county(WarehouseFullResponse.AddressResponse.CountyResponse.builder()
+                                                 .sid(UUID.randomUUID())
+                                                 .name(faker.address().state())
+                                                 .build())
                                  .build());
     }
 

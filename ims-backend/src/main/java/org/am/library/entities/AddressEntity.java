@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +24,6 @@ import javax.persistence.UniqueConstraint;
         @UniqueConstraint(name = AddressEntity.ID_ADDRESS_UNIQUE_INDEX_NAME, columnNames = {AddressEntity.ID_ADDRESS_COLUMN_NAME})
 })
 @SequenceGenerator(name = AddressEntity.SEQUENCE_GENERATOR_NAME, sequenceName = AddressEntity.ADDRESS_SEQUENCE_ID_SEQ)
-@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor

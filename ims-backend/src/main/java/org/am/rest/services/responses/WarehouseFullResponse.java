@@ -46,8 +46,6 @@ public class WarehouseFullResponse {
             UUID sid;
 
             String name;
-
-            CountyResponse county;
         }
 
         @Value

@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 public class WarehouseCreateRequest {
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 50)
     String warehouseName;
 
     @NotBlank

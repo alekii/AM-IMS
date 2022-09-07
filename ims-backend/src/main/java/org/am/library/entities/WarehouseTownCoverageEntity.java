@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.am.library.entities.util.EntityConstants;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
@@ -25,8 +24,7 @@ import static org.am.library.entities.WarehouseTownCoverageEntity.FK_WAREHOUSE_C
 @Table(name = WarehouseTownCoverageEntity.WAREHOUSE_TOWN_COVERAGE_TABLE_NAME, uniqueConstraints = {
         @UniqueConstraint(columnNames = {FK_TOWN_COLUMN_NAME, FK_WAREHOUSE_COLUMN_NAME}, name = WarehouseTownCoverageEntity.FK_UNIQUE_WAREHOUSE_ID_AND_TOWN_ID)
 })
-@SequenceGenerator(name = WarehouseTownCoverageEntity.SEQUENCE_GENERATOR_NAME, sequenceName = WarehouseTownCoverageEntity.COUNTIES_SEQUENCE_ID_SEQ,
-        allocationSize = EntityConstants.ALLOCATION_SIZE)
+@SequenceGenerator(name = WarehouseTownCoverageEntity.SEQUENCE_GENERATOR_NAME, sequenceName = WarehouseTownCoverageEntity.COUNTIES_SEQUENCE_ID_SEQ)
 @DynamicUpdate
 @Builder(builderClassName = "Builder")
 @Getter

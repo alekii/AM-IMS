@@ -6,8 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.am.library.entities.util.EntityConstants;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,6 +44,8 @@ import static org.am.library.entities.util.EntityConstants.CREATED_AT_COLUMN_NAM
 @Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class WarehouseEntity {
 
     private static final int NAME_MAX_LENGTH = 50;
@@ -68,7 +73,7 @@ public class WarehouseEntity {
     static final String WAREHOUSE_ID_SEQUENCE = "warehouse_id_seq";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = WarehouseEntity.WAREHOUSE_SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = WAREHOUSE_SEQUENCE)
     @Column(name = ID_WAREHOUSE_COLUMN_NAME)
     private int id;
 

@@ -1,8 +1,11 @@
 package org.am.rest.services;
 
+import org.am.domain.api.CreateWarehouseUseCase;
 import org.am.domain.api.GetWarehouseUseCase;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.Faker;
+import org.am.rest.services.requests.WarehouseCreateRequest;
+import org.am.rest.services.requests.converters.WarehouseFromWarehouseCreateRequestConverter;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 import org.am.rest.services.responses.converters.WarehouseModelToFullResponseConverter;
@@ -21,6 +24,7 @@ import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
@@ -32,10 +36,16 @@ public class WarehouseServiceTest {
     private final Supplier<Warehouse> sWarehouse = () -> faker.domain.warehouse().build();
 
     @Mock
+    private CreateWarehouseUseCase createWarehouseUseCase;
+
+    @Mock
     private GetWarehouseUseCase getWarehouseUseCase;
 
     @Mock
     private WarehouseModelToFullResponseConverter warehouseModelToFullResponseConverter;
+
+    @Mock
+    private WarehouseFromWarehouseCreateRequestConverter warehouseFromWarehouseCreateRequestConverter;
 
     @Mock
     private WarehouseModelToMinimumResponseConverter warehouseModelToMinimumResponseConverter;
@@ -46,6 +56,25 @@ public class WarehouseServiceTest {
 
     @InjectMocks
     private WarehouseService subject;
+
+    @Test
+    void createWarehouse_whenUseCaseReturnsResult_convertResult() {
+
+        // Given
+        final WarehouseCreateRequest request = faker.domain.warehouseCreateRequest().build();
+        final Warehouse warehouse = faker.domain.warehouse().build();
+        final WarehouseMinimumResponse warehouseMinimumResponse = sWarehouseMinimumResponse.get();
+
+        doReturn(warehouse).when(warehouseFromWarehouseCreateRequestConverter).convert(eq(request));
+        doReturn(warehouse).when(createWarehouseUseCase).create(eq(warehouse));
+        doReturn(warehouseMinimumResponse).when(warehouseModelToMinimumResponseConverter).convert(eq(warehouse));
+
+        // When
+        final WarehouseMinimumResponse result = subject.create(request);
+
+        // Then
+        assertThat(result).isEqualTo(warehouseMinimumResponse);
+    }
 
     @Test
     void getWarehouses_whenWarehouseListIsEmpty_returnListSuccessfully() {

@@ -8,13 +8,18 @@ import org.am.domain.catalog.County;
 import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
+import org.am.rest.services.requests.WarehouseAddressCreationRequest;
+import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DomainFaker {
+
+    private static final String PHONE_NUMBER = "+254701234567";
 
     private final Faker faker = new Faker();
 
@@ -23,8 +28,9 @@ public class DomainFaker {
         return Warehouse.builder()
                 .sid(UUID.randomUUID())
                 .name(faker.company().name())
-                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .phoneNumber(PHONE_NUMBER)
                 .contactName(faker.name().fullName())
+                .createdAt(Instant.now())
                 .address(this.address().build());
     }
 
@@ -35,7 +41,8 @@ public class DomainFaker {
                 .mapUrl(faker.internet().url())
                 .latitude(Double.valueOf(faker.address().latitude()))
                 .longitude(Double.valueOf(faker.address().longitude()))
-                .town(this.town().build());
+                .town(this.town().build())
+                .county(this.county().build());
     }
 
     public County.Builder county() {
@@ -49,8 +56,7 @@ public class DomainFaker {
 
         return Town.builder()
                 .sid(uuid())
-                .name(faker.address().cityName())
-                .county(this.county().build());
+                .name(faker.address().cityName());
     }
 
     private UUID uuid() {
@@ -63,7 +69,7 @@ public class DomainFaker {
         return WarehouseFullResponse.builder()
                 .name(faker.company().name())
                 .sid(UUID.randomUUID())
-                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .phoneNumber(PHONE_NUMBER)
                 .contactName(faker.name().fullName())
                 .address(WarehouseFullResponse.AddressResponse.builder()
                                  .street(faker.address().streetName())
@@ -73,11 +79,11 @@ public class DomainFaker {
                                  .town(WarehouseFullResponse.AddressResponse.TownResponse.builder()
                                                .name(faker.address().cityName())
                                                .sid(UUID.randomUUID())
-                                               .county(WarehouseFullResponse.AddressResponse.TownResponse.CountyResponse.builder()
-                                                               .sid(UUID.randomUUID())
-                                                               .name(faker.address().state())
-                                                               .build())
                                                .build())
+                                 .county(WarehouseFullResponse.AddressResponse.CountyResponse.builder()
+                                                 .sid(UUID.randomUUID())
+                                                 .name(faker.address().state())
+                                                 .build())
                                  .build());
     }
 
@@ -91,5 +97,37 @@ public class DomainFaker {
                                  .town(faker.address().cityName())
                                  .county(faker.address().state())
                                  .build());
+    }
+
+    public WarehouseCreateRequest.Builder warehouseCreateRequest() {
+
+        return WarehouseCreateRequest.builder()
+                .warehouseName(faker.company().name())
+                .contactName(faker.name().fullName())
+                .phoneNumber(PHONE_NUMBER)
+                .address(this.warehouseAddressCreationrequest().build());
+    }
+
+    public WarehouseAddressCreationRequest.Builder warehouseAddressCreationrequest() {
+
+        return WarehouseAddressCreationRequest.builder()
+                .latitude(Double.valueOf(faker.address().latitude()))
+                .longitude(Double.valueOf(faker.address().longitude()))
+                .street(faker.address().streetName())
+                .mapUrl(faker.internet().url())
+                .town(this.townRequest().build())
+                .county(this.countyRequest().build());
+    }
+
+    public WarehouseAddressCreationRequest.TownRequest.Builder townRequest() {
+
+        return WarehouseAddressCreationRequest.TownRequest.builder()
+                .sid(UUID.randomUUID());
+    }
+
+    public WarehouseAddressCreationRequest.CountyRequest.Builder countyRequest() {
+
+        return WarehouseAddressCreationRequest.CountyRequest.builder()
+                .sid(UUID.randomUUID());
     }
 }

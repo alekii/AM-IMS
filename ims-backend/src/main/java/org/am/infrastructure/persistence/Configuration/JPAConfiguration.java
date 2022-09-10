@@ -1,5 +1,7 @@
 package org.am.infrastructure.persistence.Configuration;
 
+import org.am.infrastructure.Address.AddressRepository;
+import org.am.infrastructure.Towns.TownRepository;
 import org.am.infrastructure.warehouses.WarehouseRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +13,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = {
-        WarehouseRepository.class
+        WarehouseRepository.class,
+        AddressRepository.class,
+        TownRepository.class
 })
 
 @EntityScan("org.am.library.entities")

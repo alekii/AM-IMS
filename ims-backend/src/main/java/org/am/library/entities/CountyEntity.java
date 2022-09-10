@@ -19,13 +19,11 @@ import javax.persistence.UniqueConstraint;
 import java.util.List;
 import java.util.UUID;
 
-import static org.am.library.entities.TownEntity.ALLOCATION_SIZE;
-
 @Entity
 @Table(name = CountyEntity.COUNTIES_TABLE_NAME, uniqueConstraints = {
         @UniqueConstraint(columnNames = CountyEntity.SID, name = CountyEntity.COUNTIES_SID_UNIQUE_IDX)
 })
-@SequenceGenerator(name = CountyEntity.COUNTY_SEQUENCE_NAME, sequenceName = CountyEntity.COUNTIES_SEQUENCE_ID_SEQ, allocationSize = ALLOCATION_SIZE)
+@SequenceGenerator(name = CountyEntity.COUNTY_SEQUENCE_NAME, sequenceName = CountyEntity.COUNTIES_SEQUENCE_ID_SEQ)
 @Getter
 @Setter
 @Builder(builderClassName = "Builder")

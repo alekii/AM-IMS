@@ -1,7 +1,6 @@
 package org.am.rest.services.responses.converters;
 
 import org.am.domain.catalog.Address;
-import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.Faker;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
@@ -63,10 +62,7 @@ public class WarehouseModelToMinimumResponseConverterTest {
 
         return Warehouse.builder()
                 .address(Address.builder()
-                                 .town(Town.builder()
-                                               .name("Nairobi")
-                                               .county(null)
-                                               .build())
+                                 .county(null)
                                  .build())
                 .build();
     }
@@ -89,7 +85,7 @@ public class WarehouseModelToMinimumResponseConverterTest {
                 .address(WarehouseMinimumResponse.AddressResponse.builder()
                                  .street(warehouse.getAddress().getStreet())
                                  .town(warehouse.getAddress().getTown().getName())
-                                 .county(warehouse.getAddress().getTown().getCounty().getName())
+                                 .county(warehouse.getAddress().getCounty().getName())
                                  .build())
 
                 .build();

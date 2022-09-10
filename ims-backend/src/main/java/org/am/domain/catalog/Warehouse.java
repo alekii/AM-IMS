@@ -3,6 +3,7 @@ package org.am.domain.catalog;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Value
@@ -16,6 +17,8 @@ public class Warehouse {
     String phoneNumber;
 
     String contactName;
+
+    Instant createdAt;
 
     Address address;
 }

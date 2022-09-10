@@ -16,5 +16,6 @@ public interface WarehouseConverter
     @Mapping(target = "phoneNumber", source = "source.phoneNumber")
     @Mapping(target = "contactName", source = "source.contactName")
     @Mapping(target = "address", source = "source.address")
+    @Mapping(target = "address.county", source = "source.address.town.county")
     Warehouse convert(WarehouseEntity source);
 }

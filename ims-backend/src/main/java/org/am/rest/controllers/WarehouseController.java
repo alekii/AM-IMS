@@ -1,15 +1,21 @@
 package org.am.rest.controllers;
- 
+
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.am.rest.RestConstants;
 import org.am.rest.services.WarehouseService;
+import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,9 +37,19 @@ public class WarehouseController {
 
     @GetMapping("/warehouses/{warehouseSid}")
     @ApiOperation(value = "Find Warehouse by SID.")
-    public WarehouseFullResponse findBySid(
+    public ResponseEntity<WarehouseFullResponse> findBySid(
             @Valid @PathVariable final UUID warehouseSid) {
 
-        return warehouseService.findBySid(warehouseSid);
+        return new ResponseEntity<>(warehouseService.findBySid(warehouseSid), HttpStatus.OK);
+    }
+
+    @PostMapping("/warehouses/create")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @ApiOperation(value = "Create warehouse")
+    public ResponseEntity<WarehouseMinimumResponse> createWarehouse(
+            @Valid @RequestBody WarehouseCreateRequest warehouseCreationRequest) {
+
+        WarehouseMinimumResponse warehouseMinimumResponse = warehouseService.create(warehouseCreationRequest);
+        return new ResponseEntity<>(warehouseMinimumResponse, HttpStatus.CREATED);
     }
 }

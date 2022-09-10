@@ -9,3 +9,35 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - ${EXPOSED_DATABASE_PORT:-5432}:5432
+
+  zookeeper:
+    image: zookeeper:latest
+    ports:
+      - ${EXPOSED_ZOOKEEPER_PORT:-2181}:2181
+
+  kafka:
+    image: bitnami/kafka:3.2.0
+    ports:
+      - ${EXPOSED_KAFKA_BROKER_PORT:-9092}:9092
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:${EXPOSED_KAFKA_BROKER_PORT:-9092}
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:${EXPOSED_SKYNET_ZOOKEEPER_PORT:-2181}
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    links:
+      - kafka
+    ports:
+      - ${EXPOSED_KAFDROP_PORT:-9999}:9000
+    environment:
+      - JVM_OPTS=-Xms32M -Xmx64M
+      - KAFKA_BROKERCONNECT=kafka:${EXPOSED_KAFKA_BROKER_PORT:-9092}
+      - SERVER_SERVLET_CONTEXTPATH=/

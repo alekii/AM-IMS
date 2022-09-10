@@ -30,6 +30,7 @@ subprojects {
         javaxmlBindingApiVersion = '2.4.0-b180830.0359'
         swagger2Version = '2.7.0'
         mockitoJunitJupiterVersion = '3.2.4'
+        kafkaVersion = '3.2.0'
     }
 }
 

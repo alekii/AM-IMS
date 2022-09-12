@@ -73,18 +73,28 @@ dependencies {
     testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
+    //Junit Jupiter
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitJupiterVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitJupiterVersion
+
     testImplementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
     testImplementation group: 'org.reflections', name: 'reflections', version: reflectionsVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
     testImplementation group: 'com.github.javafaker', name: 'javafaker', version: javaFakerVersion
 
+    //Cucumber
+    testImplementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberJunitVersion
+
+    //Test Containers
     testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: testContainersVersion
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: testContainersVersion
     testImplementation group: 'org.testcontainers', name: 'testcontainers', version: testContainersVersion
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoJunitJupiterVersion
+
+    //Rest Assured
+    testImplementation group: 'io.rest-assured', name: 'rest-assured:4.3.3', version: restAssuredVersion
 
 }
 
@@ -115,6 +125,23 @@ jacocoTestCoverageVerification {
             limit {
                 minimum = 0.5
             }
+        }
+    }
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'com.example.gradle.apidemo', 'src/qa-test/resources']
         }
     }
 }

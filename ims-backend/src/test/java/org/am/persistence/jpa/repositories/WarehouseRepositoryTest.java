@@ -1,7 +1,6 @@
 package org.am.persistence.jpa.repositories;
 
 import org.am.infrastructure.warehouses.WarehouseRepository;
-import org.am.infrastructure.warehouses.projections.WarehouseProjection;
 import org.am.library.entities.WarehouseEntity;
 import org.am.persistence.jpa.configuration.BaseIntegrationTest;
 import org.assertj.core.api.ThrowableAssert;
@@ -66,15 +65,5 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
         assertThatThrownBy(saveWithSameSid)
                 .isInstanceOf(PersistenceException.class)
                 .hasMessageContaining("org.hibernate.exception.ConstraintViolationException");
-    }
-
-    @Test
-    void testFetchByID_returnsWarehouseProjection() {
-
-        //When
-        WarehouseProjection warehouseProjection = warehouseRepository.findByIdFetch(1);
-
-        //Then
-        assertThat(warehouseProjection.getSid().equals(warehouse.getSid()));
     }
 }

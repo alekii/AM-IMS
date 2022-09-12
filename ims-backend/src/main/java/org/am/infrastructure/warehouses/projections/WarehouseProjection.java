@@ -1,11 +1,15 @@
 package org.am.infrastructure.warehouses.projections;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Data
+@Getter
+@RequiredArgsConstructor
+@Builder(builderClassName = "Builder")
 public class WarehouseProjection {
 
     final private UUID sid;

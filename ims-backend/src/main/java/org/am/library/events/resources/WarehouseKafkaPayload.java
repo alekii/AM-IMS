@@ -1,6 +1,7 @@
 package org.am.library.events.resources;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder(builderClassName = "Builder")
 public class WarehouseKafkaPayload {
 
     private UUID warehouseSid;
@@ -29,6 +31,7 @@ public class WarehouseKafkaPayload {
     @Getter
     @Setter
     @AllArgsConstructor
+    @lombok.Builder(builderClassName = "Builder")
     public static class AddressPayload {
 
         private String streetName;
@@ -46,6 +49,7 @@ public class WarehouseKafkaPayload {
         @Getter
         @Setter
         @AllArgsConstructor
+        @lombok.Builder(builderClassName = "Builder")
         public static class TownPayload {
 
             private UUID townSid;
@@ -56,6 +60,7 @@ public class WarehouseKafkaPayload {
         @Getter
         @Setter
         @AllArgsConstructor
+        @lombok.Builder(builderClassName = "Builder")
         public static class CountyPayload {
 
             private UUID countySid;

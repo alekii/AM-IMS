@@ -16,6 +16,9 @@ import org.am.infrastructure.warehouses.WarehouseRepository;
 import org.am.library.entities.AddressEntity;
 import org.am.library.entities.TownEntity;
 import org.am.library.entities.WarehouseEntity;
+import org.am.library.events.EventName;
+import org.am.library.events.EventPublisher;
+import org.am.library.events.ImsEventFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ import java.util.stream.Collectors;
 public class WarehouseDAOImpl implements WarehouseDAO {
 
     private final WarehouseRepository warehouseRepository;
+
+    private final EventPublisher eventPublisher;
 
     private final AddressRepository addressRepository;
 
@@ -53,6 +58,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         final WarehouseEntity warehouseEntity = warehouseToWarehouseEntityConverter.convert(warehouse, address);
         warehouseEntity.setCreatedAt(Instant.now());
         WarehouseEntity toConvert = warehouseRepository.save(warehouseEntity);
+        publishWarehouseEvent(toConvert.getId());
         return warehouseConverter.convert(toConvert);
     }
 
@@ -102,5 +108,13 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 
         return warehouseRepository.findBySid(warehouseSid)
                 .map(warehouseConverter::convert);
+    }
+
+    private void publishWarehouseEvent(Object payload) {
+
+        eventPublisher.publishEvent(ImsEventFactory.buildWarehouseCreatedEvent(
+                this,
+                EventName.WAREHOUSE_CREATED,
+                payload));
     }
 }

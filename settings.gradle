@@ -1,3 +1,4 @@
 rootProject.name = 'AM-IMS'
 include 'ims-backend'
-
+include 'ims-backend:qa-test'
+findProject(':ims-backend:qa-test')?.name = 'qa-test'

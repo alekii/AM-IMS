@@ -8,6 +8,7 @@ import org.am.domain.catalog.County;
 import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
+import org.am.infrastructure.warehouses.projections.WarehouseProjection;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
@@ -129,5 +130,23 @@ public class DomainFaker {
 
         return WarehouseAddressCreationRequest.CountyRequest.builder()
                 .sid(UUID.randomUUID());
+    }
+
+    public WarehouseProjection.Builder warehouseProjection() {
+
+        return WarehouseProjection.builder()
+                .sid(UUID.randomUUID())
+                .name(faker.company().name())
+                .contactName(faker.name().fullName())
+                .phoneNumber(PHONE_NUMBER)
+                .trackingNumberCount(faker.random().nextInt(353466634, 646456436))
+                .addressMapUrl(faker.internet().url())
+                .addressLatitude(Double.valueOf(faker.address().latitude()))
+                .addressLongitude(Double.valueOf(faker.address().longitude()))
+                .addressStreet(faker.address().streetName())
+                .townSid(UUID.randomUUID())
+                .townName(faker.address().cityName())
+                .countySid(UUID.randomUUID())
+                .countyName(faker.address().state());
     }
 }

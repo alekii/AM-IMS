@@ -1,9 +1,11 @@
 package org.am.persistence.jpa.repositories;
 
 import org.am.infrastructure.warehouses.WarehouseRepository;
+import org.am.infrastructure.warehouses.projections.WarehouseProjection;
 import org.am.library.entities.WarehouseEntity;
 import org.am.persistence.jpa.configuration.BaseIntegrationTest;
 import org.assertj.core.api.ThrowableAssert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,12 +20,17 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
+    private WarehouseEntity warehouse;
+
+    @BeforeEach
+    void init() {
+
+        warehouse = faker.entity.warehouse().build();
+        integrationTestPersister.save(warehouse);
+    }
+
     @Test
     void testWarehouseSaveGeneratesId() {
-
-        //Given
-        WarehouseEntity warehouse = faker.entity.warehouse().build();
-        integrationTestPersister.save(warehouse);
 
         //When
         List<WarehouseEntity> warehouses = warehouseRepository.findAll();
@@ -35,10 +42,6 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
 
     @Test
     void testSavingWarehouseWithNotUniqueSidThrowsException() {
-
-        //Given
-        WarehouseEntity warehouse = faker.entity.warehouse().build();
-        integrationTestPersister.save(warehouse);
 
         //When
         ThrowableAssert.ThrowingCallable saveWithSameSid = () -> integrationTestPersister.saveAndFlush(faker.entity.warehouse()
@@ -54,10 +57,6 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
     @Test
     void testSavingWarehouseWithNotUniqueNameThrowsException() {
 
-        //Given
-        WarehouseEntity warehouse = faker.entity.warehouse().build();
-        integrationTestPersister.save(warehouse);
-
         //When
         ThrowableAssert.ThrowingCallable saveWithSameSid = () -> integrationTestPersister.saveAndFlush(faker.entity.warehouse()
                                                                                                                .name(warehouse.getName())
@@ -67,5 +66,15 @@ public class WarehouseRepositoryTest extends BaseIntegrationTest {
         assertThatThrownBy(saveWithSameSid)
                 .isInstanceOf(PersistenceException.class)
                 .hasMessageContaining("org.hibernate.exception.ConstraintViolationException");
+    }
+
+    @Test
+    void testFetchByID_returnsWarehouseProjection() {
+
+        //When
+        WarehouseProjection warehouseProjection = warehouseRepository.findByIdFetch(1);
+
+        //Then
+        assertThat(warehouseProjection.getSid().equals(warehouse.getSid()));
     }
 }

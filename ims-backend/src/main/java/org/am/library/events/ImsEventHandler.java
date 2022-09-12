@@ -1,6 +1,6 @@
 package org.am.library.events;
 
-public abstract class ImsEventHandler<KafkaPublishContext> {
+public abstract class ImsEventHandler<ImsEvent, KafkaPublishContext> {
 
     protected ImsEventPublisher<KafkaPublishContext> imsEventPublisher;
 
@@ -8,7 +8,7 @@ public abstract class ImsEventHandler<KafkaPublishContext> {
 
         this.imsEventPublisher = imsEventPublisher;
     }
-
+    
     protected void publish(KafkaPublishContext c) {
 
         try {

@@ -13,7 +13,7 @@ public class ImsEvent<X> extends ApplicationEvent {
 
     EventName eventName;
 
-    Object data;
+    X data;
 
     Instant publishDate;
 

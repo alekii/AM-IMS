@@ -16,9 +16,28 @@ application {
 repositories {
     mavenCentral()
 }
+sourceSets {
+    qaTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/qa-test/java')
+        }
+        resources.srcDir file('src/qa-test/resources')
+    }
+}
 
-sourceCompatibility = 11
-targetCompatibility = 11
+configurations {
+    qaTestCompile.extendsFrom testCompile
+    qaTestRunTime.extendsFrom testRuntime
+
+}
+
+task qaTest(type: Test) {
+    testClassesDirs = sourceSets.qaTest.output.classesDirs
+    classpath = sourceSets.qaTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
 
 flyway {
     url = project.hasProperty('url') ? project.getProperty('url') : 'jdbc:postgresql://localhost:5432/ims'
@@ -33,9 +52,14 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: swagger2Version
     compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: swagger2Version
+    compile group: 'org.apache.commons', name: 'commons-text', version: commonsTextVersion
+    compileOnly group: 'org.apache.commons', name: 'commons-exec', version: commonsExecVersion
+    compileOnly group: 'commons-io', name: 'commons-io', version: commonsIOversion
 
+    testImplementation group: 'junit', name: 'junit', version: jUnit4Version
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: javaxmlBindingApiVersion
     implementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: jsonPathVersion
 
     //Spring
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
@@ -85,6 +109,7 @@ dependencies {
 
     //Cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    testImplementation group: 'io.cucumber', name: 'cucumber-core', version: cucumberVersion
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberJunitVersion
 
     //Test Containers
@@ -94,7 +119,7 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoJunitJupiterVersion
 
     //Rest Assured
-    testImplementation group: 'io.rest-assured', name: 'rest-assured:4.3.3', version: restAssuredVersion
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: restAssuredVersion
 
 }
 
@@ -141,7 +166,13 @@ task cucumber() {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'pretty', '--glue', 'com.example.gradle.apidemo', 'src/qa-test/resources']
+            args = [
+                    '--plugin', 'pretty',
+                    '--plugin', 'json:build/reports/cucumber.json',
+                    '--plugin', 'html:build/reports/cucumber-report.html',
+                    '--glue', 'org.am.cucumber.glue.stepdefinition',
+                    'src/qa-test/Features',
+                    '--tags', '@Before']
         }
     }
 }

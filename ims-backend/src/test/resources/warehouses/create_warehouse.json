@@ -1,0 +1,17 @@
+{
+  "warehouseName": "test_warehouse",
+  "phoneNumber": "+254789345213",
+  "contactName": "Marion Emard DDS",
+  "address": {
+    "street": "6th street",
+    "mapUrl": "http://map.net",
+    "latitude": -33.572937,
+    "longitude": -131.74708,
+    "town": {
+      "sid": "2064eb28-d366-4323-b000-a8a27a0d6eb0"
+    },
+    "county": {
+      "sid": "ecc40f2d-1844-4004-b497-f947f561444d"
+    }
+  }
+}

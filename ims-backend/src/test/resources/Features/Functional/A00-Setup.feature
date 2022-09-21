@@ -7,9 +7,6 @@ Feature: Setup Functional Tests
     Given I execute the script "scripts/db-reset.sh"
     Given I wait for "1000" milliseconds
 
-  Scenario: Apply test data for tests
-    Given I execute the script "scripts/apply-dummy-data.sh"
-
   Scenario: Set backend HOST
     Given I set the backend host with env var "IMS_BACKEND_HOST"
 
@@ -17,5 +14,9 @@ Feature: Setup Functional Tests
     Given I set the "REST" payload to "warehouses/create_warehouse.json"
     When I make a "warehouses/create" POST request
     Then I search the "REST" response using path "$.code" and expect the values "201"
+    Then I search the "REST" response using path "$.data.name" and expect the values "test_warehouse"
+    Then I search the "REST" response using path "$.data.address.street" and expect the values "6th street"
+    Then I search the "REST" response using path "$.data.address.town" and expect the values "Kiambu"
+    Then I search the "REST" response using path "$.data.address.county" and expect the values "KIAMBU"
 
 

@@ -19,4 +19,8 @@ Feature: Setup Functional Tests
     Then I search the "REST" response using path "$.data.address.town" and expect the values "Kiambu"
     Then I search the "REST" response using path "$.data.address.county" and expect the values "KIAMBU"
 
+  # Kafka
+  Scenario: Create  kafka
+    Then I set Kafka consumer topic to "topic_warehouses"
+    Then I consume Kafka message and store it
 

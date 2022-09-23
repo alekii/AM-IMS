@@ -24,7 +24,6 @@ subprojects {
         javaFakerVersion = '1.0.2'
         reflectionsVersion = '0.9.11'
         testContainersVersion = '1.16.3'
-        springVersion = '5.3.14'
         flywayVersion = '8.0.5'
         jacksonVersion = '2.11.1'
         javaFakerVersion = '1.0.2'
@@ -36,7 +35,7 @@ subprojects {
         javaxmlBindingApiVersion = '2.4.0-b180830.0359'
         swagger2Version = '2.7.0'
         mockitoJunitJupiterVersion = '3.2.4'
-        kafkaVersion = '3.2.0'
+        kafkaVersion = '3.0.0'
         cucumberVersion = '4.7.2'
         cucumberJunitVersion = '4.7.2'
         restAssuredVersion = '4.3.3'
@@ -46,6 +45,7 @@ subprojects {
         commonsIOversion = '2.11.0'
         jUnit4Version = '4.13.2'
         jsonPathVersion = '2.4.0'
+        springKafkaVersion = '2.8.9'
     }
 }
 

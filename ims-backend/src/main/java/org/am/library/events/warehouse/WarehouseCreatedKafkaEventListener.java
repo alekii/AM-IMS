@@ -8,9 +8,11 @@ import org.am.library.publishing.kafka.KafkaEventPublisherHandler;
 import org.am.library.publishing.kafka.KafkaImsEventPublisher;
 import org.am.library.publishing.kafka.KafkaPublishContext;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+@Component
 public class WarehouseCreatedKafkaEventListener extends KafkaEventPublisherHandler<WarehouseCreatedEvent> {
 
     private static final String TOPIC = "topic_warehouses";
@@ -36,6 +38,7 @@ public class WarehouseCreatedKafkaEventListener extends KafkaEventPublisherHandl
         final WarehouseKafkaPayload warehouseKafkaPayload = warehouseToKafkaPayloadConverter.convert(warehouseProjection);
 
         publish(KafkaPublishContext.builder()
+                        .imsEvent(warehouseCreatedEvent)
                         .topic(TOPIC)
                         .payload(warehouseKafkaPayload)
                         .build());

@@ -1,18 +1,26 @@
 package org.am.library.publishing.kafka;
 
 import org.am.library.events.ImsEventPublisher;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.kafka.core.KafkaProducerException;
+import org.springframework.kafka.core.KafkaSendCallback;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Component
 public class KafkaImsEventPublisher implements ImsEventPublisher<KafkaPublishContext> {
+
+    private final KafkaTemplate<String, Object> template;
+
+    public KafkaImsEventPublisher(KafkaTemplate<String, Object> kafkaTemplate) {
+
+        this.template = kafkaTemplate;
+    }
 
     @Override
     public void publish(KafkaPublishContext publishContext) {
@@ -21,20 +29,25 @@ public class KafkaImsEventPublisher implements ImsEventPublisher<KafkaPublishCon
                 publishContext.getPayload() :
                 publishContext.getImsEvent().getData();
 
-        final KafkaProducer<String, Object> producer = new KafkaProducer<>(producerConfig());
-
         final ProducerRecord<String, Object> producerRecord =
                 new ProducerRecord<>(publishContext.getTopic(), payload);
 
-        producer.send(producerRecord);
-    }
+        String eventName = publishContext.getImsEvent().getEventName().name();
 
-    public Map<String, Object> producerConfig() {
+        producerRecord.headers().add("event", eventName.getBytes(StandardCharsets.UTF_8));
 
-        HashMap<String, Object> properties = new HashMap();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, System.getenv("KAFKA_BOOTSTRAP_SERVERS"));
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        return properties;
+        ListenableFuture<SendResult<String, Object>> future = template.send(producerRecord);
+        future.addCallback(new KafkaSendCallback<>() {
+
+            @Override
+            public void onSuccess(SendResult<String, Object> result) {
+                //TODO add logger
+            }
+
+            @Override
+            public void onFailure(KafkaProducerException ex) {
+                //TODO add logger
+            }
+        });
     }
 }

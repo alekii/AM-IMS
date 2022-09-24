@@ -4,12 +4,14 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.am.cucumber.test.glue.Rest.Rest;
 import org.am.cucumber.test.glue.Rest.RestHelper;
+import org.am.cucumber.test.glue.kafka.KafkaConsumerClient;
 import org.am.cucumber.test.glue.utils.Util;
 import org.am.cucumber.test.glue.utils.helpers.UtilHelper;
 import org.junit.Assert;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 public class PayloadSteps {
 
@@ -48,6 +50,8 @@ public class PayloadSteps {
         switch (requestService) {
             case "REST":
                 return "Last message request: " + this.getRest().getResponsePayload();
+            case "Kafka":
+                return "Last consumed message: " + this.getKafkaConsumer().getKafkaConsumedRecord().value() + "\n";
             default:
                 return "";
         }
@@ -66,6 +70,10 @@ public class PayloadSteps {
         switch (payloadApp) {
             case "REST":
                 return this.getRest().getResponsePayload();
+            case "Kafka":
+                Assert.assertTrue("kafka consumer is not present", Objects.nonNull(this.getKafkaConsumer()));
+                Assert.assertTrue("kafka message is not present", Objects.nonNull(this.getKafkaConsumer().getKafkaConsumedRecord()));
+                return this.getKafkaConsumer().getKafkaConsumedRecord().value();
             default:
                 return "";
         }
@@ -79,5 +87,10 @@ public class PayloadSteps {
     private Rest getRest() {
 
         return RestHelper.getRest();
+    }
+
+    private KafkaConsumerClient getKafkaConsumer() {
+
+        return KafkaConsumerClient.getInstance();
     }
 }

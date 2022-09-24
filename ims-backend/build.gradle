@@ -49,6 +49,7 @@ flyway {
 }
 
 dependencies {
+    implementation 'junit:junit:4.13.1'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: swagger2Version
     compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: swagger2Version

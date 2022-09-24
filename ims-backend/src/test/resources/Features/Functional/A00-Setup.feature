@@ -10,6 +10,11 @@ Feature: Setup Functional Tests
   Scenario: Set backend HOST
     Given I set the backend host with env var "IMS_BACKEND_HOST"
 
+  Scenario: Kafka topics setup
+    Given I create a Kafka topic with name "topic_warehouses"
+    Then I set Kafka consumer to topic "topic_warehouses"
+    And I seek to the end of the Kafka topic "topic_warehouses"
+
   Scenario: Create Warehouse
     Given I set the "REST" payload to "warehouses/create_warehouse.json"
     When I make a "warehouses/create" POST request
@@ -20,7 +25,20 @@ Feature: Setup Functional Tests
     Then I search the "REST" response using path "$.data.address.county" and expect the values "KIAMBU"
 
   # Kafka
-  Scenario: Create  kafka
-    Then I set Kafka consumer topic to "topic_warehouses"
-    Then I consume Kafka message and store it
+    And I consume Kafka message and store it
+    And I search Kafka header using the key "event" and expect the value "WAREHOUSE_CREATED"
+    Then I search the "Kafka" response using path "$.warehouseName" and expect the values "test_warehouse"
+    Then I search the "Kafka" response using path "$.phoneNumber" and expect the values "+254789345213"
+    Then I search the "Kafka" response using path "$.contactName" and expect the values "Marion Emard DDS"
+    Then I search the "Kafka" response using path "$.addressPayload.streetName" and expect the values "6th street"
+    Then I search the "Kafka" response using path "$.addressPayload.mapUrl" and expect the values "http://map.net"
+    Then I search the "Kafka" response using path "$.addressPayload.longitude" and expect the values "-131.74708"
+    Then I search the "Kafka" response using path "$.addressPayload.latitude" and expect the values "-33.572937"
+    Then I search the "Kafka" response using path "$.addressPayload.townPayload.name" and expect the values "Kiambu"
+    Then I search the "Kafka" response using path "$.addressPayload.townPayload.townSid" and expect the values "2064eb28-d366-4323-b000-a8a27a0d6eb0"
+    Then I search the "Kafka" response using path "$.addressPayload.countyPayload.name" and expect the values "KIAMBU"
+    Then I search the "Kafka" response using path "$.addressPayload.countyPayload.countySid" and expect the values "ecc40f2d-1844-4004-b497-f947f561444d"
+
+
+
 

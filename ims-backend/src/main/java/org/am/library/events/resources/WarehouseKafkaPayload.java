@@ -3,6 +3,7 @@ package org.am.library.events.resources;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(builderClassName = "Builder")
 public class WarehouseKafkaPayload {
 
@@ -31,6 +33,7 @@ public class WarehouseKafkaPayload {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     @lombok.Builder(builderClassName = "Builder")
     public static class AddressPayload {
 
@@ -49,6 +52,7 @@ public class WarehouseKafkaPayload {
         @Getter
         @Setter
         @AllArgsConstructor
+        @NoArgsConstructor
         @lombok.Builder(builderClassName = "Builder")
         public static class TownPayload {
 
@@ -60,6 +64,7 @@ public class WarehouseKafkaPayload {
         @Getter
         @Setter
         @AllArgsConstructor
+        @NoArgsConstructor
         @lombok.Builder(builderClassName = "Builder")
         public static class CountyPayload {
 

@@ -3,17 +3,16 @@ package org.am.library.events.warehouse;
 import org.am.infrastructure.warehouses.WarehouseRepository;
 import org.am.infrastructure.warehouses.converters.WarehouseToKafkaPayloadConverter;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
+import org.am.library.events.ImsEventHandler;
 import org.am.library.events.resources.WarehouseKafkaPayload;
-import org.am.library.publishing.kafka.KafkaEventPublisherHandler;
 import org.am.library.publishing.kafka.KafkaImsEventPublisher;
 import org.am.library.publishing.kafka.KafkaPublishContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
-public class WarehouseCreatedKafkaEventListener extends KafkaEventPublisherHandler<WarehouseCreatedEvent> {
+public class WarehouseCreatedKafkaEventListener extends ImsEventHandler {
 
     private static final String TOPIC = "topic_warehouses";
 
@@ -30,7 +29,6 @@ public class WarehouseCreatedKafkaEventListener extends KafkaEventPublisherHandl
     }
 
     @Async
-    @Transactional
     @TransactionalEventListener
     public void handleEvent(WarehouseCreatedEvent warehouseCreatedEvent) {
 

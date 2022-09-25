@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Component
-public class KafkaImsEventPublisher implements ImsEventPublisher<KafkaPublishContext> {
+public class KafkaImsEventPublisher implements ImsEventPublisher {
 
     private final KafkaTemplate<String, Object> template;
 

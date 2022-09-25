@@ -9,9 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,14 +17,6 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class FunctionalSteps {
-
-    private static Map<String, String> envVariables = new HashMap<>();
-
-    @Given("^I set the environment variable \"(.+)\" with value \"(.*)\"$")
-    public void setEnvironmentVariable(final String varName, final String varValue) {
-
-        envVariables.put(varName, varValue);
-    }
 
     @Given("^I execute the script \"(.+)\"$")
     public void iExecuteTheScript(String scriptName) throws IOException {
@@ -39,10 +29,6 @@ public class FunctionalSteps {
         final String file = getUtil().getResourcesPath() + scriptName;
         final ProcessBuilder processBuilder = new ProcessBuilder(file);
 
-        for (final Map.Entry<String, String> entry : envVariables.entrySet()) {
-
-            processBuilder.environment().put(entry.getKey(), entry.getValue());
-        }
         try {
             final Process process = processBuilder.start();
 

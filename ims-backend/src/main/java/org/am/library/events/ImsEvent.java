@@ -56,6 +56,6 @@ public class ImsEvent<X> extends ApplicationEvent {
             return buildEvent(source, this);
         }
 
-        protected abstract WarehouseCreatedEvent buildEvent(Object source, ImsEventBuilder stImsEventBuilder);
+        protected abstract WarehouseCreatedEvent buildEvent(Object source, ImsEventBuilder<S, T> stImsEventBuilder);
     }
 }

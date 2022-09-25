@@ -23,7 +23,7 @@ public class Util {
 
     public Util() {
 
-        this.backendHost = System.getProperty("backend.host");
+        this.backendHost = System.getenv("IMS_BACKEND_HOST");
     }
 
     public void setBackendUrl(final String backendURL) {

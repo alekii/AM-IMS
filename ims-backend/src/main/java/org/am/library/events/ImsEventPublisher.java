@@ -1,6 +1,8 @@
 package org.am.library.events;
 
-public interface ImsEventPublisher<X> {
+import org.am.library.publishing.kafka.KafkaPublishContext;
 
-    void publish(X publishContext) throws Exception;
+public interface ImsEventPublisher {
+
+    void publish(KafkaPublishContext publishContext) throws Exception;
 }

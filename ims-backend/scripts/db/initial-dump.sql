@@ -209,18 +209,6 @@ COPY public.addresses (id_address, street_name, latitude, longitude, map_url, fk
 31	Sapphire Way	39.28248	58.25683	http://map4.com	21
 41	5th Avenue	-21.18794	-48.18496	http://map5.com	11
 51	42nd Freedom Avenue	-24.59142	67.39737	http://map6.com	31
-61	5th Avenue	30.82609	148.20398	http://map1.com	1
-71	Lumber Way	5.87776	40.45254	http://map2.com	41
-81	Lilypad Passage	14.94752	15.83095	http://map3.com	31
-91	Sapphire Way	39.28248	58.25683	http://map4.com	21
-101	5th Avenue	-21.18794	-48.18496	http://map5.com	11
-111	42nd Freedom Avenue	-24.59142	67.39737	http://map6.com	31
-121	5th Avenue	30.82609	148.20398	http://map1.com	1
-131	Lumber Way	5.87776	40.45254	http://map2.com	41
-141	Lilypad Passage	14.94752	15.83095	http://map3.com	31
-151	Sapphire Way	39.28248	58.25683	http://map4.com	21
-161	5th Avenue	-21.18794	-48.18496	http://map5.com	11
-171	42nd Freedom Avenue	-24.59142	67.39737	http://map6.com	31
 \.
 
 
@@ -242,11 +230,11 @@ COPY public.counties (id_county, name, sid) FROM stdin;
 --
 
 COPY public.flyway_schema_history (installed_rank, version, description, type, script, checksum, installed_by, installed_on, execution_time, success) FROM stdin;
-1	100.202208091445	initial database reset	SQL	V1.0.1/V1.0.0/V100_202208091445__initial_database_reset.sql	-174512284	postgres	2022-09-22 00:26:52.627943	6	t
-2	100.202208091530	initial database creation	SQL	V1.0.1/V1.0.0/V100_202208091530__initial_database_creation.sql	1399925023	postgres	2022-09-22 00:26:52.654028	495	t
-3	100.202208151927	add contactname column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151927__add_contactname_column_to_warehouse.sql	334218740	postgres	2022-09-22 00:26:53.176603	4	t
-4	100.202208151945	add tracking number count column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151945__add_tracking_number_count_column_to_warehouse.sql	-1489024794	postgres	2022-09-22 00:26:53.199532	3	t
-5	100.202209012324	add created at field to warehouse	SQL	V1.0.1/V1.0.0/V100_202209012324__add_created_at_field_to_warehouse.sql	-587844985	postgres	2022-09-22 00:26:53.214284	3	t
+1	100.202208091445	initial database reset	SQL	V1.0.1/V1.0.0/V100_202208091445__initial_database_reset.sql	-174512284	postgres	2022-09-25 03:08:27.206865	16	t
+2	100.202208091530	initial database creation	SQL	V1.0.1/V1.0.0/V100_202208091530__initial_database_creation.sql	1399925023	postgres	2022-09-25 03:08:27.256043	457	t
+3	100.202208151927	add contactname column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151927__add_contactname_column_to_warehouse.sql	334218740	postgres	2022-09-25 03:08:27.735418	6	t
+4	100.202208151945	add tracking number count column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151945__add_tracking_number_count_column_to_warehouse.sql	-1489024794	postgres	2022-09-25 03:08:27.758251	3	t
+5	100.202209012324	add created at field to warehouse	SQL	V1.0.1/V1.0.0/V100_202209012324__add_created_at_field_to_warehouse.sql	-587844985	postgres	2022-09-25 03:08:27.775053	4	t
 \.
 
 
@@ -289,28 +277,28 @@ COPY public.warehouses (id_warehouse, name, sid, phone_number, fk_address, conta
 -- Name: address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.address_id_seq', 171, true);
+SELECT pg_catalog.setval('public.address_id_seq', 51, true);
 
 
 --
 -- Name: counties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.counties_id_seq', 61, true);
+SELECT pg_catalog.setval('public.counties_id_seq', 41, true);
 
 
 --
 -- Name: towns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.towns_id_seq', 61, true);
+SELECT pg_catalog.setval('public.towns_id_seq', 41, true);
 
 
 --
 -- Name: warehouse_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.warehouse_id_seq', 351, true);
+SELECT pg_catalog.setval('public.warehouse_id_seq', 251, true);
 
 
 --

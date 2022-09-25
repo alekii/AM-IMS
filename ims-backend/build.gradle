@@ -19,8 +19,8 @@ repositories {
 sourceSets {
     qaTest {
         java {
-            compileClasspath += main.output
-            runtimeClasspath += main.output
+            compileClasspath += sourceSets.main.output
+            runtimeClasspath += sourceSets.main.output
             srcDir file('src/qa-test/java')
         }
         resources.srcDir file('src/qa-test/resources')
@@ -28,12 +28,14 @@ sourceSets {
 }
 
 configurations {
+    qaTestImplementation.extendsFrom(testImplementation)
     qaTestCompile.extendsFrom testCompile
     qaTestRunTime.extendsFrom testRuntime
 
 }
 
 task qaTest(type: Test) {
+    description = "Run integration tests"
     testClassesDirs = sourceSets.qaTest.output.classesDirs
     classpath = sourceSets.qaTest.runtimeClasspath
     outputs.upToDateWhen { false }
@@ -49,7 +51,6 @@ flyway {
 }
 
 dependencies {
-    implementation 'junit:junit:4.13.1'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: swagger2Version
     compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: swagger2Version
@@ -167,14 +168,13 @@ task cucumber() {
     doLast {
         javaexec {
             main = "io.cucumber.core.cli.Main"
-            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            classpath = configurations.cucumberRuntime + sourceSets.qaTest.output
             args = [
                     '--plugin', 'pretty',
                     '--plugin', 'json:build/reports/cucumber.json',
                     '--plugin', 'html:build/reports/cucumber-report.html',
-                    '--glue', 'org.am.cucumber.glue.stepdefinition',
-                    'src/qa-test/Features',
-                    '--tags', '@Before']
+                    '--glue', 'org.am.cucumber.stepdefinition',
+                    'src/qa-test/resources/features/']
         }
     }
 }

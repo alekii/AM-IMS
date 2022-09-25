@@ -12,7 +12,7 @@ docker-compose up -d ims-db
 sleep 12
 cd -
 
-cd ims-backend/src/test/resources/
+cd ims-backend/src/qa-test/resources/
 scripts/db-reset.sh
 cd -
 

@@ -8,9 +8,11 @@ import java.util.UUID;
 
 public interface WarehouseDAO {
 
-    Warehouse create(Warehouse warehouse);
+    Warehouse create(final Warehouse warehouse);
 
     List<Warehouse> findAll();
 
-    Optional<Warehouse> findBySid(UUID warehouseSid);
+    Optional<Warehouse> findBySid(final UUID warehouseSid);
+
+    Warehouse update(final Warehouse warehouse);
 }

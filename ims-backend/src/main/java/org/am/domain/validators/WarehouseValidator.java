@@ -17,10 +17,8 @@ public class WarehouseValidator {
         }
 
         final String phoneNumber = warehouse.getPhoneNumber();
-        if (phoneNumber != null) {
-            if (!PHONE_PATTERN.matcher(phoneNumber).matches()) {
-                throw InvalidPhoneNumberException.forNumber(phoneNumber);
-            }
+        if (!PHONE_PATTERN.matcher(phoneNumber).matches()) {
+            throw InvalidPhoneNumberException.forNumber(phoneNumber);
         }
     }
 }

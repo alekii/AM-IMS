@@ -14,7 +14,13 @@ public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Inte
 
     Optional<WarehouseEntity> findById(final Integer id);
 
-    Optional<WarehouseEntity> findBySid(final UUID sid);
+    @Query("SELECT w "
+            + "FROM WarehouseEntity w "
+            + "INNER JOIN FETCH w.address wAddress "
+            + "INNER JOIN FETCH wAddress.town wTown "
+            + "INNER JOIN FETCH wTown.county wCounty "
+            + "WHERE w.sid = (:sid)")
+    Optional<WarehouseEntity> findBySid(final @Param("sid") UUID sid);
 
     @Query("SELECT w.sid FROM WarehouseEntity w WHERE LOWER(w.name) = LOWER(:name)")
     Optional<UUID> findSidByName(final @Param("name") String warehouseName);

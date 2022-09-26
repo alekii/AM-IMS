@@ -35,7 +35,7 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
     private AddressRepository addressRepository;
 
     @Test
-    void create_whenWarehouseDoesNotExist_returnPersistedWarehouse() {
+    void create_whenWarehouseDoesNotExist_returnsPersistedWarehouse() {
 
         // Given
         final WarehouseEntity warehouseEntity = faker.entity.warehouse().build();
@@ -68,7 +68,7 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
     }
 
     @Test
-    void create_whenWarehouseExists_AntTownDoesNotExists_throwsTownNotExistException() {
+    void create_whenWarehouseExists_AndTownDoesNotExist_throwsTownNotExistException() {
 
         // Given
         final WarehouseEntity warehouseEntity = integrationTestPersister.save(faker.entity.warehouse().build());
@@ -127,11 +127,97 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
                 .containsExactlyInAnyOrder(warehouse1.getSid(), warehouse2.getSid());
     }
 
+    @Test
+    void update_whenWarehouseExists_AndTownExists_returnPersistedWarehouse() {
+
+        // Given
+        final WarehouseEntity warehouseEntity = faker.entity.warehouse().build();
+        final AddressEntity addressEntity = integrationTestPersister.save(faker.entity.address().build());
+        final Warehouse warehouse = buildWarehouse(warehouseEntity, addressEntity);
+
+        final Warehouse persistedWarehouse = subject.create(warehouse);
+
+        final Optional<WarehouseEntity> persistedWarehouseEntity = warehouseRepository.findBySid(warehouse.getSid());
+        assertThat(persistedWarehouseEntity).isPresent();
+        assertThat(persistedWarehouse).usingRecursiveComparison().ignoringFields("createdAt").isEqualTo(warehouse);
+
+        final Warehouse warehouseToUpdate = buildWarehouseToUpdate(persistedWarehouse);
+
+        // When
+        final Warehouse updatedWarehouse = subject.update(warehouseToUpdate);
+
+        // Then
+        final Optional<WarehouseEntity> updatedWarehouseEntity = warehouseRepository.findBySid(warehouse.getSid());
+        assertThat(updatedWarehouseEntity).isPresent();
+        assertThat(updatedWarehouse).usingRecursiveComparison().isEqualTo(warehouseToUpdate);
+        assertThat(updatedWarehouse.getContactName()).isNotEqualTo(persistedWarehouse.getContactName());
+        assertThat(updatedWarehouse.getPhoneNumber()).isNotEqualTo(persistedWarehouse.getPhoneNumber());
+        assertThat(updatedWarehouse.getName()).isNotEqualTo(persistedWarehouse.getName());
+        assertThat(updatedWarehouse.getAddress().getStreet()).isNotEqualTo(persistedWarehouse.getAddress().getStreet());
+    }
+
+    @Test
+    void update_whenWarehouseExists_AndTownSidIsInvalidUUID_throwsTownNotExistException() {
+
+        // Given
+        final WarehouseEntity warehouseEntity = faker.entity.warehouse().build();
+        final AddressEntity addressEntity = integrationTestPersister.save(faker.entity.address().build());
+        final Warehouse warehouse = buildWarehouse(warehouseEntity, addressEntity);
+
+        final Warehouse persistedWarehouse = subject.create(warehouse);
+
+        final Optional<WarehouseEntity> persistedWarehouseEntity = warehouseRepository.findBySid(warehouse.getSid());
+        assertThat(persistedWarehouseEntity).isPresent();
+        assertThat(persistedWarehouse).usingRecursiveComparison().ignoringFields("createdAt").isEqualTo(warehouse);
+
+        final Warehouse warehouseToUpdate = buildWarehouseToUpdateWithInvalidTown(persistedWarehouse);
+
+        // When
+        final ThrowableAssert.ThrowingCallable update = () -> subject.update(warehouseToUpdate);
+
+        // Then
+        assertThatThrownBy(update).isInstanceOf(TownNotExistException.class);
+    }
+
+    private Warehouse buildWarehouseToUpdateWithInvalidTown(Warehouse persistedWarehouse) {
+
+        return faker.domain.warehouse()
+                .sid(persistedWarehouse.getSid())
+                .address(Address.builder()
+                                 .town(Town.builder()
+                                               .sid(UUID.randomUUID())
+                                               .build())
+                                 .county(County.builder()
+                                                 .sid(persistedWarehouse.getSid())
+                                                 .build())
+                                 .build())
+                .build();
+    }
+
+    private Warehouse buildWarehouseToUpdate(Warehouse persistedWarehouse) {
+
+        return faker.domain.warehouse()
+                .sid(persistedWarehouse.getSid())
+                .address(Address.builder()
+                                 .town(Town.builder()
+                                               .sid(persistedWarehouse.getAddress().getTown().getSid())
+                                               .name(persistedWarehouse.getAddress().getTown().getName())
+                                               .build())
+                                 .county(County.builder()
+                                                 .sid(persistedWarehouse.getAddress().getCounty().getSid())
+                                                 .name(persistedWarehouse.getAddress().getCounty().getName())
+                                                 .build())
+                                 .street(faker.address().streetName())
+                                 .build())
+                .build();
+    }
+
     private Warehouse buildWarehouse(final WarehouseEntity warehouseEntity, final AddressEntity addressEntity) {
 
         return faker.domain.warehouse()
                 .sid(warehouseEntity.getSid())
                 .name(warehouseEntity.getName())
+                .phoneNumber(faker.phoneNumber().phoneNumber())
                 .address(Address.builder()
                                  .town(Town.builder()
                                                .sid(addressEntity.getTown().getSid())

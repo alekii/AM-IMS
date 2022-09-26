@@ -3,6 +3,7 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Address;
 import org.am.domain.catalog.Warehouse;
+import org.am.domain.catalog.exceptions.NotFound.WarehouseNotFoundException;
 import org.am.domain.catalog.exceptions.conflicts.TownCountyMismatch;
 import org.am.domain.catalog.exceptions.conflicts.TownNotExistException;
 import org.am.domain.catalog.exceptions.conflicts.WarehouseAlreadyExistsException;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,7 +51,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 
     @Override
     @Transactional
-    public Warehouse create(Warehouse warehouse) {
+    public Warehouse create(final Warehouse warehouse) {
 
         findWarehouseByName(warehouse.getName());
 
@@ -62,7 +64,18 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         return warehouseConverter.convert(toConvert);
     }
 
-    private void findWarehouseByName(String warehouseName) {
+    @Override
+    @Transactional
+    public Warehouse update(final Warehouse warehouse) {
+
+        final WarehouseEntity warehousePersisted = checkExistense(warehouse.getSid());
+
+        final WarehouseEntity warehouseToUpdate = prepareWarehouseToUpdate(warehouse, warehousePersisted);
+
+        return warehouseConverter.convert(warehouseRepository.save(warehouseToUpdate));
+    }
+
+    private void findWarehouseByName(final String warehouseName) {
 
         warehouseRepository.findSidByName(warehouseName)
                 .ifPresent(sid -> {
@@ -79,7 +92,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         return addressRepository.save(addressEntity);
     }
 
-    private TownEntity getTownBySid(Address address) {
+    private TownEntity getTownBySid(final Address address) {
 
         final TownEntity town = findTownBySid(address.getTown().getSid());
 
@@ -89,7 +102,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         return town;
     }
 
-    private TownEntity findTownBySid(UUID townSid) {
+    private TownEntity findTownBySid(final UUID townSid) {
 
         return Optional.ofNullable(townRepository.findBySID(townSid))
                 .orElseThrow(() -> TownNotExistException.forSid(townSid));
@@ -104,10 +117,62 @@ public class WarehouseDAOImpl implements WarehouseDAO {
     }
 
     @Override
-    public Optional<Warehouse> findBySid(UUID warehouseSid) {
+    public Optional<Warehouse> findBySid(final UUID warehouseSid) {
 
-        return warehouseRepository.findBySid(warehouseSid)
-                .map(warehouseConverter::convert);
+        return Optional.of(warehouseRepository.findBySid(warehouseSid)
+                                   .map(warehouseConverter::convert))
+                .orElseThrow(() -> WarehouseNotFoundException.forSid(warehouseSid));
+    }
+
+    public WarehouseEntity checkExistense(final UUID warehouseSid) {
+
+        return warehouseRepository
+                .findBySid(warehouseSid)
+                .orElseThrow(() -> WarehouseNotFoundException.forSid(warehouseSid));
+    }
+
+    public WarehouseEntity prepareWarehouseToUpdate(final Warehouse warehouse,
+                                                    final WarehouseEntity warehousePersisted) {
+
+        final TownEntity townEntity = handleTownChange(warehouse.getAddress(), warehousePersisted.getAddress());
+
+        AddressEntity addressEntity = fetchWarehouseAddress(warehousePersisted.getAddress().getId(),
+                                                            townEntity,
+                                                            warehouse.getAddress());
+
+        return warehouseToWarehouseEntityConverter.convert(warehouse, addressEntity);
+    }
+
+    private AddressEntity fetchWarehouseAddress(final int addressId,
+                                                final TownEntity townEntity,
+                                                final Address address) {
+
+        AddressEntity convertedAddressEntity = addressToAddressEntityConverter.convert(address, townEntity);
+        convertedAddressEntity.setId(addressId);
+        return convertedAddressEntity;
+    }
+
+    private TownEntity handleTownChange(final Address address, final AddressEntity persistedAddress) {
+
+        if (isPersistedTownNull(persistedAddress) || !isTownUpdated(address, persistedAddress)) {
+            return findTownBySid(address.getTown().getSid());
+        } else {
+            return persistedAddress.getTown();
+        }
+    }
+
+    private boolean isTownUpdated(final Address address, final AddressEntity persistedAddress) {
+
+        return address.getTown().getSid().equals(persistedAddress.getTown().getSid())
+                || address.getCounty().getSid().equals(persistedAddress.getTown().getCounty().getSid());
+    }
+
+    private boolean isPersistedTownNull(AddressEntity persistedAddress) {
+
+        return Objects.isNull(persistedAddress)
+                || Optional.ofNullable(persistedAddress.getTown())
+                .map(TownEntity::getSid)
+                .isEmpty();
     }
 
     private void publishWarehouseEvent(Object payload) {

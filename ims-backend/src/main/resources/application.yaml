@@ -42,6 +42,16 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
 
+  kafka:
+    enabled: true
+    auto-create-topics: false
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      batch-size: 0
+      retries: 5
+
 flyway:
   migrations:
     enabled: true
@@ -52,3 +62,5 @@ ims:
 
   system:
     id: ims
+
+

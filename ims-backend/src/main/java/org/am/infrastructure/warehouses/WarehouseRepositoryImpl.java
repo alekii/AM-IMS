@@ -41,6 +41,7 @@ public class WarehouseRepositoryImpl extends QuerydslRepositorySupport implement
                                 warehouseEntity.contactName,
                                 warehouseEntity.phoneNumber,
                                 warehouseEntity.trackingNumbersCount,
+                                warehouseEntity.createdAt,
                                 qAddress.street,
                                 qAddress.mapUrl,
                                 qAddress.longitude,

@@ -1,14 +1,15 @@
 package org.am.infrastructure.warehouses.projections;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
-@Setter
 @RequiredArgsConstructor
+@Builder(builderClassName = "Builder")
 public class WarehouseProjection {
 
     final private UUID sid;
@@ -20,6 +21,8 @@ public class WarehouseProjection {
     final private String phoneNumber;
 
     final private Integer trackingNumberCount;
+
+    final private Instant createdAt;
 
     final private String addressStreet;
 

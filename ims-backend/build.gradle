@@ -16,9 +16,30 @@ application {
 repositories {
     mavenCentral()
 }
+sourceSets {
+    qaTest {
+        java {
+            compileClasspath += sourceSets.main.output
+            runtimeClasspath += sourceSets.main.output
+            srcDir file('src/qa-test/java')
+        }
+        resources.srcDir file('src/qa-test/resources')
+    }
+}
 
-sourceCompatibility = 11
-targetCompatibility = 11
+configurations {
+    qaTestImplementation.extendsFrom(testImplementation)
+    qaTestCompile.extendsFrom testCompile
+    qaTestRunTime.extendsFrom testRuntime
+
+}
+
+task qaTest(type: Test) {
+    description = "Run integration tests"
+    testClassesDirs = sourceSets.qaTest.output.classesDirs
+    classpath = sourceSets.qaTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
 
 flyway {
     url = project.hasProperty('url') ? project.getProperty('url') : 'jdbc:postgresql://localhost:5432/ims'
@@ -33,11 +54,18 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: swagger2Version
     compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: swagger2Version
+    compile group: 'org.apache.commons', name: 'commons-text', version: commonsTextVersion
+    compileOnly group: 'org.apache.commons', name: 'commons-exec', version: commonsExecVersion
+    compileOnly group: 'commons-io', name: 'commons-io', version: commonsIOversion
 
+    testImplementation group: 'junit', name: 'junit', version: jUnit4Version
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: javaxmlBindingApiVersion
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: jsonPathVersion
 
     //Spring
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+    compile group: 'org.springframework.kafka', name: 'spring-kafka', version: springKafkaVersion
 
     // Data sources
     implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
@@ -72,18 +100,29 @@ dependencies {
     testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
+    //Junit Jupiter
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitJupiterVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitJupiterVersion
+
     testImplementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
     testImplementation group: 'org.reflections', name: 'reflections', version: reflectionsVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
     testImplementation group: 'com.github.javafaker', name: 'javafaker', version: javaFakerVersion
 
+    //Cucumber
+    testImplementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    testImplementation group: 'io.cucumber', name: 'cucumber-core', version: cucumberVersion
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberJunitVersion
+
+    //Test Containers
     testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: testContainersVersion
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: testContainersVersion
     testImplementation group: 'org.testcontainers', name: 'testcontainers', version: testContainersVersion
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoJunitJupiterVersion
+
+    //Rest Assured
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: restAssuredVersion
 
 }
 
@@ -114,6 +153,28 @@ jacocoTestCoverageVerification {
             limit {
                 minimum = 0.5
             }
+        }
+    }
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.qaTest.output
+            args = [
+                    '--plugin', 'pretty',
+                    '--plugin', 'json:build/reports/cucumber.json',
+                    '--plugin', 'html:build/reports/cucumber-report.html',
+                    '--glue', 'org.am.cucumber.stepdefinition',
+                    'src/qa-test/resources/features/']
         }
     }
 }

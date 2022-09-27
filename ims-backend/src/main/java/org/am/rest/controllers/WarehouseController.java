@@ -55,7 +55,7 @@ public class WarehouseController {
         return new ResponseEntity<>(warehouseMinimumResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping("/warehouse/{warehouseSid}")
+    @PutMapping("/warehouses/{warehouseSid}")
     @ApiOperation(value = "Update a Warehouse")
     public ResponseEntity<WarehouseFullResponse> updateWarehouse(
             @Valid @RequestBody final WarehouseUpdateRequest warehouseUpdateRequest,

@@ -22,9 +22,9 @@ public class UpdateWarehouseUseCaseImpl implements UpdateWarehouseUseCase {
         return warehouseDAO.update(warehouse);
     }
 
-    private Warehouse getWarehouseToUpdate(Warehouse warehouse) {
+    private void getWarehouseToUpdate(Warehouse warehouse) {
 
-        return warehouseDAO.findBySid(warehouse.getSid())
+        warehouseDAO.findBySid(warehouse.getSid())
                 .orElseThrow(() -> WarehouseNotFoundException.forSid(warehouse.getSid()));
     }
 }

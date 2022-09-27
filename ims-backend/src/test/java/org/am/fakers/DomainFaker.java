@@ -11,6 +11,7 @@ import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
+import org.am.rest.services.requests.WarehouseUpdateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 
@@ -107,6 +108,26 @@ public class DomainFaker {
                 .contactName(faker.name().fullName())
                 .phoneNumber(PHONE_NUMBER)
                 .address(this.warehouseAddressCreationrequest().build());
+    }
+
+    public WarehouseUpdateRequest.Builder warehouseUpdateRequest() {
+
+        return WarehouseUpdateRequest.builder()
+                .warehouseName(faker.company().name())
+                .contactName(faker.name().fullName())
+                .phoneNumber("+254701096760")
+                .address(this.warehouseAddressUpdateRequest().build());
+    }
+
+    public WarehouseUpdateRequest.WarehouseAddressUpdateRequest.Builder warehouseAddressUpdateRequest() {
+
+        return WarehouseUpdateRequest.WarehouseAddressUpdateRequest.builder()
+                .street(faker.address().streetName())
+                .mapUrl(faker.internet().url())
+                .latitude(Double.valueOf(faker.address().latitude()))
+                .longitude(Double.valueOf(faker.address().longitude()))
+                .town(WarehouseUpdateRequest.WarehouseAddressUpdateRequest.TownRequest.builder()
+                              .sid(UUID.randomUUID()).build());
     }
 
     public WarehouseAddressCreationRequest.Builder warehouseAddressCreationrequest() {

@@ -149,7 +149,7 @@ public class WarehouseDAOTest extends BaseIntegrationTest {
         // Then
         final Optional<WarehouseEntity> updatedWarehouseEntity = warehouseRepository.findBySid(warehouse.getSid());
         assertThat(updatedWarehouseEntity).isPresent();
-        assertThat(updatedWarehouse).usingRecursiveComparison().ignoringFields("address.county").isEqualTo(warehouseToUpdate);
+        assertThat(updatedWarehouse).usingRecursiveComparison().ignoringFields("address.county", "createdAt").isEqualTo(warehouseToUpdate);
         assertThat(updatedWarehouse.getContactName()).isNotEqualTo(persistedWarehouse.getContactName());
         assertThat(updatedWarehouse.getPhoneNumber()).isNotEqualTo(persistedWarehouse.getPhoneNumber());
         assertThat(updatedWarehouse.getName()).isNotEqualTo(persistedWarehouse.getName());

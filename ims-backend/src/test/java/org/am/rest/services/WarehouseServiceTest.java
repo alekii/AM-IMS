@@ -2,15 +2,18 @@ package org.am.rest.services;
 
 import org.am.domain.api.CreateWarehouseUseCase;
 import org.am.domain.api.GetWarehouseUseCase;
+import org.am.domain.api.UpdateWarehouseUseCase;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.Faker;
 import org.am.rest.services.requests.WarehouseCreateRequest;
+import org.am.rest.services.requests.WarehouseUpdateRequest;
 import org.am.rest.services.requests.converters.WarehouseFromWarehouseCreateRequestConverter;
+import org.am.rest.services.requests.converters.WarehouseFromWarehouseUpdateRequestConverter;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 import org.am.rest.services.responses.converters.WarehouseModelToFullResponseConverter;
 import org.am.rest.services.responses.converters.WarehouseModelToMinimumResponseConverter;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,10 +45,16 @@ public class WarehouseServiceTest {
     private GetWarehouseUseCase getWarehouseUseCase;
 
     @Mock
+    private UpdateWarehouseUseCase updateWarehouseUseCase;
+
+    @Mock
     private WarehouseModelToFullResponseConverter warehouseModelToFullResponseConverter;
 
     @Mock
     private WarehouseFromWarehouseCreateRequestConverter warehouseFromWarehouseCreateRequestConverter;
+
+    @Mock
+    private WarehouseFromWarehouseUpdateRequestConverter warehouseFromWarehouseUpdateRequestConverter;
 
     @Mock
     private WarehouseModelToMinimumResponseConverter warehouseModelToMinimumResponseConverter;
@@ -88,7 +97,7 @@ public class WarehouseServiceTest {
         final List<WarehouseMinimumResponse> result = subject.getWarehouses();
 
         // Then
-        Assert.assertTrue(result.isEmpty());
+        Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
@@ -133,5 +142,25 @@ public class WarehouseServiceTest {
 
         // Then
         assertThat(result.getSid()).isEqualTo(warehouseFullResponse.getSid());
+    }
+
+    @Test
+    void updateWarehouse_whenUseCaseReturnsResult_convertResult() {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest request = faker.domain.warehouseUpdateRequest().build();
+        final Warehouse warehouse = faker.domain.warehouse().build();
+        final WarehouseFullResponse warehouseFullResponse = sWarehouseFullResponse.get();
+
+        doReturn(warehouse).when(warehouseFromWarehouseUpdateRequestConverter).convert(eq(request), eq(warehouseSid));
+        doReturn(warehouse).when(updateWarehouseUseCase).update(eq(warehouse));
+        doReturn(warehouseFullResponse).when(warehouseModelToFullResponseConverter).convert(eq(warehouse));
+
+        // When
+        final WarehouseFullResponse result = subject.update(request, warehouseSid);
+
+        // Then
+        assertThat(result).isEqualTo(warehouseFullResponse);
     }
 }

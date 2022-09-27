@@ -5,6 +5,7 @@ import org.am.fakers.Faker;
 import org.am.rest.services.WarehouseService;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
+import org.am.rest.services.requests.WarehouseUpdateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 import org.junit.jupiter.api.Test;
@@ -23,10 +24,12 @@ import java.util.function.Supplier;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -57,7 +60,7 @@ public class WarehouseControllerTest {
     }
 
     @Test
-    void createWarehouse_whenServiceReturns201() throws Exception {
+    void createWarehouse_whenServiceReturns_returns201() throws Exception {
 
         // Given
         final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest().build();
@@ -96,6 +99,8 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -113,6 +118,7 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -130,6 +136,7 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -148,6 +155,8 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -170,6 +179,8 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -192,6 +203,8 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -214,6 +227,8 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -236,6 +251,8 @@ public class WarehouseControllerTest {
         // Then
         mvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
     }
 
     @Test
@@ -301,6 +318,198 @@ public class WarehouseControllerTest {
         //Then
         mvc.perform(requestBuilder).andExpect(status().isBadRequest());
 
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenServiceReturns_returns200() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest.WarehouseAddressUpdateRequest newAddress = faker.domain.warehouseAddressUpdateRequest().build();
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest().build();
+        final WarehouseFullResponse warehouseFullResponse = faker.domain.warehouseFullResponse()
+                .sid(warehouseSid)
+                .build();
+
+        doReturn(warehouseFullResponse).when(warehouseService).update(any(WarehouseUpdateRequest.class), eq(warehouseSid));
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.sid", is(warehouseFullResponse.getSid().toString())))
+                .andExpect(jsonPath("$.name", is(warehouseFullResponse.getName())))
+                .andExpect(jsonPath("$.address.street", is(warehouseFullResponse.getAddress().getStreet())))
+                .andExpect(jsonPath("$.address.town.sid", is(warehouseFullResponse.getAddress().getTown().getSid().toString())))
+                .andExpect(jsonPath("$.address.town.name", is(warehouseFullResponse.getAddress().getTown().getName())))
+                .andExpect(jsonPath("$.address.county.sid", is(warehouseFullResponse.getAddress().getCounty().getSid().toString())))
+                .andExpect(jsonPath("$.address.county.name", is(warehouseFullResponse.getAddress().getCounty().getName())));
+    }
+
+    @Test
+    void updateWarehouse_whenWarehouseSidIsNotValidUuid_returnsBadRequest() throws Exception {
+
+        //When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", 1);
+
+        //Then
+        mvc.perform(requestBuilder).andExpect(status().isBadRequest());
+
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenWarehouseNameIsBlank_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .warehouseName(" ").build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenWarehousePhoneNumberIsBlank_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .phoneNumber(" ").build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenContactNameIsBlank_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .contactName(" ").build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenWarehouseAddressIsNull_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .address(null)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenWarehouseAddressStreetNameIsEmpty_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest.WarehouseAddressUpdateRequest address = faker.domain.warehouseAddressUpdateRequest()
+                .street("")
+                .build();
+
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenWarehouseTownIsNull_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest.WarehouseAddressUpdateRequest address = faker.domain.warehouseAddressUpdateRequest()
+                .town(null)
+                .build();
+
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(warehouseService);
+    }
+
+    @Test
+    void updateWarehouse_whenWarehouseAddressTownSidIsNull_returns400() throws Exception {
+
+        // Given
+        final UUID warehouseSid = UUID.randomUUID();
+        final WarehouseUpdateRequest.WarehouseAddressUpdateRequest address = faker.domain.warehouseAddressUpdateRequest()
+                .town(WarehouseUpdateRequest.WarehouseAddressUpdateRequest.TownRequest.builder().sid(null).build())
+                .build();
+
+        final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()
+                .address(address)
+                .build();
+
+        // When
+        final MockHttpServletRequestBuilder requestBuilder = put("/api/warehouses/{warehouseSid}", warehouseSid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(warehouseUpdateRequest));
+
+        // Then
+        mvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
         verifyNoInteractions(warehouseService);
     }
 }

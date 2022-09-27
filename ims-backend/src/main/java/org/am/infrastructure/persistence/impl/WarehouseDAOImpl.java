@@ -73,6 +73,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         final WarehouseEntity warehouseToUpdate = prepareWarehouseToUpdate(warehouse, warehousePersisted);
 
         warehouseToUpdate.setId(warehousePersisted.getId());
+        warehouseToUpdate.setCreatedAt(warehousePersisted.getCreatedAt());
 
         return warehouseConverter.convert(warehouseRepository.save(warehouseToUpdate));
     }
@@ -141,7 +142,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         AddressEntity addressEntity = persistAndFetchWarehouseAddress(warehousePersisted.getAddress().getId(),
                                                                       townEntity,
                                                                       warehouse.getAddress());
-
         return warehouseToWarehouseEntityConverter.convert(warehouse, addressEntity);
     }
 
@@ -165,8 +165,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 
     private boolean isTownUpdated(final Address address, final AddressEntity persistedAddress) {
 
-        return address.getTown().getSid().equals(persistedAddress.getTown().getSid())
-                || address.getCounty().getSid().equals(persistedAddress.getTown().getCounty().getSid());
+        return address.getTown().getSid().equals(persistedAddress.getTown().getSid());
     }
 
     private boolean isPersistedTownNull(AddressEntity persistedAddress) {

@@ -17,9 +17,9 @@ public class UpdateWarehouseUseCaseImpl implements UpdateWarehouseUseCase {
     @Override
     public Warehouse update(final Warehouse warehouse) {
 
-        Warehouse warehouseToUpdate = getWarehouseToUpdate(warehouse);
-        warehouseValidator.validatePhoneNumber(warehouseToUpdate);
-        return warehouseDAO.update(warehouseToUpdate);
+        getWarehouseToUpdate(warehouse);
+        warehouseValidator.validatePhoneNumber(warehouse);
+        return warehouseDAO.update(warehouse);
     }
 
     private Warehouse getWarehouseToUpdate(Warehouse warehouse) {

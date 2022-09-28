@@ -41,10 +41,10 @@ public class WarehouseAddressFromWarehouseAddressRequestConverterTest {
                 .latitude(warehouseAddressCreationRequest.getLatitude())
                 .longitude(warehouseAddressCreationRequest.getLongitude())
                 .town(Town.builder()
-                              .sid(warehouseAddressCreationRequest.getTown().getSid())
+                              .sid(warehouseAddressCreationRequest.getTown().getTownSid())
                               .build())
                 .county(County.builder()
-                                .sid(warehouseAddressCreationRequest.getCounty().getSid())
+                                .sid(warehouseAddressCreationRequest.getCounty().getCountySid())
                                 .build())
                 .build();
     }

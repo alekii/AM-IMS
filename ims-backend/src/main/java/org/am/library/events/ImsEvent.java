@@ -1,7 +1,6 @@
 package org.am.library.events;
 
 import lombok.Getter;
-import org.am.library.events.warehouse.WarehouseCreatedEvent;
 import org.springframework.context.ApplicationEvent;
 
 import java.time.Instant;
@@ -51,11 +50,11 @@ public class ImsEvent<X> extends ApplicationEvent {
             return (T) this;
         }
 
-        public WarehouseCreatedEvent build(final Object source) {
+        public S build(final Object source) {
 
             return buildEvent(source, this);
         }
 
-        protected abstract WarehouseCreatedEvent buildEvent(Object source, ImsEventBuilder<S, T> stImsEventBuilder);
+        protected abstract S buildEvent(Object source, ImsEventBuilder<S, T> imsEventBuilder);
     }
 }

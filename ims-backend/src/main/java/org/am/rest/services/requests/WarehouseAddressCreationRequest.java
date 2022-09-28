@@ -41,7 +41,7 @@ public class WarehouseAddressCreationRequest {
     public static class TownRequest {
 
         @UUIDPattern
-        UUID sid;
+        UUID townSid;
 
         public TownRequest() {
 
@@ -55,7 +55,7 @@ public class WarehouseAddressCreationRequest {
     public static class CountyRequest {
 
         @UUIDPattern
-        UUID sid;
+        UUID countySid;
 
         public CountyRequest() {
 

@@ -24,14 +24,14 @@ public class WarehouseAddressFromWarehouseAddressRequestConverter {
     private Town convertTown(WarehouseAddressCreationRequest.TownRequest town) {
 
         return Town.builder()
-                .sid(town.getSid())
+                .sid(town.getTownSid())
                 .build();
     }
 
     private County convertCounty(WarehouseAddressCreationRequest.CountyRequest county) {
 
         return County.builder()
-                .sid(county.getSid())
+                .sid(county.getCountySid())
                 .build();
     }
 }

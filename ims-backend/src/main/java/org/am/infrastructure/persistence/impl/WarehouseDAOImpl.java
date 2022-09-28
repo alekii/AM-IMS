@@ -60,7 +60,12 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         final WarehouseEntity warehouseEntity = warehouseToWarehouseEntityConverter.convert(warehouse, address);
         warehouseEntity.setCreatedAt(Instant.now());
         WarehouseEntity toConvert = warehouseRepository.save(warehouseEntity);
-        publishWarehouseEvent(toConvert.getId());
+
+        eventPublisher.publishEvent(ImsEventFactory.buildWarehouseCreatedEvent(
+                this,
+                EventName.WAREHOUSE_CREATED,
+                toConvert.getId()));
+
         return warehouseConverter.convert(toConvert);
     }
 
@@ -75,7 +80,14 @@ public class WarehouseDAOImpl implements WarehouseDAO {
         warehouseToUpdate.setId(warehousePersisted.getId());
         warehouseToUpdate.setCreatedAt(warehousePersisted.getCreatedAt());
 
-        return warehouseConverter.convert(warehouseRepository.save(warehouseToUpdate));
+        WarehouseEntity updatedWarehouseEntity = warehouseRepository.save(warehouseToUpdate);
+
+        eventPublisher.publishEvent(ImsEventFactory.buildWarehouseCreatedEvent(
+                this,
+                EventName.WAREHOUSE_UPDATED,
+                warehouseToUpdate.getId()));
+
+        return warehouseConverter.convert(updatedWarehouseEntity);
     }
 
     private void findWarehouseByName(final String warehouseName) {
@@ -174,13 +186,5 @@ public class WarehouseDAOImpl implements WarehouseDAO {
                 || Optional.ofNullable(persistedAddress.getTown())
                 .map(TownEntity::getSid)
                 .isEmpty();
-    }
-
-    private void publishWarehouseEvent(Object payload) {
-
-        eventPublisher.publishEvent(ImsEventFactory.buildWarehouseCreatedEvent(
-                this,
-                EventName.WAREHOUSE_CREATED,
-                payload));
     }
 }

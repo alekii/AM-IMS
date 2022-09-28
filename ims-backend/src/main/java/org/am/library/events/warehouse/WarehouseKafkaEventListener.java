@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
-public class WarehouseCreatedKafkaEventListener extends ImsEventHandler {
+public class WarehouseKafkaEventListener extends ImsEventHandler {
 
     private static final String TOPIC = "topic_warehouses";
 
@@ -20,8 +20,8 @@ public class WarehouseCreatedKafkaEventListener extends ImsEventHandler {
 
     private final WarehouseToKafkaPayloadConverter warehouseToKafkaPayloadConverter;
 
-    protected WarehouseCreatedKafkaEventListener(KafkaImsEventPublisher kafkaImsEventPublisher, WarehouseRepository warehouseRepository,
-                                                 WarehouseToKafkaPayloadConverter warehouseToKafkaPayloadConverter) {
+    protected WarehouseKafkaEventListener(KafkaImsEventPublisher kafkaImsEventPublisher, WarehouseRepository warehouseRepository,
+                                          WarehouseToKafkaPayloadConverter warehouseToKafkaPayloadConverter) {
 
         super(kafkaImsEventPublisher);
         this.warehouseRepository = warehouseRepository;
@@ -30,7 +30,7 @@ public class WarehouseCreatedKafkaEventListener extends ImsEventHandler {
 
     @Async
     @TransactionalEventListener
-    public void handleEvent(WarehouseCreatedEvent warehouseCreatedEvent) {
+    public void handleEvent(WarehouseEvent warehouseCreatedEvent) {
 
         final WarehouseProjection warehouseProjection = warehouseRepository.findByIdFetch(warehouseCreatedEvent.getData());
         final WarehouseKafkaPayload warehouseKafkaPayload = warehouseToKafkaPayloadConverter.convert(warehouseProjection);

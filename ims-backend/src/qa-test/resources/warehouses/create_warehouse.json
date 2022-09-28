@@ -8,10 +8,10 @@
     "latitude": -33.572937,
     "longitude": -131.74708,
     "town": {
-      "sid": "2064eb28-d366-4323-b000-a8a27a0d6eb0"
+      "townSid": "2064eb28-d366-4323-b000-a8a27a0d6eb0"
     },
     "county": {
-      "sid": "ecc40f2d-1844-4004-b497-f947f561444d"
+      "countySid": "ecc40f2d-1844-4004-b497-f947f561444d"
     }
   }
 }

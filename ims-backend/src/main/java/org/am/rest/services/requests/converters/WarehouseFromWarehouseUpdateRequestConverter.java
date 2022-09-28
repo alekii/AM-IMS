@@ -26,7 +26,7 @@ public class WarehouseFromWarehouseUpdateRequestConverter implements Converter.W
                                  .latitude(request.getAddress().getLatitude())
                                  .longitude(request.getAddress().getLongitude())
                                  .town(Town.builder()
-                                               .sid(request.getAddress().getTown().getSid())
+                                               .sid(request.getAddress().getTown().getTownSid())
                                                .build()).build())
                 .build();
     }

@@ -66,7 +66,7 @@ public class WarehouseUpdateRequest {
         public static class TownRequest {
 
             @UUIDPattern
-            UUID sid;
+            UUID townSid;
 
             public TownRequest() {
 

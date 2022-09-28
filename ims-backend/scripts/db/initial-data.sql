@@ -13,7 +13,7 @@ VALUES
   (
     nextval ('counties_id_seq'),
     'NAIROBI',
-    '1e965b1c1-1c63-4012-a1da-26cd32a5307b'
+    '1e965b1c1-1c63-4012-a1da-26cd32a5307'
   ),
   (
     nextval ('counties_id_seq'),

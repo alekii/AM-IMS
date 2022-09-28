@@ -57,6 +57,15 @@ public class RestErrorHandler {
         return handleImsException(exception, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<String> handleIllegalArgument(IllegalArgumentException exception) {
+
+        log.warn(REST_ERROR, exception);
+
+        return new ResponseEntity<>(String.format(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
     @ResponseStatus(code = HttpStatus.CONFLICT)
     @ExceptionHandler(ConflictException.class)
     protected ResponseEntity<ErrorResponse> handleConflictException(ConflictException exception) {

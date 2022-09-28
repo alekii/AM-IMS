@@ -9,6 +9,10 @@ spring:
   profiles:
     active: dev
 
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
   datasource:
     url: jdbc:postgresql://localhost/ims?user=postgres&password=postgres
     driverClassName: org.postgresql.Driver
@@ -63,4 +67,10 @@ ims:
   system:
     id: ims
 
+springdoc:
+  packagesToScan: "org.am.rest"
+  pathsToMatch: "/api/**"
+  swagger-ui:
+    enabled: true
+    path: "/api/swagger-ui.html"
 

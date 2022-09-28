@@ -52,8 +52,6 @@ flyway {
 
 dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: swagger2Version
-    compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: swagger2Version
     compile group: 'org.apache.commons', name: 'commons-text', version: commonsTextVersion
     compileOnly group: 'org.apache.commons', name: 'commons-exec', version: commonsExecVersion
     compileOnly group: 'commons-io', name: 'commons-io', version: commonsIOversion
@@ -62,6 +60,9 @@ dependencies {
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: javaxmlBindingApiVersion
     implementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
     implementation group: 'com.jayway.jsonpath', name: 'json-path', version: jsonPathVersion
+
+    // Spring doc
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: springDocVersion
 
     //Spring
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
@@ -109,7 +110,6 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
     testImplementation group: 'com.github.javafaker', name: 'javafaker', version: javaFakerVersion
-
     //Cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
     testImplementation group: 'io.cucumber', name: 'cucumber-core', version: cucumberVersion

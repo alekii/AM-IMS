@@ -219,7 +219,7 @@ COPY public.addresses (id_address, street_name, latitude, longitude, map_url, fk
 COPY public.counties (id_county, name, sid) FROM stdin;
 1	ELDORET	1d545f3d-7dce-4463-9ca6-48f45f03d444
 11	MOMBASA	4af2a28d-5c9a-428a-badd-6249275c06c4
-21	NAIROBI	1e965b1c1-1c63-4012-a1da-26cd32a5307b
+21	NAIROBI	1e965b1c1-1c63-4012-a1da-26cd32a5307
 31	NAKURU	f960fd96-32d9-4caa-85c8-edb476d7ebcc
 41	KIAMBU	ecc40f2d-1844-4004-b497-f947f561444d
 \.
@@ -230,11 +230,11 @@ COPY public.counties (id_county, name, sid) FROM stdin;
 --
 
 COPY public.flyway_schema_history (installed_rank, version, description, type, script, checksum, installed_by, installed_on, execution_time, success) FROM stdin;
-1	100.202208091445	initial database reset	SQL	V1.0.1/V1.0.0/V100_202208091445__initial_database_reset.sql	-174512284	postgres	2022-09-25 03:08:27.206865	16	t
-2	100.202208091530	initial database creation	SQL	V1.0.1/V1.0.0/V100_202208091530__initial_database_creation.sql	1399925023	postgres	2022-09-25 03:08:27.256043	457	t
-3	100.202208151927	add contactname column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151927__add_contactname_column_to_warehouse.sql	334218740	postgres	2022-09-25 03:08:27.735418	6	t
-4	100.202208151945	add tracking number count column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151945__add_tracking_number_count_column_to_warehouse.sql	-1489024794	postgres	2022-09-25 03:08:27.758251	3	t
-5	100.202209012324	add created at field to warehouse	SQL	V1.0.1/V1.0.0/V100_202209012324__add_created_at_field_to_warehouse.sql	-587844985	postgres	2022-09-25 03:08:27.775053	4	t
+1	100.202208091445	initial database reset	SQL	V1.0.1/V1.0.0/V100_202208091445__initial_database_reset.sql	-174512284	postgres	2022-09-28 08:00:16.494358	6	t
+2	100.202208091530	initial database creation	SQL	V1.0.1/V1.0.0/V100_202208091530__initial_database_creation.sql	1399925023	postgres	2022-09-28 08:00:16.521762	460	t
+3	100.202208151927	add contactname column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151927__add_contactname_column_to_warehouse.sql	334218740	postgres	2022-09-28 08:00:17.001036	4	t
+4	100.202208151945	add tracking number count column to warehouse	SQL	V1.0.1/V1.0.0/V100_202208151945__add_tracking_number_count_column_to_warehouse.sql	-1489024794	postgres	2022-09-28 08:00:17.025105	4	t
+5	100.202209012324	add created at field to warehouse	SQL	V1.0.1/V1.0.0/V100_202209012324__add_created_at_field_to_warehouse.sql	-587844985	postgres	2022-09-28 08:00:17.039488	3	t
 \.
 
 

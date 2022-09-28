@@ -8,6 +8,9 @@ import org.am.cucumber.utils.Util;
 import org.am.cucumber.utils.helpers.UtilHelper;
 import org.apache.commons.text.StringSubstitutor;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Rest {
 
     private String endpoint;
@@ -25,6 +28,7 @@ public class Rest {
         this.endpoint = "/";
         this.payload = null;
         this.payloadType = "application/json";
+        RestAssured.baseURI = this.getUtil().getBackendUrl();
     }
 
     public void setEndpoint(final String endpoint) {
@@ -49,10 +53,36 @@ public class Rest {
 
     public void makePostRequest(final String endpoint) {
 
-        RestAssured.baseURI = this.getUtil().getBackendUrl();
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-Type", payloadType);
+        RequestSpecification request = prepareRequest();
         response = request.body(this.getPayload()).post(endpoint);
+        this.setResponse(response);
+    }
+
+    public boolean makePutRequest(final String endpoint, final UUID sid) {
+
+        RequestSpecification request = prepareRequest();
+        if (Objects.nonNull(this.getPayload())) {
+            response = request.body(this.getPayload()).put(endpoint, sid);
+            if (response.body().asString().isEmpty()) {
+                return false;
+            }
+
+            this.setResponse(response);
+            return true;
+        }
+        return false;
+    }
+
+    private RequestSpecification prepareRequest() {
+
+        RequestSpecification request = RestAssured.given();
+        request.header("charset", "utf-8");
+        request.header("Content-Type", payloadType);
+        return request;
+    }
+
+    private void setResponse(Response response) {
+
         int statusCode = response.statusCode();
         String body = response.getBody().asString();
         setResponsePayload("{\"code\":\"" + statusCode + "\",\"data\":" + body + "}");

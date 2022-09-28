@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.am.rest.RestConstants;
 import org.am.rest.services.WarehouseService;
 import org.am.rest.services.requests.WarehouseCreateRequest;
+import org.am.rest.services.requests.WarehouseUpdateRequest;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,5 +53,15 @@ public class WarehouseController {
 
         WarehouseMinimumResponse warehouseMinimumResponse = warehouseService.create(warehouseCreationRequest);
         return new ResponseEntity<>(warehouseMinimumResponse, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/warehouses/{warehouseSid}")
+    @ApiOperation(value = "Update a Warehouse")
+    public ResponseEntity<WarehouseFullResponse> updateWarehouse(
+            @Valid @RequestBody final WarehouseUpdateRequest warehouseUpdateRequest,
+            @Valid @PathVariable final UUID warehouseSid) {
+
+        WarehouseFullResponse warehouseFullResponse = warehouseService.update(warehouseUpdateRequest, warehouseSid);
+        return ResponseEntity.ok(warehouseFullResponse);
     }
 }

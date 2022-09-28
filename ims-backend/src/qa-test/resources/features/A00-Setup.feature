@@ -3,7 +3,7 @@ Feature: Setup Functional Tests
 
   Scenario: Set backend HOST
     Given I set the backend host with env var "IMS_BACKEND_HOST"
-   
+
   Scenario: Reset db
     Given I set the resources path as "src/qa-test/resources/"
     Given I execute the script "scripts/db-reset.sh"

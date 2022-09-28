@@ -1,6 +1,5 @@
 package org.am.rest.services.requests.converters;
 
-import org.am.commons.utils.Converter;
 import org.am.domain.catalog.Address;
 import org.am.domain.catalog.County;
 import org.am.domain.catalog.Town;
@@ -8,8 +7,7 @@ import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WarehouseAddressFromWarehouseAddressRequestConverter
-        implements Converter<WarehouseAddressCreationRequest, Address> {
+public class WarehouseAddressFromWarehouseAddressRequestConverter {
 
     public Address convert(WarehouseAddressCreationRequest request) {
 

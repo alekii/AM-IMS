@@ -49,7 +49,7 @@ public class WarehouseFromWarehouseUpdateRequestConverterTest {
                                  .latitude(warehouseUpdateRequest.getAddress().getLatitude())
                                  .longitude(warehouseUpdateRequest.getAddress().getLongitude())
                                  .town(Town.builder()
-                                               .sid(warehouseUpdateRequest.getAddress().getTown().getSid())
+                                               .sid(warehouseUpdateRequest.getAddress().getTown().getTownSid())
                                                .build())
                                  .build())
                 .build();

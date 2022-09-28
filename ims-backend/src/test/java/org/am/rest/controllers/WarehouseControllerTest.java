@@ -212,7 +212,7 @@ public class WarehouseControllerTest {
 
         // Given
         final WarehouseAddressCreationRequest address = faker.domain.warehouseAddressCreationrequest()
-                .town(WarehouseAddressCreationRequest.TownRequest.builder().sid(null).build())
+                .town(WarehouseAddressCreationRequest.TownRequest.builder().townSid(null).build())
                 .build();
 
         final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
@@ -236,7 +236,7 @@ public class WarehouseControllerTest {
 
         // Given
         final WarehouseAddressCreationRequest address = faker.domain.warehouseAddressCreationrequest()
-                .county(WarehouseAddressCreationRequest.CountyRequest.builder().sid(null).build())
+                .county(WarehouseAddressCreationRequest.CountyRequest.builder().countySid(null).build())
                 .build();
 
         final WarehouseCreateRequest warehouseCreateRequest = faker.domain.warehouseCreateRequest()
@@ -495,7 +495,7 @@ public class WarehouseControllerTest {
         // Given
         final UUID warehouseSid = UUID.randomUUID();
         final WarehouseUpdateRequest.WarehouseAddressUpdateRequest address = faker.domain.warehouseAddressUpdateRequest()
-                .town(WarehouseUpdateRequest.WarehouseAddressUpdateRequest.TownRequest.builder().sid(null).build())
+                .town(WarehouseUpdateRequest.WarehouseAddressUpdateRequest.TownRequest.builder().townSid(null).build())
                 .build();
 
         final WarehouseUpdateRequest warehouseUpdateRequest = faker.domain.warehouseUpdateRequest()

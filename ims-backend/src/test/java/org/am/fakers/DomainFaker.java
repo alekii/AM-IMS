@@ -127,7 +127,7 @@ public class DomainFaker {
                 .latitude(Double.valueOf(faker.address().latitude()))
                 .longitude(Double.valueOf(faker.address().longitude()))
                 .town(WarehouseUpdateRequest.WarehouseAddressUpdateRequest.TownRequest.builder()
-                              .sid(UUID.randomUUID()).build());
+                              .townSid(UUID.randomUUID()).build());
     }
 
     public WarehouseAddressCreationRequest.Builder warehouseAddressCreationrequest() {
@@ -144,13 +144,13 @@ public class DomainFaker {
     public WarehouseAddressCreationRequest.TownRequest.Builder townRequest() {
 
         return WarehouseAddressCreationRequest.TownRequest.builder()
-                .sid(UUID.randomUUID());
+                .townSid(UUID.randomUUID());
     }
 
     public WarehouseAddressCreationRequest.CountyRequest.Builder countyRequest() {
 
         return WarehouseAddressCreationRequest.CountyRequest.builder()
-                .sid(UUID.randomUUID());
+                .countySid(UUID.randomUUID());
     }
 
     public WarehouseProjection.Builder warehouseProjection() {

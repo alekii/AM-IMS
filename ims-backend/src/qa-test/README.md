@@ -23,7 +23,7 @@ Start the application
 And finally, run the QATestRunner file to run the QA tests
 
 ```
-AM-IMS/ims-backend/src/qa-test/java/QaTestRunner.java
+AM-IMS/ims-backend/src/qa-test/java/Functional.java
 ```
 
 You can also run the qa tests from the project root

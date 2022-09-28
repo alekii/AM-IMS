@@ -1,15 +1,15 @@
 package org.am.cucumber.stepdefinition;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.am.cucumber.utils.Util;
-import org.am.cucumber.utils.helpers.UtilHelper;
 import org.am.cucumber.Rest.Rest;
 import org.am.cucumber.Rest.RestHelper;
 import org.am.cucumber.kafka.KafkaConsumerClient;
+import org.am.cucumber.utils.Util;
+import org.am.cucumber.utils.helpers.UtilHelper;
 import org.junit.Assert;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Objects;
 
@@ -19,15 +19,27 @@ public class PayloadSteps {
 
     }
 
-    @Given("^I set the \"(KafkaPublisher|REST)\" payload to \"(.+)\"$")
-    public void setPayload(final String payloadApp, final String payloadFilePath) throws IOException {
+    @And("I modify the \"(Kafka|REST)\" payload key \"(.+)\" with new value \"(.+)\"$")
+    public void iModifyThePayloadKeyWithNewValue(String payloadApp, String key, String newValue) {
+
+        this.setMessagePayload(payloadApp, this.modifyPayload(payloadApp, key, newValue));
+    }
+
+    private String modifyPayload(final String payloadApp, final String key, final String newValue) {
+
+        String payload = this.getPayload(payloadApp);
+        return this.getUtil().replacePayload(payload, key, newValue);
+    }
+
+    @Given("^I set the \"(Kafka|REST)\" payload to \"(.+)\"$")
+    public void setPayload(final String payloadApp, final String payloadFilePath) {
 
         String payload = getUtil().loadPayloadfromFile(payloadFilePath);
         this.setMessagePayload(payloadApp, payload);
         Assert.assertNotNull(MessageFormat.format("failed to set {0} payload", payloadApp), this.getPayload(payloadApp));
     }
 
-    private Object getPayload(String payloadApp) {
+    private String getPayload(String payloadApp) {
 
         Assert.assertNotNull("payload source service is not defined", payloadApp);
         switch (payloadApp) {

@@ -2,10 +2,13 @@ package org.am.cucumber.stepdefinition;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import org.am.cucumber.utils.Util;
-import org.am.cucumber.utils.helpers.UtilHelper;
 import org.am.cucumber.Rest.Rest;
 import org.am.cucumber.Rest.RestHelper;
+import org.am.cucumber.utils.Util;
+import org.am.cucumber.utils.helpers.UtilHelper;
+import org.junit.Assert;
+
+import java.util.UUID;
 
 public class RestSteps {
 
@@ -13,6 +16,14 @@ public class RestSteps {
 
     public RestSteps() {
 
+    }
+
+    @When("I make a \"(.+)\" PUT request")
+    public void makePutRequest(String endpoint) {
+
+        this.getRest().setEndpoint(endpoint);
+        final UUID sid = UUID.fromString(this.getUtil().getValueFromDataPath(this.getRest().getResponsePayload(), "$.data.sid"));
+        Assert.assertTrue("PUT " + endpoint + " error", this.getRest().makePutRequest(endpoint, sid));
     }
 
     @Given("^I set the backend host with env var \"(.+)\"$")

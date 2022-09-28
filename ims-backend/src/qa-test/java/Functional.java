@@ -10,9 +10,10 @@ import org.junit.runner.RunWith;
         features = {"src/qa-test/resources/features/"},
         tags = {
                 "@Before or "
-                        + "@Warehouse_created"
+                        + "@Warehouse_created or "
+                        + "@Warehouse_updated"
         }
 )
-public class QaTestRunner {
+public class Functional {
 
 }

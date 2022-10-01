@@ -25,10 +25,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+
+import static org.am.library.entities.util.EntityConstants.FK_WAREHOUSE_COLUMN_NAME;
+import static org.am.library.entities.util.EntityConstants.WAREHOUSE_ID_RELATION_FOREIGN_KEY;
 
 @Entity
 @Table(name = ProductEntity.PRODUCT_TABLE_NAME,
@@ -71,6 +73,10 @@ public class ProductEntity {
 
     private static final String PRODUCT_SUPPLIER_FOREIGN_KEY = "fk_product_supplier";
 
+    private static final String DESCRIPTION_COLUMN_NAME = "description";
+
+    private static final String IMAGE_PATH_COLUMN_NAME = "image_path";
+
     static final String PRODUCT_ID_SEQUENCE = "product_id_seq";
 
     static final String PRODUCT_TABLE_NAME = "products";
@@ -88,7 +94,6 @@ public class ProductEntity {
     @Column(name = ID_PRODUCT_COLUMN_NAME)
     private int id;
 
-    @NotNull
     @Type(type = EntityConstants.PG_UUID)
     @Column(name = EntityConstants.SID_COLUMN_NAME)
     private UUID sid;
@@ -128,4 +133,14 @@ public class ProductEntity {
 
     @Column(name = PRICE_COLUMN_NAME, nullable = false)
     private Double price;
+
+    @Column(name = DESCRIPTION_COLUMN_NAME)
+    private String description;
+
+    @OneToMany(targetEntity = ImageEntity.class, fetch = FetchType.LAZY, mappedBy = ImageEntity.IMAGE_COLUMN_NAME)
+    private List<ImageEntity> images;
+
+    @ManyToOne
+    @JoinColumn(name = FK_WAREHOUSE_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_ID_RELATION_FOREIGN_KEY), nullable = false)
+    private WarehouseEntity warehouse;
 }

@@ -24,7 +24,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -62,11 +61,9 @@ public class WarehouseEntity {
 
     static final String WAREHOUSE_TABLE_NAME = "warehouses";
 
-    static final String NAME = "name";
+    static final String NAME_UNIQUE_INDEX_NAME = "warehouse_name_unique_idx";
 
-    static final String NAME_UNIQUE_INDEX_NAME = "warehouse_sid_unique_idx";
-
-    static final String SID_UNIQUE_INDEX_NAME = "warehouse_name_unique_idx";
+    static final String SID_UNIQUE_INDEX_NAME = "warehouse_sid_unique_idx";
 
     static final String WAREHOUSE_SEQUENCE = "warehouse_sequence";
 
@@ -77,10 +74,9 @@ public class WarehouseEntity {
     @Column(name = ID_WAREHOUSE_COLUMN_NAME)
     private int id;
 
-    @Column(name = NAME, length = NAME_MAX_LENGTH, nullable = false)
+    @Column(name = EntityConstants.NAME_COLUMN_NAME, length = EntityConstants.NAME_MAX_LENGTH, nullable = false)
     private String name;
 
-    @NotNull
     @Column(name = EntityConstants.SID_COLUMN_NAME, nullable = false, updatable = false)
     @Type(type = EntityConstants.PG_UUID)
     private UUID sid;

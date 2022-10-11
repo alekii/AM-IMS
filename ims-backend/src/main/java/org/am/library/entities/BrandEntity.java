@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -45,8 +46,6 @@ public class BrandEntity {
 
     private static final String BRAND_ID_SEQUENCE = "brand_id_seq";
 
-    private static final String PRODUCT_COLUMN_NAME = "product";
-
     static final String NAME_UNIQUE_INDEX_NAME = "brand_name_unique_idx";
 
     static final String SID_UNIQUE_INDEX_NAME = "brand_sid_unique_idx";
@@ -68,6 +67,6 @@ public class BrandEntity {
     @Column(name = EntityConstants.NAME_COLUMN_NAME, length = EntityConstants.NAME_MAX_LENGTH, nullable = false)
     String name;
 
-    @OneToMany(targetEntity = ProductEntity.class, fetch = FetchType.LAZY, mappedBy = BrandEntity.PRODUCT_COLUMN_NAME)
-    private ProductEntity product;
+    @OneToMany(targetEntity = ProductEntity.class, fetch = FetchType.LAZY, mappedBy = ProductEntity.BRAND_COLUMN_NAME)
+    private List<ProductEntity> products;
 }

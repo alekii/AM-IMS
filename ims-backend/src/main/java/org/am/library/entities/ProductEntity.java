@@ -89,6 +89,8 @@ public class ProductEntity {
 
     public static final String PRODUCTS_COLUMN_NAME = "products";
 
+    public static final String BRAND_COLUMN_NAME = "brand";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = PRODUCT_SEQUENCE)
     @Column(name = ID_PRODUCT_COLUMN_NAME)

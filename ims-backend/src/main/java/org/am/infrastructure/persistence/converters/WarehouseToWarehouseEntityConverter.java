@@ -21,5 +21,6 @@ public abstract class WarehouseToWarehouseEntityConverter
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "warehouseTownCoverages", ignore = true)
     @Mapping(target = "trackingNumbersCount", ignore = true)
+    @Mapping(target = "purchases", ignore = true)
     public abstract WarehouseEntity convert(Warehouse source, AddressEntity address);
 }

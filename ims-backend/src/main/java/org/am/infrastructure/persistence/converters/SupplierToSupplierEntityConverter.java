@@ -15,5 +15,8 @@ public interface SupplierToSupplierEntityConverter
     @Mapping(target = "name", source = "source.name")
     @Mapping(target = "phoneNumber", source = "source.phoneNumber")
     @Mapping(target = "email", source = "source.email")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "products", ignore = true)
+    @Mapping(target = "purchases", ignore = true) 
     SupplierEntity convert(Supplier source);
 }

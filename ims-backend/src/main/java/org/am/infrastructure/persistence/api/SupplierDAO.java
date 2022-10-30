@@ -14,5 +14,5 @@ public interface SupplierDAO {
 
     Optional<Supplier> findBySid(final UUID supplierSid);
 
-    Optional<Supplier> updateSupplier(final Supplier supplier);
+    Supplier updateSupplier(final Supplier supplier);
 }

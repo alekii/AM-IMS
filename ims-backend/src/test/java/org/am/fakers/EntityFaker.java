@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.library.entities.AddressEntity;
 import org.am.library.entities.CountyEntity;
+import org.am.library.entities.SupplierEntity;
 import org.am.library.entities.TownEntity;
 import org.am.library.entities.WarehouseEntity;
 import org.am.library.entities.WarehouseTownCoverageEntity;
@@ -37,7 +38,7 @@ public class EntityFaker {
                 .name(faker.address().cityName())
                 .county(this.county().build());
     }
-    
+
     public CountyEntity.Builder county() {
 
         return CountyEntity.builder()
@@ -72,5 +73,15 @@ public class EntityFaker {
     private List<WarehouseTownCoverageEntity> buildWarehouseTownCoverages() {
 
         return Collections.singletonList(this.warehouseTownCoverage().build());
+    }
+
+    public SupplierEntity.Builder supplier() {
+
+        return SupplierEntity.builder()
+                .sid(uuid())
+                .name(faker.company().name())
+                .email(faker.internet().emailAddress())
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .leadTime(faker.number().numberBetween(0, 30));
     }
 }

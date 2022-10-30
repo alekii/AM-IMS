@@ -11,7 +11,7 @@ public class SupplierNotFoundException extends NotFoundException {
 
     public SupplierNotFoundException(String message) {
 
-        super(ErrorCode.WAREHOUSE_NOT_FOUND, message);
+        super(ErrorCode.SUPPLIER_NOT_FOUND, message);
     }
 
     public static SupplierNotFoundException forSid(UUID sid) {

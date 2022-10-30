@@ -52,15 +52,21 @@ public class SupplierDAOImpl implements SupplierDAO {
         return supplier.map(supplierConverter::convert);
     }
 
-    @Override
-    public Optional<Supplier> updateSupplier(Supplier supplier) {
+    public SupplierEntity checkExistense(final UUID supplierSid) {
 
-        return supplierRepository.findBySid(supplier.getSid())
-                .map(supplierEntity -> {
-                    SupplierEntity toPersist = supplierToSupplierEntityConverter.convert(supplier);
-                    toPersist.setId(supplierEntity.getId());
-                    return supplierRepository.save(toPersist);
-                })
-                .map(supplierConverter::convert);
+        return supplierRepository
+                .findBySid(supplierSid)
+                .orElseThrow(() -> SupplierNotFoundException.forSid(supplierSid));
+    }
+
+    @Override
+    public Supplier updateSupplier(Supplier supplier) {
+
+        final SupplierEntity persistedSupplier = checkExistense(supplier.getSid());
+
+        SupplierEntity toPersist = supplierToSupplierEntityConverter.convert(supplier);
+        toPersist.setId(persistedSupplier.getId());
+        SupplierEntity updatedSupplierEntity = supplierRepository.save(toPersist);
+        return supplierConverter.convert(updatedSupplierEntity);
     }
 }

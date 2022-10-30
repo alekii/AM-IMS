@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.am.domain.catalog.Address;
 import org.am.domain.catalog.County;
+import org.am.domain.catalog.Supplier;
 import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
@@ -169,5 +170,15 @@ public class DomainFaker {
                 .townName(faker.address().cityName())
                 .countySid(UUID.randomUUID())
                 .countyName(faker.address().state());
+    }
+
+    public Supplier.Builder supplier() {
+
+        return Supplier.builder()
+                .sid(uuid())
+                .name(faker.company().name())
+                .email(faker.internet().emailAddress())
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .leadTime(faker.number().numberBetween(0, 30));
     }
 }

@@ -3,7 +3,7 @@ package org.am.domain.api;
 import org.am.domain.catalog.Warehouse;
 import org.am.domain.catalog.exceptions.NotFound.WarehouseNotFoundException;
 import org.am.domain.impl.UpdateWarehouseUseCaseImpl;
-import org.am.domain.validators.WarehouseValidator;
+import org.am.domain.validation.validators.WarehouseValidator;
 import org.am.fakers.Faker;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 import org.assertj.core.api.ThrowableAssert;

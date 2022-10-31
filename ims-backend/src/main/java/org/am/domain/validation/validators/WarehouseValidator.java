@@ -1,8 +1,8 @@
-package org.am.domain.validators;
+package org.am.domain.validation.validators;
 
 import org.am.domain.catalog.Warehouse;
 import org.am.domain.catalog.exceptions.validations.InvalidPhoneNumberException;
-import org.am.domain.validators.constants.ValidationConstants;
+import org.am.domain.validation.validators.constants.ValidationConstants;
 
 import java.util.regex.Pattern;
 

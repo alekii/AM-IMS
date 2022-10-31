@@ -2,6 +2,7 @@ package org.am.domain.validators;
 
 import org.am.domain.catalog.Warehouse;
 import org.am.domain.catalog.exceptions.validations.InvalidPhoneNumberException;
+import org.am.domain.validation.validators.WarehouseValidator;
 import org.am.fakers.Faker;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;

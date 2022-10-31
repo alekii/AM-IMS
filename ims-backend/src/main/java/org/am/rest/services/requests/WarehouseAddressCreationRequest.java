@@ -3,7 +3,7 @@ package org.am.rest.services.requests;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.am.domain.validators.UUIDPattern;
+import org.am.domain.validation.validators.UUIDPattern;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;

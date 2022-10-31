@@ -6,7 +6,7 @@ import org.am.domain.api.UpdateWarehouseUseCase;
 import org.am.domain.impl.CreateWarehouseUseCaseImpl;
 import org.am.domain.impl.GetWarehouseUseCaseImpl;
 import org.am.domain.impl.UpdateWarehouseUseCaseImpl;
-import org.am.domain.validators.WarehouseValidator;
+import org.am.domain.validation.validators.WarehouseValidator;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

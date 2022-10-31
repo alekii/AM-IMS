@@ -1,4 +1,4 @@
-package org.am.domain.validators.constants;
+package org.am.domain.validation.validators.constants;
 
 public enum ValidationErrorConstants {
     BLANK_EMAIL,

@@ -2,8 +2,7 @@ package org.am.domain.catalog.exceptions;
 
 import lombok.Getter;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @Getter
 public class ImsRestException extends RuntimeException {
@@ -14,11 +13,18 @@ public class ImsRestException extends RuntimeException {
 
     private final String message;
 
-    private final Collection<Error> errors = Collections.emptyList();
+    private List<Error> errors;
 
     public ImsRestException(final ErrorCode code, final String message) {
 
         this.errorCode = code;
         this.message = message;
+    }
+
+    public ImsRestException(final ErrorCode code, final String message, final List<Error> errors) {
+
+        this.errorCode = code;
+        this.message = message;
+        this.errors = errors;
     }
 }

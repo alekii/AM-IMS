@@ -6,7 +6,6 @@ import org.am.fakers.Faker;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -15,8 +14,7 @@ public class WarehouseValidatorTest {
 
     private final Faker faker = new Faker();
 
-    @InjectMocks
-    private WarehouseValidator subject = new WarehouseValidator();
+    private static final WarehouseValidator subject = new WarehouseValidator();
 
     @Test
     void validate_whenPhoneNumberIsInvalid_doesNotThrowException() {

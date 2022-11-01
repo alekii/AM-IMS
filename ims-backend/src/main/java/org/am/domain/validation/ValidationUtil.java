@@ -11,7 +11,7 @@ public class ValidationUtil {
     public static InvalidEmailException buildInvalidEmailException(String email, String errorName) {
 
         final List<Error> errors = createError(email, errorName);
-        return new InvalidEmailException(String.format("invalid email - %s", email), errors);
+        return new InvalidEmailException(String.format("Email is invalid - %s", email), errors);
     }
 
     private static List<Error> createError(String email, String errorName) {

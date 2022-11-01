@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,7 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(WarehouseController.class)
@@ -264,15 +264,20 @@ public class WarehouseControllerTest {
         doReturn(warehouseMinimumResponses).when(warehouseService).getWarehouses();
 
         // When
-        MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses");
+        MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses/all");
 
         // Then
         final ResultActions result = mvc.perform(requestBuilder);
 
         result
                 .andExpect(status().isOk())
-                .andExpect(model().size(1))
-                .andExpect(model().attribute("warehouseMinimumResponseList", warehouseMinimumResponses));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].sid", is(warehouseMinimumResponses.get(0).getSid().toString())))
+                .andExpect(jsonPath("$[0].name", is(warehouseMinimumResponses.get(0).getName())))
+                .andExpect(jsonPath("$[0].address.street", is(warehouseMinimumResponses.get(0).getAddress().getStreet())))
+                .andExpect(jsonPath("$[0].address.town", is(warehouseMinimumResponses.get(0).getAddress().getTown())))
+                .andExpect(jsonPath("$[0].address.county", is(warehouseMinimumResponses.get(0).getAddress().getCounty())));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package org.am.domain.validation.validators.common;
 
+import lombok.RequiredArgsConstructor;
 import org.am.domain.validation.validators.constants.ValidationConstants;
 import org.am.domain.validation.validators.constants.ValidationErrorConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -7,7 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+@RequiredArgsConstructor
 public class EmailValidator {
+
+    private final MaxLengthValidator maxLengthValidator;
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(ValidationConstants.EMAIL_ADDRESS_REGEX);
 
@@ -17,7 +21,7 @@ public class EmailValidator {
             return Optional.of(ValidationErrorConstants.BLANK_EMAIL);
         }
 
-        if (!isValidLength(email)) {
+        if (!maxLengthValidator.validateMaxLength(email, ValidationConstants.EMAIL_MAX_LENGTH)) {
             return Optional.of(ValidationErrorConstants.EMAIL_MORE_THAN_255_CHARACTERS);
         }
 
@@ -26,11 +30,6 @@ public class EmailValidator {
         }
 
         return Optional.empty();
-    }
-
-    private boolean isValidLength(String email) {
-
-        return email.length() <= ValidationConstants.EMAIL_MAX_LENGTH;
     }
 
     private boolean isValid(String email) {

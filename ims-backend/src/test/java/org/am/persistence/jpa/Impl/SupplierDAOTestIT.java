@@ -66,17 +66,16 @@ public class SupplierDAOTestIT extends BaseIntegrationTest {
     @Test
     void findBySid_whenSupplierExists_returnsSupplierEntity() {
 
-        //Given
+        // Given
         final SupplierEntity supplierEntity = faker.entity.supplier().build();
 
         integrationTestPersister.save(supplierEntity);
 
-        //When
-        final Optional<Supplier> result = subject.findBySid(supplierEntity.getSid());
+        // When
+        final Supplier result = subject.findBySid(supplierEntity.getSid());
 
-        //Then
-        assertThat(result).isNotEmpty();
-        assertThat(result.get())
+        // Then
+        assertThat(result)
                 .usingRecursiveComparison()
                 .isEqualTo(supplierEntity);
     }

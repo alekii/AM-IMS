@@ -11,7 +11,6 @@ import org.am.library.entities.SupplierEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,15 +40,13 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public Optional<Supplier> findBySid(UUID supplierSid) {
+    public Supplier findBySid(final UUID supplierSid) {
 
-        Optional<SupplierEntity> supplier = supplierRepository.findBySid(supplierSid);
+        SupplierEntity supplier = supplierRepository
+                .findBySid(supplierSid)
+                .orElseThrow(() -> SupplierNotFoundException.forSid(supplierSid));
 
-        if (supplier.isEmpty()) {
-            throw SupplierNotFoundException.forSid(supplierSid);
-        }
-
-        return supplier.map(supplierConverter::convert);
+        return supplierConverter.convert(supplier);
     }
 
     public SupplierEntity checkExistense(final UUID supplierSid) {

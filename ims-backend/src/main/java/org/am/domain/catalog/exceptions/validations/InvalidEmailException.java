@@ -12,4 +12,9 @@ public class InvalidEmailException extends InvalidInputException {
 
         super(ErrorCode.INVALID_EMAIL_ADDRESS, message, errors);
     }
+
+    public InvalidEmailException(String message) {
+
+        super(ErrorCode.INVALID_EMAIL_ADDRESS, message);
+    }
 }

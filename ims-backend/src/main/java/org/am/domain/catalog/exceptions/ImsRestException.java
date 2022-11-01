@@ -27,4 +27,13 @@ public class ImsRestException extends RuntimeException {
         this.message = message;
         this.errors = errors;
     }
+
+    @Override
+    public String getMessage() {
+
+        if (this.message != null)
+            return String.format("%s - %s", this.errorCode, this.message);
+
+        return String.format("%s", this.errorCode);
+    }
 }

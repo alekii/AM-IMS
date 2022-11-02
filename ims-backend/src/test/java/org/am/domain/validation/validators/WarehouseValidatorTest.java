@@ -1,25 +1,20 @@
-package org.am.domain.validators;
+package org.am.domain.validation.validators;
 
 import org.am.domain.catalog.Warehouse;
 import org.am.domain.catalog.exceptions.validations.InvalidPhoneNumberException;
 import org.am.fakers.Faker;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@ExtendWith(MockitoExtension.class)
 public class WarehouseValidatorTest {
 
     private final Faker faker = new Faker();
 
-    @InjectMocks
-    private WarehouseValidator subject;
+    private static final WarehouseValidator subject = new WarehouseValidator();
 
     @Test
     void validate_whenPhoneNumberIsInvalid_doesNotThrowException() {

@@ -3,7 +3,7 @@ package org.am.domain.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.api.CreateWarehouseUseCase;
 import org.am.domain.catalog.Warehouse;
-import org.am.domain.validators.WarehouseValidator;
+import org.am.domain.validation.validators.WarehouseValidator;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 
 @RequiredArgsConstructor

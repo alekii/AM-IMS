@@ -23,5 +23,3 @@ DROP SEQUENCE IF EXISTS "supplier_id_seq" CASCADE;
 DROP SEQUENCE IF EXISTS "purchases_id_seq" CASCADE;
 DROP SEQUENCE IF EXISTS "product_id_seq" CASCADE;
 DROP SEQUENCE IF EXISTS "line_item_id_seq" CASCADE;
-
-

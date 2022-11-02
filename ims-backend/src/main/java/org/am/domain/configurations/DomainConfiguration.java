@@ -1,6 +1,6 @@
 package org.am.domain.configurations;
 
-import org.am.domain.validators.WarehouseValidator;
+import org.am.domain.validation.validators.WarehouseValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

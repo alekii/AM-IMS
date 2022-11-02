@@ -1,4 +1,4 @@
-package org.am.domain.validators;
+package org.am.domain.validation.validators;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

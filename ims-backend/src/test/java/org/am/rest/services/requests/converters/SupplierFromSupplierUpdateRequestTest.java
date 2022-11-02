@@ -5,6 +5,8 @@ import org.am.domain.catalog.Supplier;
 import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SupplierFromSupplierUpdateRequestTest {
@@ -19,20 +21,21 @@ public class SupplierFromSupplierUpdateRequestTest {
     void convert_returnsSupplier_FromSupplierUpdateRequest() {
 
         // Given
+        final UUID supplierSid = UUID.randomUUID();
         final SupplierUpdateRequest supplierupdateRequest = domainFaker.domain.supplierUpdateRequest().build();
-        final Supplier supplier = buildSupplier(supplierupdateRequest);
+        final Supplier supplier = buildSupplier(supplierupdateRequest, supplierSid);
 
         // When
-        final Supplier updatedSupplier = subject.convert(supplierupdateRequest);
+        final Supplier updatedSupplier = subject.convert(supplierupdateRequest, supplierSid);
 
         // Then
         assertThat(updatedSupplier).usingRecursiveComparison().isEqualTo(supplier);
     }
 
-    private Supplier buildSupplier(SupplierUpdateRequest supplierupdateRequest) {
+    private Supplier buildSupplier(SupplierUpdateRequest supplierupdateRequest, UUID supplierSid) {
 
         return Supplier.builder()
-                .sid(supplierupdateRequest.getSid())
+                .sid(supplierSid)
                 .name(supplierupdateRequest.getName())
                 .email(supplierupdateRequest.getEmail())
                 .phoneNumber(supplierupdateRequest.getPhoneNumber())

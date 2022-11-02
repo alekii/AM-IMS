@@ -6,15 +6,17 @@ import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.UUID;
+
 @Mapper(componentModel = "spring")
 public interface SupplierFromSupplierUpdateRequest
-        extends Converter<SupplierUpdateRequest, Supplier> {
+        extends Converter.WithTwoSources<SupplierUpdateRequest, UUID, Supplier> {
 
     @Override
     @Mapping(source = "source.leadTime", target = "leadTime")
     @Mapping(source = "source.name", target = "name")
     @Mapping(source = "source.email", target = "email")
     @Mapping(source = "source.phoneNumber", target = "phoneNumber")
-    @Mapping(source = "source.sid", target = "sid")
-    Supplier convert(SupplierUpdateRequest source);
+    @Mapping(source = "supplierSid", target = "sid")
+    Supplier convert(SupplierUpdateRequest source, UUID supplierSid);
 }

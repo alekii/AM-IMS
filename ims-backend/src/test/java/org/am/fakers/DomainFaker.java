@@ -10,6 +10,8 @@ import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
+import org.am.rest.services.requests.SupplierCreateRequest;
+import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.requests.WarehouseUpdateRequest;
@@ -180,5 +182,24 @@ public class DomainFaker {
                 .email(faker.internet().emailAddress())
                 .phoneNumber(faker.phoneNumber().phoneNumber())
                 .leadTime(faker.number().numberBetween(0, 30));
+    }
+
+    public SupplierCreateRequest.Builder supplierCreateRequest() {
+
+        return SupplierCreateRequest.builder()
+                .email(faker.internet().emailAddress())
+                .leadTime(faker.number().numberBetween(0, 30))
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .name(faker.company().name());
+    }
+
+    public SupplierUpdateRequest.Builder supplierUpdateRequest() {
+
+        return SupplierUpdateRequest.builder()
+                .sid(UUID.randomUUID())
+                .email(faker.internet().emailAddress())
+                .leadTime(faker.number().numberBetween(0, 30))
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .name(faker.company().name());
     }
 }

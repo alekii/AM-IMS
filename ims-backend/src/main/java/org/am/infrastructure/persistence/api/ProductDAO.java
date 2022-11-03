@@ -13,5 +13,5 @@ public interface ProductDAO {
 
     Product findBySid(final UUID productSid);
 
-    Product update(final Product warehouse);
+    Product update(final Product product);
 }

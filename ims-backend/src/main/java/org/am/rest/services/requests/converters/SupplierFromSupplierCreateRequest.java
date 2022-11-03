@@ -12,10 +12,7 @@ public interface SupplierFromSupplierCreateRequest
         extends Converter<SupplierCreateRequest, Supplier> {
 
     @Override
-    @Mapping(source = "source.leadTime", target = "leadTime")
-    @Mapping(source = "source.name", target = "name")
-    @Mapping(source = "source.email", target = "email")
-    @Mapping(source = "source.phoneNumber", target = "phoneNumber")
+    @Mapping(source = "source", target = ".")
     @Mapping(target = "sid", expression = MappingUtil.GENERATE_RANDOM_UUID)
     Supplier convert(SupplierCreateRequest source);
 }

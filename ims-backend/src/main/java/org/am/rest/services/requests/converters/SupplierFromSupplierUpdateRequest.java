@@ -13,10 +13,7 @@ public interface SupplierFromSupplierUpdateRequest
         extends Converter.WithTwoSources<SupplierUpdateRequest, UUID, Supplier> {
 
     @Override
-    @Mapping(source = "source.leadTime", target = "leadTime")
-    @Mapping(source = "source.name", target = "name")
-    @Mapping(source = "source.email", target = "email")
-    @Mapping(source = "source.phoneNumber", target = "phoneNumber")
+    @Mapping(source = "source", target = ".")
     @Mapping(source = "supplierSid", target = "sid")
     Supplier convert(SupplierUpdateRequest source, UUID supplierSid);
 }

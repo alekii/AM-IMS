@@ -3,6 +3,7 @@ package org.am.rest.services.requests;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.am.domain.validation.validators.constants.ValidationConstants;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ public class WarehouseCreateRequest {
 
     @NotBlank
     @Size(max = 255)
-    @Pattern(regexp = "^\\+[0-9]*$")
+    @Pattern(regexp = "^\\+[0-9]*$", message = ValidationConstants.INVALID_PHONE_NUMBER)
     String phoneNumber;
 
     @NotBlank

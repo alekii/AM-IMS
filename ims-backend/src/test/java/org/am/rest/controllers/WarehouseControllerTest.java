@@ -315,7 +315,7 @@ public class WarehouseControllerTest {
     }
 
     @Test
-    void getUsers_whenWarehouseSidIsNotValidUuid_returnsBadRequest() throws Exception {
+    void getWarehouses_whenWarehouseSidIsNotValidUuid_returnsBadRequest() throws Exception {
 
         //When
         final MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses/{warehouseSid}", 1);

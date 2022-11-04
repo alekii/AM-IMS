@@ -34,7 +34,7 @@ public class SupplierController {
         return new ResponseEntity<>(supplierService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/suppliers/{suppliersid}")
+    @GetMapping("/suppliers/{supplierSid}")
     public ResponseEntity<SupplierResponse> findBySid(
             @Valid @PathVariable final UUID supplierSid) {
 

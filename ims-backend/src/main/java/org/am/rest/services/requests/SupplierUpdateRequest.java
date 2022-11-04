@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.am.domain.validation.validators.constants.ValidationConstants;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -28,8 +29,7 @@ public class SupplierUpdateRequest {
     @NotBlank
     String phoneNumber;
 
-    @NotBlank
-    @Size(max = 2)
+    @Max(30)
     int leadTime;
 
     public SupplierUpdateRequest() {

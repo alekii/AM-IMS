@@ -9,4 +9,8 @@ public class ValidationConstants {
     public static final int EMAIL_MAX_LENGTH = 255;
 
     public static final int NAME_MAX_LENGTH = 255;
+
+    public static final String INVALID_EMAIL = "email must be valid";
+
+    public static final String INVALID_PHONE_NUMBER = "phone must be kenyan";
 }

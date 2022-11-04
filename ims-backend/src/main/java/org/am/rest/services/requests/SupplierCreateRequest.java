@@ -5,35 +5,34 @@ import lombok.Builder;
 import lombok.Getter;
 import org.am.domain.validation.validators.constants.ValidationConstants;
 
-import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import static org.am.domain.validation.validators.constants.ValidationConstants.EMAIL_MAX_LENGTH;
 
 @AllArgsConstructor
 @Getter
 @Builder(builderClassName = "Builder")
-public class WarehouseCreateRequest {
+public class SupplierCreateRequest {
 
     @NotBlank
-    @Size(max = 50)
-    String warehouseName;
+    @Size(max = 85)
+    String name;
 
     @NotBlank
-    @Size(max = 255)
-    @Pattern(regexp = "^\\+[0-9]*$", message = ValidationConstants.INVALID_PHONE_NUMBER)
+    @Pattern(regexp = ValidationConstants.EMAIL_ADDRESS_REGEX, message = ValidationConstants.INVALID_EMAIL)
+    @Size(max = EMAIL_MAX_LENGTH)
+    String email;
+
+    @NotBlank
     String phoneNumber;
 
-    @NotBlank
-    @Size(max = 255)
-    String contactName;
+    @Max(30)
+    int leadTime;
 
-    @NotNull
-    @Valid
-    WarehouseAddressCreationRequest address;
-
-    public WarehouseCreateRequest() {
+    public SupplierCreateRequest() {
 
         super();
     }

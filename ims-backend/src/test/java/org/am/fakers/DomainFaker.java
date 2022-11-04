@@ -10,9 +10,12 @@ import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
+import org.am.rest.services.requests.SupplierCreateRequest;
+import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.requests.WarehouseUpdateRequest;
+import org.am.rest.services.responses.SupplierResponse;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 
@@ -175,6 +178,34 @@ public class DomainFaker {
     public Supplier.Builder supplier() {
 
         return Supplier.builder()
+                .sid(uuid())
+                .name(faker.company().name())
+                .email(faker.internet().emailAddress())
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .leadTime(faker.number().numberBetween(0, 30));
+    }
+
+    public SupplierCreateRequest.Builder supplierCreateRequest() {
+
+        return SupplierCreateRequest.builder()
+                .email(faker.internet().emailAddress())
+                .leadTime(faker.number().numberBetween(0, 30))
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .name(faker.company().name());
+    }
+
+    public SupplierUpdateRequest.Builder supplierUpdateRequest() {
+
+        return SupplierUpdateRequest.builder()
+                .email(faker.internet().emailAddress())
+                .leadTime(faker.number().numberBetween(0, 30))
+                .phoneNumber(faker.phoneNumber().phoneNumber())
+                .name(faker.company().name());
+    }
+
+    public SupplierResponse.SupplierResponseBuilder supplierResponse() {
+
+        return SupplierResponse.builder()
                 .sid(uuid())
                 .name(faker.company().name())
                 .email(faker.internet().emailAddress())

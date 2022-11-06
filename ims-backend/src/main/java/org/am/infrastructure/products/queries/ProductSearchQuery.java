@@ -1,38 +1,40 @@
 package org.am.infrastructure.products.queries;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Value
-@Builder(builderClassName = "builder")
+@Getter
+@Builder(builderClassName = "Builder")
 public class ProductSearchQuery {
 
-    static final String SEARCH_TEXT_PARAMETER = "searchText";
+    public static final String SEARCH_TEXT_PARAMETER = "searchText";
 
-    private static final String BRAND_NAME_PARAMETER = "brandName";
+    public static final String BRAND_NAME_PARAMETER = "brandName";
 
-    private static final String CATEGORY_NAME_PARAMETER = "categoryName";
+    public static final String CATEGORY_NAME_PARAMETER = "categoryName";
 
-    private static final String MIN_PRICE_PARAMETER = "minPrice";
+    public static final String MIN_PRICE_PARAMETER = "minPrice";
 
-    private static final String MAX_PRICE_PARAMETER = "maxPrice";
+    public static final String MAX_PRICE_PARAMETER = "maxPrice";
 
-    private static final String LIMIT_PARAMETER = "limit";
+    public static final String LIMIT_PARAMETER = "limit";
 
-    private static final String ORDER_BY_PARAMETER = "orderBy";
+    public static final String ORDER_BY_PARAMETER = "orderBy";
 
-    private static final String SUPPLIER_NAME_PARAMETER = "supplierName";
+    public static final String SUPPLIER_NAME_PARAMETER = "supplierName";
 
-    private static final String WAREHOUSE_SEARCH_PARAMETER = "warehouseSid";
+    public static final String WAREHOUSE_SEARCH_PARAMETER = "warehouseSid";
+
+    public static final String DATE_RECEIVED_SEARCH_PARAMETER = "dateReceived";
 
     private static final String EMPTY_STRING = "";
 
-    private static final String SUPPLIER_WHERE_CLAUSE = "AND supplier.name = :supplierName\n";
+    private static final String SUPPLIER_WHERE_CLAUSE = "AND supplier.name =:supplierName\n";
 
     private static final String CATEGORY_WHERE_CLAUSE = "AND category.name =:categoryName\n";
 
@@ -40,21 +42,21 @@ public class ProductSearchQuery {
 
     private static final String MIN_PRICE_WHERE_CLAUSE = "AND price >:minPrice\n";
 
+    private static final String MIN_PRICE_DEFAULT_WHERE_CLAUSE = "AND price > 0.00\n";
+
+    private static final String MAX_PRICE_DEFAULT_WHERE_CLAUSE = "AND price < 10000000.00\n";
+
     private static final String MAX_PRICE_WHERE_CLAUSE = "AND price <:maxPrice\n";
 
     private static final String DATE_RECEIVED_WHERE_CLAUSE = "AND date =:dateReceived\n";
-
-    private static final String MIN_PRICE = "0.00";
-
-    private static final String MAX_PRICE = "10000000.00";
 
     private static final String BASE_SELECT_CLAUSE =
             "SELECT products.sid, products.name, products.received_by, products.price,"
                     + "brands.name brand, categories.name category, suppliers.name supplier\n"
                     + "products.quantity, products.description FROM products\n"
-                    + "INNER JOIN brands ON brands.id_brand = products.fk_brand \n"
-                    + "INNER JOIN categories ON categories.id_category = products.fk_category \n"
-                    + "INNER JOIN suppliers ON suppliers.id_supplier = products.fk_supplier \n";
+                    + "INNER JOIN brands ON brands.id_brand = products.fk_brand\n"
+                    + "INNER JOIN categories ON categories.id_category = products.fk_category\n"
+                    + "INNER JOIN suppliers ON suppliers.id_supplier = products.fk_supplier\n";
 
     private static final String BASE_WHERE_CLAUSE = "WHERE products.warehouse =:warehouseSid\n";
 
@@ -104,6 +106,7 @@ public class ProductSearchQuery {
                 .addValue(MIN_PRICE_PARAMETER, minPrice)
                 .addValue(MAX_PRICE_PARAMETER, maxPrice)
                 .addValue(SUPPLIER_NAME_PARAMETER, supplierName)
+                .addValue(DATE_RECEIVED_SEARCH_PARAMETER, dateReceived)
                 .addValue(LIMIT_PARAMETER, limit)
                 .addValue(ORDER_BY_PARAMETER, orderBy);
     }
@@ -115,12 +118,12 @@ public class ProductSearchQuery {
 
     private String getMaxPriceWhereClause() {
 
-        return minPrice == null ? MAX_PRICE : MAX_PRICE_WHERE_CLAUSE;
+        return maxPrice == null ? MAX_PRICE_DEFAULT_WHERE_CLAUSE : MAX_PRICE_WHERE_CLAUSE;
     }
 
     private String getMinPriceWhereClause() {
 
-        return minPrice == null ? MIN_PRICE : MIN_PRICE_WHERE_CLAUSE;
+        return minPrice == null ? MIN_PRICE_DEFAULT_WHERE_CLAUSE : MIN_PRICE_WHERE_CLAUSE;
     }
 
     private String getBrandWhereClause() {

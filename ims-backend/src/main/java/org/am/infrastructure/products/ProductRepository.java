@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
             + "FROM ProductEntity p "
             + "INNER JOIN FETCH p.brand pBrand "
             + "INNER JOIN FETCH p.category pCategory "
-            + "INNER JOIN FETCH p.supplier pSupplier "
+            + "INNER JOIN FETCH p.supplied_by "
             + "WHERE p.sid = (:sid)")
     Optional<ProductEntity> findBySid(final @Param("sid") UUID sid);
 }

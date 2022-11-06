@@ -5,7 +5,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.library.entities.AddressEntity;
+import org.am.library.entities.BrandEntity;
+import org.am.library.entities.CategoryEntity;
 import org.am.library.entities.CountyEntity;
+import org.am.library.entities.ProductEntity;
 import org.am.library.entities.SupplierEntity;
 import org.am.library.entities.TownEntity;
 import org.am.library.entities.WarehouseEntity;
@@ -83,5 +86,34 @@ public class EntityFaker {
                 .email(faker.internet().emailAddress())
                 .phoneNumber(faker.phoneNumber().phoneNumber())
                 .leadTime(faker.number().numberBetween(0, 30));
+    }
+
+    public ProductEntity.Builder product() {
+
+        return ProductEntity.builder()
+                .sid(uuid())
+                .name(faker.beer().name())
+                .category(this.category().build())
+                .brand(this.brand().build())
+                .supplied_by(this.supplier().build())
+                .price(faker.number().randomDouble(2, 10, 100000))
+                .quantity(faker.number().numberBetween(0, 1000))
+                .description(faker.lorem().characters(200, 400, true))
+                .discount(0.15)
+                .warehouseSid(uuid());
+    }
+
+    public CategoryEntity.Builder category() {
+
+        return CategoryEntity.builder()
+                .name(faker.book().genre().toString())
+                .sid(uuid());
+    }
+
+    public BrandEntity.Builder brand() {
+
+        return BrandEntity.builder()
+                .name(faker.book().genre().toString())
+                .sid(uuid());
     }
 }

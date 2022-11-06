@@ -12,9 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -22,7 +19,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class ProductSearchRepositoryTest {
 
-    private Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     @Mock
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -37,7 +34,7 @@ public class ProductSearchRepositoryTest {
     void findAll_preparesProductSearchQuery() {
 
         // Given
-        final ProductSearchQuery productSearchQuery = buildProductSearchQuery();
+        final ProductSearchQuery productSearchQuery = faker.query.productSearchQuery().build();
 
         // When
         productSearchRepository.findBy(productSearchQuery);
@@ -46,22 +43,6 @@ public class ProductSearchRepositoryTest {
         verify(jdbcTemplate).query(eq(productSearchQuery.getSql()),
                                    any(MapSqlParameterSource.class),
                                    eq(rowMapper));
-    }
-
-    private ProductSearchQuery buildProductSearchQuery() {
-
-        return ProductSearchQuery.builder()
-                .searchText(null)
-                .brandName("sony")
-                .categoryName("category")
-                .warehouseSid(UUID.randomUUID())
-                .supplierName("XB Suppliers")
-                .minPrice(0.00)
-                .maxPrice(434.00)
-                .dateReceived(Instant.now())
-                .orderBy("price")
-                .limit(1)
-                .build();
     }
 }
 

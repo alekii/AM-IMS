@@ -21,7 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -91,6 +90,8 @@ public class ProductEntity {
 
     public static final String BRAND_COLUMN_NAME = "brand";
 
+    public static final String CATEGORY_COLUMN_NAME = "category";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = PRODUCT_SEQUENCE)
     @Column(name = ID_PRODUCT_COLUMN_NAME)
@@ -110,8 +111,8 @@ public class ProductEntity {
     @JoinColumn(name = EntityConstants.BRAND_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = PRODUCT_BRAND_FOREIGN_KEY), nullable = false)
     private BrandEntity brand;
 
-    @OneToOne(targetEntity = CategoryEntity.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = EntityConstants.CATEGORY_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = PRODUCT_CATEGORY_FOREIGN_KEY))
+    @ManyToOne
+    @JoinColumn(name = EntityConstants.CATEGORY_FOREIGN_KEY_COLUMN_NAME, foreignKey = @ForeignKey(name = PRODUCT_CATEGORY_FOREIGN_KEY), nullable = false)
     private CategoryEntity category;
 
     @ManyToOne

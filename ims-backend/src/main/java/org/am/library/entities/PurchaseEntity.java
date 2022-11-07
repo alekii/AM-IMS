@@ -99,9 +99,9 @@ public class PurchaseEntity {
     private Instant dateReceived;
 
     @Column(name = BILL_VALUE)
-    private float billValue;
+    private double billValue;
 
-    @Column(name = PURCHASE_STATUS)
+    @Column(name = PURCHASE_STATUS, nullable = false)
     private PurchaseStatus status;
 
     @ManyToOne

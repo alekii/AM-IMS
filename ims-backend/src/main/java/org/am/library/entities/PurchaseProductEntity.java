@@ -1,6 +1,7 @@
 package org.am.library.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ import static org.am.library.entities.util.EntityConstants.PRICE_COLUMN_NAME;
 )
 @Getter
 @Setter
+@Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
 @Cacheable
@@ -85,5 +87,5 @@ public class PurchaseProductEntity {
     private int quantity;
 
     @Column(name = PRICE_COLUMN_NAME, nullable = false)
-    private float price;
+    private double price;
 }

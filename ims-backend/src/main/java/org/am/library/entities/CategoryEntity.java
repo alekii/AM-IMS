@@ -13,12 +13,15 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -63,4 +66,7 @@ public class CategoryEntity {
 
     @Column(name = EntityConstants.NAME_COLUMN_NAME, length = EntityConstants.NAME_MAX_LENGTH, nullable = false)
     private String name;
+
+    @OneToMany(targetEntity = ProductEntity.class, fetch = FetchType.LAZY, mappedBy = ProductEntity.CATEGORY_COLUMN_NAME)
+    private List<ProductEntity> products;
 }

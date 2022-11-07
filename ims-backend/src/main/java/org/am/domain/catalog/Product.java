@@ -33,4 +33,6 @@ public class Product {
     UUID warehouseSid;
 
     Supplier supplier;
+
+    String sku;
 }

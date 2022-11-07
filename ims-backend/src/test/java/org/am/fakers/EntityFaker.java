@@ -9,10 +9,13 @@ import org.am.library.entities.BrandEntity;
 import org.am.library.entities.CategoryEntity;
 import org.am.library.entities.CountyEntity;
 import org.am.library.entities.ProductEntity;
+import org.am.library.entities.PurchaseEntity;
+import org.am.library.entities.PurchaseProductEntity;
 import org.am.library.entities.SupplierEntity;
 import org.am.library.entities.TownEntity;
 import org.am.library.entities.WarehouseEntity;
 import org.am.library.entities.WarehouseTownCoverageEntity;
+import org.am.library.entities.util.PurchaseStatus;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -115,5 +118,27 @@ public class EntityFaker {
         return BrandEntity.builder()
                 .name(faker.book().genre().toString())
                 .sid(uuid());
+    }
+
+    public PurchaseEntity.Builder purchase() {
+
+        return PurchaseEntity.builder()
+                .sid(uuid())
+                .invoiceNumber(faker.number().numberBetween(0, 999999999))
+                .status(PurchaseStatus.PENDING_APPROVAL)
+                .dateReceived(Instant.now())
+                .warehouse(this.warehouse().build())
+                .supplier(this.supplier().build())
+                .billValue(faker.number().randomDouble(2, 10, 9999999));
+    }
+
+    public PurchaseProductEntity.Builder lineItems() {
+
+        return PurchaseProductEntity.builder()
+                .purchases(this.purchase().build())
+                .product((this.product().build()))
+                .quantity(faker.number().numberBetween(1, 10000))
+                .price(faker.number().randomDouble(2, 10, 9999999))
+                .sid(UUID.randomUUID());
     }
 }

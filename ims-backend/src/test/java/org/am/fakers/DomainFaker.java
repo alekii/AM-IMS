@@ -4,12 +4,18 @@ import com.github.javafaker.Faker;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.am.domain.catalog.Address;
+import org.am.domain.catalog.Brand;
+import org.am.domain.catalog.Category;
 import org.am.domain.catalog.County;
+import org.am.domain.catalog.LineItem;
+import org.am.domain.catalog.Product;
+import org.am.domain.catalog.Purchase;
 import org.am.domain.catalog.Supplier;
 import org.am.domain.catalog.Town;
 import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
+import org.am.library.entities.util.PurchaseStatus;
 import org.am.rest.services.requests.SupplierCreateRequest;
 import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
@@ -211,5 +217,56 @@ public class DomainFaker {
                 .email(faker.internet().emailAddress())
                 .phoneNumber(faker.phoneNumber().phoneNumber())
                 .leadTime(faker.number().numberBetween(0, 30));
+    }
+
+    public Product.Builder product() {
+
+        return Product.builder()
+                .sid(uuid())
+                .name(faker.beer().name())
+                .category(this.category().build())
+                .brand(this.brand().build())
+                .supplier(this.supplier().build())
+                .price(faker.number().randomDouble(2, 10, 100000))
+                .quantity(faker.number().numberBetween(0, 1000))
+                .description(faker.lorem().characters(200, 400, true))
+                .discount(0.15)
+                .warehouseSid(uuid());
+    }
+
+    public Category.Builder category() {
+
+        return Category.builder()
+                .name(faker.book().genre().toString())
+                .sid(uuid());
+    }
+
+    public Brand.Builder brand() {
+
+        return Brand.builder()
+                .name(faker.book().genre().toString())
+                .sid(uuid());
+    }
+
+    public Purchase.Builder purchase() {
+
+        return Purchase.builder()
+                .sid(uuid())
+                .invoice(faker.number().numberBetween(0, 999999999))
+                .status(PurchaseStatus.PENDING_APPROVAL)
+                .dateReceived(Instant.now())
+                .warehouse(this.warehouse().build())
+                .supplier(this.supplier().build())
+                .totalAmount(faker.number().randomDouble(2, 10, 9999999));
+    }
+
+    public LineItem.Builder lineItems() {
+
+        return LineItem.builder()
+                .purchase(this.purchase().build())
+                .product((this.product().build()))
+                .quantity(faker.number().numberBetween(1, 10000))
+                .price(faker.number().randomDouble(2, 10, 9999999))
+                .sid(UUID.randomUUID());
     }
 }

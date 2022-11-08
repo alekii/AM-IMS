@@ -50,6 +50,7 @@ public class BaseIntegrationTest {
         em.createNativeQuery("TRUNCATE towns CASCADE").executeUpdate();
         em.createNativeQuery("TRUNCATE counties CASCADE").executeUpdate();
         em.createNativeQuery("TRUNCATE suppliers CASCADE").executeUpdate();
+        em.createNativeQuery("TRUNCATE products CASCADE").executeUpdate();
 
         em.getTransaction().commit();
 

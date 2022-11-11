@@ -6,7 +6,7 @@ import org.am.library.entities.PurchaseEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {WarehouseConverter.class})
 public interface PurchaseToPurchaseEntityConverter extends Converter<Purchase, PurchaseEntity> {
 
     @Override
@@ -21,6 +21,5 @@ public interface PurchaseToPurchaseEntityConverter extends Converter<Purchase, P
     @Mapping(source = "source.dateReceived", target = "dateReceived")
     @Mapping(source = "source.totalAmount", target = "billValue")
     @Mapping(source = "source.status", target = "status")
-    @Mapping(target = "warehouse", ignore = true)
     PurchaseEntity convert(Purchase source);
 }

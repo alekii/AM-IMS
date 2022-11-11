@@ -21,7 +21,7 @@ public class LineItemEntityToLineItemConverter {
                 .sid(UUID.randomUUID())
                 .price(lineItemsEntity.getPrice())
                 .product(productEntityConverter.convert(lineItemsEntity.getProduct()))
-                .purchase(purchaseEntityConverter.convert(lineItemsEntity.getPurchases()))
+                .purchase(purchaseEntityConverter.convert(lineItemsEntity.getPurchase()))
                 .quantity(lineItemsEntity.getQuantity())
                 .build();
     }

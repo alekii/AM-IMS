@@ -70,7 +70,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
                 .price(product.getPrice())
                 .quantity(product.getQuantity())
                 .product(productEntity)
-                .purchases(purchaseEntity)
+                .purchase(purchaseEntity)
                 .build();
     }
 }

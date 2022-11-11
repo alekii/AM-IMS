@@ -38,7 +38,7 @@ public class DomainFaker {
     public Warehouse.Builder warehouse() {
 
         return Warehouse.builder()
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .name(faker.company().name())
                 .phoneNumber(PHONE_NUMBER)
                 .contactName(faker.name().fullName())
@@ -166,7 +166,7 @@ public class DomainFaker {
     public WarehouseProjection.Builder warehouseProjection() {
 
         return WarehouseProjection.builder()
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .name(faker.company().name())
                 .contactName(faker.name().fullName())
                 .phoneNumber(PHONE_NUMBER)
@@ -260,9 +260,10 @@ public class DomainFaker {
                 .totalAmount(faker.number().randomDouble(2, 10, 9999999));
     }
 
-    public LineItem.Builder lineItems() {
+    public LineItem.Builder lineItem() {
 
         return LineItem.builder()
+                .sid(uuid())
                 .purchase(this.purchase().build())
                 .product((this.product().build()))
                 .quantity(faker.number().numberBetween(1, 10000))

@@ -9,15 +9,12 @@ import org.am.infrastructure.persistence.converters.WarehouseConverter;
 import org.am.infrastructure.persistence.converters.WarehouseConverterImpl;
 import org.am.library.entities.WarehouseEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 public class WarehouseConverterTest {
 
     private final Faker faker = new Faker();

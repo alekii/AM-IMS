@@ -81,7 +81,7 @@ public class PurchaseProductEntity {
 
     @ManyToOne
     @JoinColumn(name = FK_PURCHASES_COLUMN_NAME, foreignKey = @ForeignKey(name = PURCHASES_ID_RELATION_FOREIGN_KEY), nullable = false)
-    private PurchaseEntity purchases;
+    private PurchaseEntity purchase;
 
     @Column(name = QUANTITY_COLUMN_NAME, nullable = false)
     private int quantity;

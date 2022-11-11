@@ -5,8 +5,6 @@ import org.am.domain.catalog.LineItem;
 import org.am.library.entities.PurchaseProductEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 @RequiredArgsConstructor
 public class LineItemToLineItemEntityConverter {
@@ -18,10 +16,10 @@ public class LineItemToLineItemEntityConverter {
     public PurchaseProductEntity convert(final LineItem lineItem) {
 
         return PurchaseProductEntity.builder()
-                .sid(UUID.randomUUID())
+                .sid(lineItem.getSid())
                 .price(lineItem.getPrice())
                 .product(productConverter.convert(lineItem.getProduct()))
-                .purchases(purchaseConverter.convert(lineItem.getPurchase()))
+                .purchase(purchaseConverter.convert(lineItem.getPurchase()))
                 .quantity(lineItem.getQuantity())
                 .build();
     }

@@ -135,7 +135,7 @@ public class EntityFaker {
     public PurchaseProductEntity.Builder lineItems() {
 
         return PurchaseProductEntity.builder()
-                .purchases(this.purchase().build())
+                .purchase(this.purchase().build())
                 .product((this.product().build()))
                 .quantity(faker.number().numberBetween(1, 10000))
                 .price(faker.number().randomDouble(2, 10, 9999999))

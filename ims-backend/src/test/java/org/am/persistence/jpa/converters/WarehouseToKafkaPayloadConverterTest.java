@@ -6,15 +6,12 @@ import org.am.infrastructure.warehouses.converters.WarehouseToKafkaPayloadConver
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
 import org.am.library.events.resources.WarehouseKafkaPayload;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 public class WarehouseToKafkaPayloadConverterTest {
 
-    private Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     private final WarehouseToKafkaPayloadConverter subject = new WarehouseToKafkaPayloadConverterImpl();
 

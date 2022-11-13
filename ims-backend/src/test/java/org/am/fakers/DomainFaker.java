@@ -223,7 +223,7 @@ public class DomainFaker {
 
         return Product.builder()
                 .sid(uuid())
-                .name(faker.beer().name())
+                .name(faker.name().fullName())
                 .category(this.category().build())
                 .brand(this.brand().build())
                 .supplier(this.supplier().build())

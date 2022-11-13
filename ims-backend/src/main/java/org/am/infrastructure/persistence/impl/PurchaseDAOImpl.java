@@ -3,6 +3,8 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Product;
 import org.am.domain.catalog.Purchase;
+import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
+import org.am.domain.catalog.exceptions.NotFound.PurchaseNotFoundException;
 import org.am.infrastructure.lineItems.LineItemsRepository;
 import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverter;
@@ -32,7 +34,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
     @Override
     @Transactional
-    public Purchase create(PurchaseEntity purchaseEntity, final List<Product> products) {
+    public Purchase create(final PurchaseEntity purchaseEntity, final List<Product> products) {
 
         // Get persisted purchase with status pending
         final PurchaseEntity persistedPurchaseEntity = purchasesRepository.save(purchaseEntity);
@@ -54,7 +56,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
         return purchaseEntityConverter.convert(purchasesRepository.save(purchase));
     }
 
-    private PurchaseProductEntity updateTotalPurchasesAmount(PurchaseEntity purchase, PurchaseProductEntity lineItem) {
+    private PurchaseProductEntity updateTotalPurchasesAmount(final PurchaseEntity purchase, PurchaseProductEntity lineItem) {
 
         purchase.setBillValue(purchase.getBillValue() + lineItem.getPrice());
 
@@ -63,7 +65,8 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
     private PurchaseProductEntity buildLineItem(final PurchaseEntity purchaseEntity, final Product product) {
 
-        ProductEntity productEntity = productRepository.findBySid(product.getSid()).orElseThrow();
+        ProductEntity productEntity = productRepository.findBySid(product.getSid())
+                .orElseThrow(() -> ProductNotFoundException.forSid(product.getSid()));
 
         return PurchaseProductEntity.builder()
                 .sid(UUID.randomUUID())
@@ -72,5 +75,41 @@ public class PurchaseDAOImpl implements PurchaseDAO {
                 .product(productEntity)
                 .purchase(purchaseEntity)
                 .build();
+    }
+
+    public PurchaseEntity findBySid(final UUID sid) {
+
+        return purchasesRepository.findBySid(sid)
+                .orElseThrow(() -> PurchaseNotFoundException.forSid(sid));
+    }
+
+    public List<Purchase> findAll() {
+
+        return purchasesRepository.findAll()
+                .stream()
+                .map(purchaseEntityConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Purchase update(final PurchaseEntity purchase, List<Product> products) {
+
+        final PurchaseEntity purchasePersisted = findBySid(purchase.getSid());
+
+        final PurchaseEntity purchaseToUpdate = preparePurchaseToUpdate(purchase, purchasePersisted, products);
+
+        purchaseToUpdate.setStatus(purchase.getStatus());
+        purchaseToUpdate.setInvoiceNumber(purchase.getInvoiceNumber());
+        purchaseToUpdate.setDateReceived(purchase.getDateReceived());
+        return purchaseEntityConverter.convert(purchasesRepository.save(purchaseToUpdate));
+    }
+
+    private PurchaseEntity preparePurchaseToUpdate(final PurchaseEntity purchase,
+                                                   final PurchaseEntity purchasePersisted,
+                                                   List<Product> products) {
+
+        List<PurchaseProductEntity> lineItems = purchasePersisted.getLineItems();
+        final List<PurchaseProductEntity> lineItemsPersisted = lineItemsRepository.findByPurchaseId(purchasePersisted.getId());
+        return purchase;
     }
 }

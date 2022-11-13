@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface PurchaseEntityToPurchaseConverter extends Converter<PurchaseEntity, Purchase> {
 
     @Override
+    @Mapping(source = "sid", target = "sid")
     @Mapping(source = "source.invoiceNumber", target = "invoice")
     @Mapping(source = "source.supplier", target = "supplier")
     @Mapping(source = "source.dateReceived", target = "dateReceived")

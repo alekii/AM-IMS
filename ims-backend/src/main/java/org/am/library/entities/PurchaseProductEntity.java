@@ -61,7 +61,7 @@ public class PurchaseProductEntity {
 
     static final String SID_UNIQUE_INDEX_NAME = "line_item_sid_unique_idx";
 
-    public static final String PURCHASES_COLUMN_NAME = "purchases";
+    public static final String PURCHASES_COLUMN_NAME = "purchase";
 
     public static final String PRODUCT_COLUMN_NAME = "product";
 

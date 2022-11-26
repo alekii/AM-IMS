@@ -119,7 +119,6 @@ public class PurchaseDAOImpl implements PurchaseDAO {
         List<PurchaseProductEntity> lineItems = purchasePersisted.getLineItems();
         lineItems.forEach(v -> existingSet.add(productConverter.convert(v.getProduct())));
         existingSet.removeAll(newSet);
-        System.out.println(existingSet);
         existingSet.forEach(product -> lineItemsRepository.deleteByProductId(product.getId()));
         purchasePersisted.setLineItems(lineItemsRepository.findByPurchaseId(purchase.getId()));
         purchasesRepository.save(purchasePersisted);

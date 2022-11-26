@@ -13,7 +13,7 @@ public class PurchaseNotFoundException extends NotFoundException {
 
         super(ErrorCode.PURCHASE_NOT_FOUND, message);
     }
-
+ 
     public static PurchaseNotFoundException forSid(final UUID sid) {
 
         return new PurchaseNotFoundException(String.format("No Purchase was found for sid = %s", sid));

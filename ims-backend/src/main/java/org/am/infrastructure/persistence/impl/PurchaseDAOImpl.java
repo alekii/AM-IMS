@@ -7,6 +7,7 @@ import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.PurchaseNotFoundException;
 import org.am.infrastructure.lineItems.LineItemsRepository;
 import org.am.infrastructure.persistence.api.PurchaseDAO;
+import org.am.infrastructure.persistence.converters.ProductEntityToProductConverter;
 import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverter;
 import org.am.infrastructure.products.ProductRepository;
 import org.am.infrastructure.purchases.PurchaseRepository;
@@ -16,7 +17,9 @@ import org.am.library.entities.PurchaseProductEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,8 @@ public class PurchaseDAOImpl implements PurchaseDAO {
     private final LineItemsRepository lineItemsRepository;
 
     private final PurchaseEntityToPurchaseConverter purchaseEntityConverter;
+
+    private final ProductEntityToProductConverter productConverter;
 
     @Override
     @Transactional
@@ -85,7 +90,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
     public List<Purchase> findAll() {
 
-        return purchasesRepository.findAll()
+        return purchasesRepository.fetchAll()
                 .stream()
                 .map(purchaseEntityConverter::convert)
                 .collect(Collectors.toList());
@@ -96,7 +101,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
         final PurchaseEntity purchasePersisted = findBySid(purchase.getSid());
 
-        final PurchaseEntity purchaseToUpdate = preparePurchaseToUpdate(purchase, purchasePersisted, products);
+        final PurchaseEntity purchaseToUpdate = updatePurchaseProducts(purchase, purchasePersisted, products);
 
         purchaseToUpdate.setStatus(purchase.getStatus());
         purchaseToUpdate.setInvoiceNumber(purchase.getInvoiceNumber());
@@ -104,12 +109,20 @@ public class PurchaseDAOImpl implements PurchaseDAO {
         return purchaseEntityConverter.convert(purchasesRepository.save(purchaseToUpdate));
     }
 
-    private PurchaseEntity preparePurchaseToUpdate(final PurchaseEntity purchase,
-                                                   final PurchaseEntity purchasePersisted,
-                                                   List<Product> products) {
+    private PurchaseEntity updatePurchaseProducts(final PurchaseEntity purchase,
+                                                  final PurchaseEntity purchasePersisted,
+                                                  final List<Product> products) {
+
+        Set<Product> existingSet = new HashSet<>();
+        Set<Product> newSet = new HashSet<>(products);
 
         List<PurchaseProductEntity> lineItems = purchasePersisted.getLineItems();
-        final List<PurchaseProductEntity> lineItemsPersisted = lineItemsRepository.findByPurchaseId(purchasePersisted.getId());
-        return purchase;
+        lineItems.forEach(v -> existingSet.add(productConverter.convert(v.getProduct())));
+        existingSet.removeAll(newSet);
+        System.out.println(existingSet);
+        existingSet.forEach(product -> lineItemsRepository.deleteByProductId(product.getId()));
+        purchasePersisted.setLineItems(lineItemsRepository.findByPurchaseId(purchase.getId()));
+        purchasesRepository.save(purchasePersisted);
+        return findBySid(purchase.getSid());
     }
 }

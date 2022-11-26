@@ -10,6 +10,8 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 public class Product {
 
+    int id;
+
     UUID sid;
 
     String name;

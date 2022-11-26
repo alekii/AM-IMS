@@ -30,4 +30,18 @@ public class LineItemsRepositoryTest extends BaseIntegrationTest {
         assertThat(lineItems).isNotEmpty().hasSize(1);
         assertThat(lineItems.get(0).getId()).isNotNull();
     }
+
+/*    @Test
+    void testFetchingByPurchaseId_returnsLineItem() {
+        //Given
+        PurchaseProductEntity lineItem = faker.entity.lineItems().build();
+        PurchaseEntity purchase = faker.entity.purchase().build();
+        PurchaseEntity savedPurchase = integrationTestPersister.save(purchase);
+
+        //When
+        List<PurchaseProductEntity> lineItems = lineItemsRepository.findByPurchaseId(savedPurchase.getId());
+
+        //Then
+        assertThat(lineItems).isNotEmpty();
+    }*/
 }

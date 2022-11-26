@@ -109,14 +109,14 @@ public class EntityFaker {
     public CategoryEntity.Builder category() {
 
         return CategoryEntity.builder()
-                .name(faker.book().genre())
+                .name(faker.animal().name())
                 .sid(uuid());
     }
 
     public BrandEntity.Builder brand() {
 
         return BrandEntity.builder()
-                .name(faker.book().genre())
+                .name(faker.animal().name())
                 .sid(uuid());
     }
 

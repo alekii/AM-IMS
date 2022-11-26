@@ -16,7 +16,6 @@ public interface PurchaseEntityToPurchaseConverter extends Converter<PurchaseEnt
     @Mapping(source = "source.dateReceived", target = "dateReceived")
     @Mapping(source = "source.billValue", target = "totalAmount")
     @Mapping(source = "source.status", target = "status")
-    @Mapping(source = "source.warehouse", target = "warehouse")
     @Mapping(source = "source.warehouse.address.town.county", target = "warehouse.address.county")
     Purchase convert(PurchaseEntity source);
 }

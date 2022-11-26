@@ -6,7 +6,6 @@ import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConv
 import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverterImpl;
 import org.am.infrastructure.persistence.converters.SupplierConverter;
 import org.am.infrastructure.persistence.converters.SupplierConverterImpl;
-import org.am.infrastructure.persistence.converters.WarehouseConverter;
 import org.am.infrastructure.persistence.converters.WarehouseConverterImpl;
 import org.am.library.entities.PurchaseEntity;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ public class PurchaseEntityToPurchaseConverterTest {
 
     private final Faker faker = new Faker();
 
-    private final WarehouseConverter warehouseConverter = new WarehouseConverterImpl();
+    private final WarehouseConverterImpl warehouseConverter = new WarehouseConverterImpl();
 
     private final SupplierConverter supplierConverter = new SupplierConverterImpl();
 

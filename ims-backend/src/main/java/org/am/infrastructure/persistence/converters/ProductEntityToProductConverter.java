@@ -11,6 +11,7 @@ public interface ProductEntityToProductConverter
         extends Converter<ProductEntity, Product> {
 
     @Override
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "sid", source = "sid")
     @Mapping(source = "source.name", target = "name")
     @Mapping(source = "source.category", target = "category")

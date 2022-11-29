@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -55,6 +56,15 @@ public class ProductImageDAOImpl implements ProductImageDAO {
         return imagesRepository.saveAll(imageEntities).stream()
                 .map(productImageConverter::convert)
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<ProductImage> findByProductSid(UUID productSid) {
+
+        return imagesRepository.findByProductSid(productSid)
+                .stream()
+                .map(productImageConverter::convert)
+                .collect(Collectors.toList());
     }
 
     private List<ImageEntity> getImageEntities(List<ProductImage> images, ProductEntity productEntity) {

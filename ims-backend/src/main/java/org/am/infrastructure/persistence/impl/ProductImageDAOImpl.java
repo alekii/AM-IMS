@@ -40,7 +40,7 @@ public class ProductImageDAOImpl implements ProductImageDAO {
         imageEntity.setProduct(productEntity);
 
         final ImageEntity persisted = imagesRepository.save(imageEntity);
-        return productImageConverter.convert(persisted, productEntity.getSid());
+        return productImageConverter.convert(persisted);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ProductImageDAOImpl implements ProductImageDAO {
         final List<ImageEntity> imageEntities = getImageEntities(images, productEntity);
 
         return imagesRepository.saveAll(imageEntities).stream()
-                .map(imageEntity -> productImageConverter.convert(imageEntity, imageEntity.getProduct().getSid()))
+                .map(productImageConverter::convert)
                 .collect(Collectors.toUnmodifiableList());
     }
 

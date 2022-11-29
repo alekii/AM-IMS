@@ -9,6 +9,7 @@ import org.am.domain.catalog.Category;
 import org.am.domain.catalog.County;
 import org.am.domain.catalog.LineItem;
 import org.am.domain.catalog.Product;
+import org.am.domain.catalog.ProductImage;
 import org.am.domain.catalog.Purchase;
 import org.am.domain.catalog.Supplier;
 import org.am.domain.catalog.Town;
@@ -269,5 +270,13 @@ public class DomainFaker {
                 .quantity(faker.number().numberBetween(1, 10000))
                 .price(faker.number().randomDouble(2, 10, 9999999))
                 .sid(UUID.randomUUID());
+    }
+
+    public ProductImage.Builder productImage() {
+
+        return ProductImage.builder()
+                .sid(uuid())
+                .productSid(uuid())
+                .imagePath(faker.internet().url());
     }
 }

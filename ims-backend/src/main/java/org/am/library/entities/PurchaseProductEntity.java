@@ -1,6 +1,7 @@
 package org.am.library.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ import static org.am.library.entities.util.EntityConstants.PRICE_COLUMN_NAME;
 )
 @Getter
 @Setter
+@Builder(builderClassName = "Builder")
 @NoArgsConstructor
 @AllArgsConstructor
 @Cacheable
@@ -59,7 +61,7 @@ public class PurchaseProductEntity {
 
     static final String SID_UNIQUE_INDEX_NAME = "line_item_sid_unique_idx";
 
-    public static final String PURCHASES_COLUMN_NAME = "purchases";
+    public static final String PURCHASES_COLUMN_NAME = "purchase";
 
     public static final String PRODUCT_COLUMN_NAME = "product";
 
@@ -79,11 +81,11 @@ public class PurchaseProductEntity {
 
     @ManyToOne
     @JoinColumn(name = FK_PURCHASES_COLUMN_NAME, foreignKey = @ForeignKey(name = PURCHASES_ID_RELATION_FOREIGN_KEY), nullable = false)
-    private PurchaseEntity purchases;
+    private PurchaseEntity purchase;
 
     @Column(name = QUANTITY_COLUMN_NAME, nullable = false)
     private int quantity;
 
     @Column(name = PRICE_COLUMN_NAME, nullable = false)
-    private float price;
+    private double price;
 }

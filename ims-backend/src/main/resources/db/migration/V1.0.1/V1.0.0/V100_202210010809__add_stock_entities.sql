@@ -8,8 +8,8 @@ CREATE TABLE products (
   fk_supplier         INT NOT NULL,
   received_by         VARCHAR(255),
   sku                 VARCHAR(255),
-  price               FLOAT NOT NULL,
-  discount            FLOAT,
+  price               DOUBLE PRECISION NOT NULL,
+  discount            DOUBLE PRECISION,
   quantity            INT NOT NULL,
   description         VARCHAR(1024),
   PRIMARY KEY (id_product)
@@ -23,7 +23,7 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE brands (
-  id_brand                INT4 NOT NULL,
+  id_brand               INT4 NOT NULL,
   name                   VARCHAR(50) NOT NULL,
   sid                    VARCHAR(255) NOT NULL,
   PRIMARY KEY (id_brand)
@@ -42,10 +42,10 @@ CREATE TABLE suppliers (
 CREATE TABLE purchases (
   id_purchases            INT NOT NULL,
   sid                     VARCHAR(255) NOT NULL,
-  fk_supplier             INT NOT NULL,
-  invoice_number          INT NOT NULL,
+  fk_supplier             INT,
+  invoice_number          INT,
   date_received           TIMESTAMP,
-  bill_value              FLOAT NOT NULL,
+  bill_value              DOUBLE PRECISION,
   purchase_status         VARCHAR(255) NOT NULL,
   PRIMARY KEY (id_purchases)
 );
@@ -55,7 +55,7 @@ CREATE TABLE line_items (
   sid                     VARCHAR(255) NOT NULL,
   fk_product              INT NOT NULL,
   fk_purchases            INT NOT NULL,
-  price                   FLOAT NOT NULL,
+  price                   DOUBLE PRECISION NOT NULL,
   quantity                INT NOT NULL,
   PRIMARY KEY (id_line_item)
 );

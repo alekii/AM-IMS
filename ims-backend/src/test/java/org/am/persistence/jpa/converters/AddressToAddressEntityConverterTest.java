@@ -7,12 +7,9 @@ import org.am.infrastructure.persistence.converters.AddressToAddressEntityConver
 import org.am.library.entities.AddressEntity;
 import org.am.library.entities.TownEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 public class AddressToAddressEntityConverterTest {
 
     private final Faker faker = new Faker();

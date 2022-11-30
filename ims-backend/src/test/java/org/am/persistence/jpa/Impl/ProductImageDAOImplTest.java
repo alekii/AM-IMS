@@ -38,7 +38,6 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
         final ProductEntity productEntity = integrationTestPersister.save(faker.entity.product().build());
 
         final ProductImage image = faker.domain.productImage()
-                .id(1)
                 .productSid(productEntity.getSid())
                 .build();
 
@@ -57,6 +56,7 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
 
         assertThat(result)
                 .usingRecursiveComparison()
+                .ignoringFields("id")
                 .isEqualTo(image);
     }
 
@@ -97,7 +97,7 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
     }
 
     @Test
-    void delete_whenCalled_deletesDocument() {
+    void delete_whenCalled_deletesImage() {
 
         final ImageEntity image = integrationTestPersister.save(faker.entity.productImage().build());
 

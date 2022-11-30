@@ -14,21 +14,13 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Intege
     @Query("SELECT p "
             + "FROM PurchaseEntity p "
             + "INNER JOIN FETCH p.supplier pSupplier "
-            + "INNER JOIN FETCH p.lineItems pLineItems"
-            + "INNER JOIN FETCH p.warehouse w "
-            + "INNER JOIN FETCH w.address wAddress "
-            + "INNER JOIN FETCH wAddress.town wTown "
-            + "INNER JOIN FETCH wTown.county wCounty "
+            + "INNER JOIN FETCH p.lineItems pLineItems "
             + "WHERE p.sid = (:sid)")
     Optional<PurchaseEntity> findBySid(final @Param("sid") UUID sid);
 
     @Query("SELECT p "
             + "FROM PurchaseEntity p "
             + "INNER JOIN FETCH p.supplier pSupplier "
-            + "INNER JOIN FETCH p.lineItems pLineItems"
-            + "INNER JOIN FETCH p.warehouse w "
-            + "INNER JOIN FETCH w.address wAddress "
-            + "INNER JOIN FETCH wAddress.town wTown "
-            + "INNER JOIN FETCH wTown.county wCounty ")
+            + "INNER JOIN FETCH p.lineItems pLineItems ")
     List<PurchaseEntity> fetchAll();
 }

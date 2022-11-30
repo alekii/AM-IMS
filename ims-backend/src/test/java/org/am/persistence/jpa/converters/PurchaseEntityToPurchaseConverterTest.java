@@ -46,7 +46,7 @@ public class PurchaseEntityToPurchaseConverterTest {
                 .invoice(entity.getInvoiceNumber())
                 .dateReceived(entity.getDateReceived())
                 .status(entity.getStatus())
-                .warehouse(warehouseConverter.convert(entity.getWarehouse()))
+                .warehouseSid(entity.getWarehouseSid())
                 .supplier(supplierConverter.convert(entity.getSupplier()))
                 .build();
     }

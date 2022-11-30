@@ -256,7 +256,7 @@ public class DomainFaker {
                 .invoice(faker.number().numberBetween(0, 999999999))
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .dateReceived(Instant.now())
-                .warehouse(this.warehouse().build())
+                .warehouseSid(uuid())
                 .supplier(this.supplier().build())
                 .totalAmount(faker.number().randomDouble(2, 10, 9999999));
     }

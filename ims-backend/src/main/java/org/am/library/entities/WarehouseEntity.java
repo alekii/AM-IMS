@@ -100,7 +100,4 @@ public class WarehouseEntity {
 
     @Column(name = CREATED_AT_COLUMN_NAME)
     private Instant createdAt;
-
-    @OneToMany(targetEntity = PurchaseEntity.class, fetch = FetchType.LAZY, mappedBy = WAREHOUSE_COLUMN_NAME)
-    private List<PurchaseEntity> purchases;
 }

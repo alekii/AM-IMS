@@ -128,7 +128,7 @@ public class EntityFaker {
                 .invoiceNumber(faker.number().numberBetween(0, 999999999))
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .dateReceived(Instant.now())
-                .warehouse(this.warehouse().build())
+                .warehouseSid(uuid())
                 .supplier(this.supplier().build())
                 .billValue(faker.number().randomDouble(2, 10, 9999999));
     }

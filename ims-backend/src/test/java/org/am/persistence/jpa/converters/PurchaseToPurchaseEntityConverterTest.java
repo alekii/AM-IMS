@@ -12,6 +12,7 @@ import org.am.infrastructure.persistence.converters.SupplierToSupplierEntityConv
 import org.am.infrastructure.persistence.converters.WarehouseToWarehouseEntityConverter;
 import org.am.infrastructure.persistence.converters.WarehouseToWarehouseEntityConverterImpl;
 import org.am.library.entities.AddressEntity;
+import org.am.library.entities.CountyEntity;
 import org.am.library.entities.PurchaseEntity;
 import org.am.library.entities.TownEntity;
 import org.assertj.core.api.Assertions;
@@ -48,6 +49,7 @@ public class PurchaseToPurchaseEntityConverterTest {
         Assertions.assertThat(convertedPurchaseEntity.getSid()).isInstanceOf(UUID.class);
         assertThat(convertedPurchaseEntity)
                 .usingRecursiveComparison()
+                //  .ignoringFields("warehouse.address.town")
                 .isEqualTo(purchaseEntity);
     }
 
@@ -56,7 +58,7 @@ public class PurchaseToPurchaseEntityConverterTest {
         return PurchaseEntity.builder()
                 .invoiceNumber(purchase.getInvoice())
                 .sid(purchase.getSid())
-                .warehouse(warehouseConverter.convert(purchase.getWarehouse(), buildAddressEntity(purchase.getWarehouse().getAddress())))
+                .warehouseSid(purchase.getWarehouseSid())
                 .supplier(supplierEntityConverter.convert(purchase.getSupplier()))
                 .dateReceived(purchase.getDateReceived())
                 .status(purchase.getStatus())
@@ -69,6 +71,10 @@ public class PurchaseToPurchaseEntityConverterTest {
         TownEntity townEntity = TownEntity.builder()
                 .sid(address.getTown().getSid())
                 .name(address.getTown().getName())
+                .county(CountyEntity.builder()
+                                .name(address.getCounty().getName())
+                                .sid(address.getCounty().getSid())
+                                .build())
                 .build();
 
         return addressConverter.convert(address, townEntity);

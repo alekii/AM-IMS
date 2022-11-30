@@ -29,8 +29,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import static org.am.library.entities.util.EntityConstants.FK_WAREHOUSE_COLUMN_NAME;
-
 @Entity
 @Table(name = PurchaseEntity.PURCHASES_TABLE_NAME,
         uniqueConstraints = {
@@ -60,6 +58,8 @@ public class PurchaseEntity {
     private static final String FK_SUPPLIER_COLUMN_NAME = "fk_supplier";
 
     private static final String WAREHOUSE_PURCHASES_FOREIGN_KEY = "fk_purchases_warehouse";
+
+    private static final String WAREHOUSE = "warehouse";
 
     static final String INVOICE_NUMBER_UNIQUE_INDEX_NAME = "purchases_invoice_number_unique_idx";
 
@@ -104,7 +104,6 @@ public class PurchaseEntity {
     @Column(name = PURCHASE_STATUS, nullable = false)
     private PurchaseStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = FK_WAREHOUSE_COLUMN_NAME, foreignKey = @ForeignKey(name = WAREHOUSE_PURCHASES_FOREIGN_KEY), nullable = false)
-    private WarehouseEntity warehouse;
+    @Column(name = WAREHOUSE, nullable = false)
+    private UUID warehouseSid;
 }

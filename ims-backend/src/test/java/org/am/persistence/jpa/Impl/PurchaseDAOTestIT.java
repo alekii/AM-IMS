@@ -63,7 +63,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
         final List<ProductEntity> productEntity = buildProductsEntityList(products, savedSupplierEntity, brandEntity, categoryEntity);
         productEntity.forEach(product -> integrationTestPersister.save(product));
 
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
 
         // When
         final Purchase purchase = subject.create(purchaseEntity, products);
@@ -102,7 +102,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
     void findBySid_whenPurchaseExists_returnsPurchaseEntity() {
 
         // Given
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
         purchaseEntity.setLineItems(Collections.singletonList(lineItem));
         integrationTestPersister.save(purchaseEntity);
 
@@ -117,7 +117,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
     void findAll_whenPurchasesExist_returnsPurchasesList() {
 
         // Given
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
         purchaseEntity.setLineItems(Collections.singletonList(lineItem));
         integrationTestPersister.save(purchaseEntity);
 
@@ -138,7 +138,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
         final List<ProductEntity> productEntity = buildProductsEntityList(products, savedSupplierEntity, brandEntity, categoryEntity);
         productEntity.forEach(product -> integrationTestPersister.save(product));
 
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
 
         subject.create(purchaseEntity, products);
 
@@ -191,7 +191,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
                 .build();
     }
 
-    private PurchaseEntity buildPurchase(SupplierEntity savedSupplierEntity, WarehouseEntity savedWarehouseEntity) {
+    private PurchaseEntity buildPurchase(SupplierEntity savedSupplierEntity) {
 
         return PurchaseEntity.builder()
                 .sid(UUID.randomUUID())
@@ -199,7 +199,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
                 .billValue(0.00)
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .supplier(savedSupplierEntity)
-                .warehouse(savedWarehouseEntity)
+                .warehouseSid(UUID.randomUUID())
                 .build();
     }
 }

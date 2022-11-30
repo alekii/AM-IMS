@@ -16,6 +16,6 @@ public class ProductNotFoundException extends NotFoundException {
 
     public static ProductNotFoundException forSid(final UUID sid) {
 
-        return new ProductNotFoundException(String.format("No Supplier was found for sid = %s", sid));
+        return new ProductNotFoundException(String.format("No Product was found for sid = %s", sid));
     }
 }

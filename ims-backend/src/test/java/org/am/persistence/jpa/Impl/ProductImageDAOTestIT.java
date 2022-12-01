@@ -18,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class ProductImageDAOImplTest extends BaseIntegrationTest {
+public class ProductImageDAOTestIT extends BaseIntegrationTest {
 
     private final Faker faker = new Faker();
 

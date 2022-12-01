@@ -3,6 +3,7 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Category;
 import org.am.domain.catalog.exceptions.NotFound.CategoryNotFoundException;
+import org.am.domain.catalog.exceptions.conflicts.CategoryAlreadyExistsException;
 import org.am.infrastructure.category.CategoryRepository;
 import org.am.infrastructure.persistence.api.CategoryDAO;
 import org.am.infrastructure.persistence.converters.CategoryConverter;
@@ -27,6 +28,10 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Override
     public Category create(Category category) {
 
+        categoryRepository.findByName(category.getName())
+                .ifPresent(categoryEntity -> {
+                    throw CategoryAlreadyExistsException.forName(categoryEntity.getName());
+                });
         final CategoryEntity categoryEntity = categoryRepository.save(categoryEntityConverter.convert(category));
         return categoryConverter.convert(categoryEntity);
     }

@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface BrandRepository extends JpaRepository<BrandEntity, Integer> {
 
     Optional<BrandEntity> findBySid(final UUID sid);
+
+    Optional<BrandEntity> findByName(final String brandName);
 }

@@ -3,6 +3,7 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Brand;
 import org.am.domain.catalog.exceptions.NotFound.BrandNotFoundException;
+import org.am.domain.catalog.exceptions.conflicts.BrandAlreadyExistsException;
 import org.am.infrastructure.brand.BrandRepository;
 import org.am.infrastructure.persistence.api.BrandDAO;
 import org.am.infrastructure.persistence.converters.BrandConverter;
@@ -26,6 +27,12 @@ public class BrandDAOImpl implements BrandDAO {
 
     @Override
     public Brand create(Brand brand) {
+
+        String brandName = brand.getName();
+        brandRepository.findByName(brandName)
+                .ifPresent(brandEntity -> {
+                    throw BrandAlreadyExistsException.forName(brandName);
+                });
 
         final BrandEntity brandEntity = brandRepository.save(brandEntityConverter.convert(brand));
         return brandConverter.convert(brandEntity);

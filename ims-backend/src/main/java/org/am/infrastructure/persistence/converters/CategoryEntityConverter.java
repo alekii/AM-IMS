@@ -10,6 +10,9 @@ import org.mapstruct.Mapping;
 public interface CategoryEntityConverter extends Converter<Category, CategoryEntity> {
 
     @Override
-    @Mapping(source = "source", target = ".")
+    @Mapping(target = "sid", source = "source.sid")
+    @Mapping(target = "name", source = "source.name")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "products", ignore = true)
     CategoryEntity convert(Category source);
 }

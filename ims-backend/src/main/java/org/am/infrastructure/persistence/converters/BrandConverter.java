@@ -10,9 +10,7 @@ import org.mapstruct.Mapping;
 public interface BrandConverter extends Converter<BrandEntity, Brand> {
 
     @Override
-    @Mapping(target = "sid", source = "source.sid")
-    @Mapping(target = "name", source = "source.name")
-    @Mapping(target = "products", ignore = true)
+    @Mapping(source = "source", target = ".")
     Brand convert(BrandEntity source);
 }
 

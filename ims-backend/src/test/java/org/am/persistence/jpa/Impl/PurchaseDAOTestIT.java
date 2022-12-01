@@ -58,12 +58,12 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
     void create_createsLineItems_thenReturnsCreatedPurchaseOrder() {
 
         // Given
-        BrandEntity brandEntity = integrationTestPersister.save(faker.entity.brand().build());
-        CategoryEntity categoryEntity = integrationTestPersister.save(faker.entity.category().build());
-        List<ProductEntity> productEntity = buildProductsEntityList(products, savedSupplierEntity, brandEntity, categoryEntity);
+        final BrandEntity brandEntity = integrationTestPersister.save(faker.entity.brand().build());
+        final CategoryEntity categoryEntity = integrationTestPersister.save(faker.entity.category().build());
+        final List<ProductEntity> productEntity = buildProductsEntityList(products, savedSupplierEntity, brandEntity, categoryEntity);
         productEntity.forEach(product -> integrationTestPersister.save(product));
 
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
 
         // When
         final Purchase purchase = subject.create(purchaseEntity, products);
@@ -102,7 +102,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
     void findBySid_whenPurchaseExists_returnsPurchaseEntity() {
 
         // Given
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
         purchaseEntity.setLineItems(Collections.singletonList(lineItem));
         integrationTestPersister.save(purchaseEntity);
 
@@ -117,7 +117,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
     void findAll_whenPurchasesExist_returnsPurchasesList() {
 
         // Given
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
         purchaseEntity.setLineItems(Collections.singletonList(lineItem));
         integrationTestPersister.save(purchaseEntity);
 
@@ -133,23 +133,24 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
     void updatePurchase_whenPurchaseIsPresent_returnsPurchaseWithUpdatedProductsAndStatus() {
 
         // Given
-        BrandEntity brandEntity = integrationTestPersister.save(faker.entity.brand().build());
-        CategoryEntity categoryEntity = integrationTestPersister.save(faker.entity.category().build());
-        List<ProductEntity> productEntity = buildProductsEntityList(products, savedSupplierEntity, brandEntity, categoryEntity);
+        final BrandEntity brandEntity = integrationTestPersister.save(faker.entity.brand().build());
+        final CategoryEntity categoryEntity = integrationTestPersister.save(faker.entity.category().build());
+        final List<ProductEntity> productEntity = buildProductsEntityList(products, savedSupplierEntity, brandEntity, categoryEntity);
         productEntity.forEach(product -> integrationTestPersister.save(product));
 
-        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity, savedWarehouseEntity);
+        final PurchaseEntity purchaseEntity = buildPurchase(savedSupplierEntity);
 
         subject.create(purchaseEntity, products);
 
         final PurchaseEntity persistedPurchaseEntity = purchaseRepository.findBySid(purchaseEntity.getSid()).get();
         assertThat(persistedPurchaseEntity).isNotNull();
 
-        List<Product> productsDelivered = persistedPurchaseEntity
+        final List<Product> productsDelivered = persistedPurchaseEntity
                 .getLineItems()
                 .stream()
                 .map(d -> productConverter.convert(d.getProduct()))
                 .collect(Collectors.toList());
+
         // When
         purchaseEntity.setStatus(PurchaseStatus.FULFILLED);
         productsDelivered.remove(1);
@@ -159,7 +160,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
         assertThat(updatedPurchase.getStatus()).isEqualTo(PurchaseStatus.FULFILLED);
 
         final PurchaseEntity updatedPurchaseEntity = purchaseRepository.findBySid(purchaseEntity.getSid()).get();
-        List<Product> persistedProducts = updatedPurchaseEntity
+        final List<Product> persistedProducts = updatedPurchaseEntity
                 .getLineItems()
                 .stream()
                 .map(lineItem -> productConverter.convert(lineItem.getProduct()))
@@ -168,7 +169,10 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
         assertThat(persistedProducts).isEqualTo(productsDelivered);
     }
 
-    private ProductEntity buildProductEntity(Product product, SupplierEntity supplierEntity, BrandEntity brand, CategoryEntity category) {
+    private ProductEntity buildProductEntity(final Product product,
+                                             final SupplierEntity supplierEntity,
+                                             final BrandEntity brand,
+                                             final CategoryEntity category) {
 
         return ProductEntity.builder()
                 .name(product.getName())
@@ -187,7 +191,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
                 .build();
     }
 
-    private PurchaseEntity buildPurchase(SupplierEntity savedSupplierEntity, WarehouseEntity savedWarehouseEntity) {
+    private PurchaseEntity buildPurchase(SupplierEntity savedSupplierEntity) {
 
         return PurchaseEntity.builder()
                 .sid(UUID.randomUUID())
@@ -195,7 +199,7 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
                 .billValue(0.00)
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .supplier(savedSupplierEntity)
-                .warehouse(savedWarehouseEntity)
+                .warehouseSid(UUID.randomUUID())
                 .build();
     }
 }

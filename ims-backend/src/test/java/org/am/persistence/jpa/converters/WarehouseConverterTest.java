@@ -19,7 +19,7 @@ public class WarehouseConverterTest {
 
     private final Faker faker = new Faker();
 
-    private Supplier<Warehouse> sWarehouse = () -> faker.domain.warehouse().build();
+    private final Supplier<Warehouse> sWarehouse = () -> faker.domain.warehouse().build();
 
     private final WarehouseConverter subject = new WarehouseConverterImpl();
 

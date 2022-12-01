@@ -21,7 +21,7 @@ public class LineItemsRepositoryTest extends BaseIntegrationTest {
     void testLineItemSaveGeneratesId() {
 
         //Given
-        PurchaseProductEntity lineItem = faker.entity.lineItems().build();
+        integrationTestPersister.save(faker.entity.lineItems().build());
 
         //When
         List<PurchaseProductEntity> lineItems = lineItemsRepository.findAll();

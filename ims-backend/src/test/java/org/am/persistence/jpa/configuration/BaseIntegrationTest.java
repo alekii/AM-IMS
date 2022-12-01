@@ -55,6 +55,7 @@ public class BaseIntegrationTest {
         em.createNativeQuery("TRUNCATE line_items CASCADE").executeUpdate();
         em.createNativeQuery("TRUNCATE categories CASCADE").executeUpdate();
         em.createNativeQuery("TRUNCATE brands CASCADE").executeUpdate();
+        em.createNativeQuery("TRUNCATE images CASCADE").executeUpdate();
 
         em.getTransaction().commit();
 

@@ -305,7 +305,7 @@ VALUES  (
            'xbsuppliers@xb.com'
          );
 
-INSERT INTO purchases (id_purchases, sid, fk_supplier, invoice_number, date_received, bill_value, purchase_status, fk_warehouse)
+INSERT INTO purchases (id_purchases, sid, fk_supplier, invoice_number, date_received, bill_value, purchase_status, warehouse)
 VALUES  (
            nextval ('purchases_id_seq'),
            '1d545f3d-7dce-4463-9ca6-43f43f03d324',
@@ -321,14 +321,7 @@ VALUES  (
            '2022-10-11T21:05:42.252271Z',
            '4234',
            'PENDING',
-         (
-           SELECT
-             id_warehouse
-           FROM
-             warehouses warehouse
-           WHERE
-             warehouse.id_warehouse = 1
-         )
+           '06f60db0-90b6-4119-b267-7246a8c8428c'
          );
 
 INSERT INTO brands(id_brand, sid, name)

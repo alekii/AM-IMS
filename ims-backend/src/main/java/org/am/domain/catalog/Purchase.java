@@ -19,7 +19,7 @@ public class Purchase {
 
     PurchaseStatus status;
 
-    Warehouse warehouse;
+    UUID warehouseSid;
 
     Supplier supplier;
 

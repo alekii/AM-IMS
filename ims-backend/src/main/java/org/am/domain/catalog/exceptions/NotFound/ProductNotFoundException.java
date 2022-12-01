@@ -14,8 +14,8 @@ public class ProductNotFoundException extends NotFoundException {
         super(ErrorCode.PRODUCT_NOT_FOUND, message);
     }
 
-    public static SupplierNotFoundException forSid(final UUID sid) {
+    public static ProductNotFoundException forSid(final UUID sid) {
 
-        return new SupplierNotFoundException(String.format("No Product was found for sid = %s", sid));
+        return new ProductNotFoundException(String.format("No Product was found for sid = %s", sid));
     }
 }

@@ -8,6 +8,7 @@ import org.am.library.entities.AddressEntity;
 import org.am.library.entities.BrandEntity;
 import org.am.library.entities.CategoryEntity;
 import org.am.library.entities.CountyEntity;
+import org.am.library.entities.ImageEntity;
 import org.am.library.entities.ProductEntity;
 import org.am.library.entities.PurchaseEntity;
 import org.am.library.entities.PurchaseProductEntity;
@@ -127,7 +128,7 @@ public class EntityFaker {
                 .invoiceNumber(faker.number().numberBetween(0, 999999999))
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .dateReceived(Instant.now())
-                .warehouse(this.warehouse().build())
+                .warehouseSid(uuid())
                 .supplier(this.supplier().build())
                 .billValue(faker.number().randomDouble(2, 10, 9999999));
     }
@@ -139,6 +140,14 @@ public class EntityFaker {
                 .product((this.product().build()))
                 .quantity(faker.number().numberBetween(1, 10000))
                 .price(faker.number().randomDouble(2, 10, 9999999))
-                .sid(UUID.randomUUID());
+                .sid(uuid());
+    }
+
+    public ImageEntity.Builder productImage() {
+
+        return ImageEntity.builder()
+                .sid(uuid())
+                .product((this.product().build()))
+                .imagePath(faker.internet().url());
     }
 }

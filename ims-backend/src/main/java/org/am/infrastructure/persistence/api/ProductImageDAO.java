@@ -13,5 +13,7 @@ public interface ProductImageDAO {
 
     List<ProductImage> findAllByProductSid(UUID productSid);
 
+    ProductImage findBySid(UUID imageSid);
+
     void delete(int imageId);
 }

@@ -9,8 +9,6 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 public class ProductImage {
 
-    int id;
-
     UUID sid;
 
     UUID productSid;

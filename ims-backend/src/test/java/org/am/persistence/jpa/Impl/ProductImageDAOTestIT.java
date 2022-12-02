@@ -1,6 +1,7 @@
 package org.am.persistence.jpa.Impl;
 
 import org.am.domain.catalog.ProductImage;
+import org.am.domain.catalog.exceptions.NotFound.ProductImageNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
 import org.am.fakers.Faker;
 import org.am.infrastructure.persistence.api.ProductImageDAO;
@@ -106,7 +107,7 @@ public class ProductImageDAOTestIT extends BaseIntegrationTest {
         final ImageEntity imageEntity1 = integrationTestPersister.save(faker.entity.productImage()
                                                                                .product(productEntity)
                                                                                .build());
-        
+
         final ImageEntity imageEntity2 = integrationTestPersister.save(faker.entity.productImage()
                                                                                .product(productEntity)
                                                                                .build());
@@ -124,6 +125,7 @@ public class ProductImageDAOTestIT extends BaseIntegrationTest {
     @Test
     void delete_whenCalled_deletesImage() {
 
+        // Given
         final ImageEntity image = integrationTestPersister.save(faker.entity.productImage().build());
 
         //When
@@ -133,4 +135,35 @@ public class ProductImageDAOTestIT extends BaseIntegrationTest {
         assertThat(imagesRepository.findAll())
                 .isEmpty();
     }
+
+    @Test
+    void findImageBySid_whenImageExists_returnsImage() {
+
+        // Given
+        final ImageEntity imageEntity = faker.entity.productImage().build();
+        integrationTestPersister.save(imageEntity);
+
+        // When
+        ProductImage image = subject.findBySid(imageEntity.getSid());
+
+        // Then
+        assertThat(image).usingRecursiveComparison()
+                .ignoringFields("productSid")
+                .isEqualTo(imageEntity);
+        assertThat(image.getProductSid()).isEqualTo(imageEntity.getProduct().getSid());
+    }
+
+    @Test
+    void findImageBySid_whenImageDoesNotExist_throwsImageNotFoundException() {
+
+        // Given
+        final ProductImage image = faker.domain.productImage().build();
+
+        // When
+        ThrowableAssert.ThrowingCallable callable = () -> subject.findBySid(image.getSid());
+
+        // Then
+        assertThatThrownBy(callable).isInstanceOf(ProductImageNotFoundException.class);
+    }
 }
+

@@ -98,6 +98,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    @Transactional
     public Product update(final Product product) {
 
         final UUID productSid = product.getSid();

@@ -82,12 +82,14 @@ public class PurchaseDAOImpl implements PurchaseDAO {
                 .build();
     }
 
+    @Override
     public PurchaseEntity findBySid(final UUID sid) {
 
         return purchasesRepository.findBySid(sid)
                 .orElseThrow(() -> PurchaseNotFoundException.forSid(sid));
     }
 
+    @Override
     public List<Purchase> findAll() {
 
         return purchasesRepository.fetchAll()
@@ -97,6 +99,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
     }
 
     @Transactional
+    @Override
     public Purchase update(final PurchaseEntity purchase, List<Product> products) {
 
         final PurchaseEntity purchasePersisted = findBySid(purchase.getSid());

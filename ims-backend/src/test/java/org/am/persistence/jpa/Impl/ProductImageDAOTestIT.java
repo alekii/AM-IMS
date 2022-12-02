@@ -61,6 +61,30 @@ public class ProductImageDAOTestIT extends BaseIntegrationTest {
     }
 
     @Test
+    void persistListOfImages_whenProductExists_persistsImages() {
+
+        // Given
+        final ProductEntity productEntity = integrationTestPersister.save(faker.entity.product().build());
+
+        final ProductImage image1 = faker.domain.productImage()
+                .productSid(productEntity.getSid())
+                .build();
+
+        final ProductImage image2 = faker.domain.productImage()
+                .productSid(productEntity.getSid())
+                .build();
+
+        // When
+        final List<ProductImage> result = subject.persist(List.of(image1, image2));
+
+        // Then
+        assertThat(result)
+                .extracting(ProductImage::getSid)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(image1.getSid(), image2.getSid());
+    }
+
+    @Test
     void persist_whenProductDoesNotExist_throwsProductNotFoundException() {
 
         // Given
@@ -82,12 +106,13 @@ public class ProductImageDAOTestIT extends BaseIntegrationTest {
         final ImageEntity imageEntity1 = integrationTestPersister.save(faker.entity.productImage()
                                                                                .product(productEntity)
                                                                                .build());
+        
         final ImageEntity imageEntity2 = integrationTestPersister.save(faker.entity.productImage()
                                                                                .product(productEntity)
                                                                                .build());
 
         // When
-        final List<ProductImage> result = subject.findByProductSid(productEntity.getSid());
+        final List<ProductImage> result = subject.findAllByProductSid(productEntity.getSid());
 
         // Then
         assertThat(result)

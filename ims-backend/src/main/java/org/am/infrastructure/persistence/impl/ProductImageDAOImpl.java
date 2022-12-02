@@ -59,7 +59,7 @@ public class ProductImageDAOImpl implements ProductImageDAO {
     }
 
     @Override
-    public List<ProductImage> findByProductSid(UUID productSid) {
+    public List<ProductImage> findAllByProductSid(UUID productSid) {
 
         return imagesRepository.findByProductSid(productSid)
                 .stream()

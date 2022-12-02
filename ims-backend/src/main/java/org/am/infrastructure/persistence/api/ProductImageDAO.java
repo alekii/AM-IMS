@@ -9,9 +9,11 @@ public interface ProductImageDAO {
 
     ProductImage persist(ProductImage productImage);
 
-    List<ProductImage> persist(List<ProductImage> image);
+    List<ProductImage> persist(List<ProductImage> images);
 
-    List<ProductImage> findByProductSid(UUID productSid);
+    List<ProductImage> findAllByProductSid(UUID productSid);
+
+    ProductImage findBySid(UUID imageSid);
 
     void delete(int imageId);
 }

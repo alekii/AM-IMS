@@ -1,6 +1,7 @@
 package org.am.persistence.jpa.Impl;
 
 import org.am.domain.catalog.ProductImage;
+import org.am.domain.catalog.exceptions.NotFound.ProductImageNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
 import org.am.fakers.Faker;
 import org.am.infrastructure.persistence.api.ProductImageDAO;
@@ -18,7 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class ProductImageDAOImplTest extends BaseIntegrationTest {
+public class ProductImageDAOTestIT extends BaseIntegrationTest {
 
     private final Faker faker = new Faker();
 
@@ -61,6 +62,30 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
     }
 
     @Test
+    void persistListOfImages_whenProductExists_persistsImages() {
+
+        // Given
+        final ProductEntity productEntity = integrationTestPersister.save(faker.entity.product().build());
+
+        final ProductImage image1 = faker.domain.productImage()
+                .productSid(productEntity.getSid())
+                .build();
+
+        final ProductImage image2 = faker.domain.productImage()
+                .productSid(productEntity.getSid())
+                .build();
+
+        // When
+        final List<ProductImage> result = subject.persist(List.of(image1, image2));
+
+        // Then
+        assertThat(result)
+                .extracting(ProductImage::getSid)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(image1.getSid(), image2.getSid());
+    }
+
+    @Test
     void persist_whenProductDoesNotExist_throwsProductNotFoundException() {
 
         // Given
@@ -82,12 +107,13 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
         final ImageEntity imageEntity1 = integrationTestPersister.save(faker.entity.productImage()
                                                                                .product(productEntity)
                                                                                .build());
+
         final ImageEntity imageEntity2 = integrationTestPersister.save(faker.entity.productImage()
                                                                                .product(productEntity)
                                                                                .build());
 
         // When
-        final List<ProductImage> result = subject.findByProductSid(productEntity.getSid());
+        final List<ProductImage> result = subject.findAllByProductSid(productEntity.getSid());
 
         // Then
         assertThat(result)
@@ -99,6 +125,7 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
     @Test
     void delete_whenCalled_deletesImage() {
 
+        // Given
         final ImageEntity image = integrationTestPersister.save(faker.entity.productImage().build());
 
         //When
@@ -108,4 +135,35 @@ public class ProductImageDAOImplTest extends BaseIntegrationTest {
         assertThat(imagesRepository.findAll())
                 .isEmpty();
     }
+
+    @Test
+    void findImageBySid_whenImageExists_returnsImage() {
+
+        // Given
+        final ImageEntity imageEntity = faker.entity.productImage().build();
+        integrationTestPersister.save(imageEntity);
+
+        // When
+        ProductImage image = subject.findBySid(imageEntity.getSid());
+
+        // Then
+        assertThat(image).usingRecursiveComparison()
+                .ignoringFields("productSid")
+                .isEqualTo(imageEntity);
+        assertThat(image.getProductSid()).isEqualTo(imageEntity.getProduct().getSid());
+    }
+
+    @Test
+    void findImageBySid_whenImageDoesNotExist_throwsImageNotFoundException() {
+
+        // Given
+        final ProductImage image = faker.domain.productImage().build();
+
+        // When
+        ThrowableAssert.ThrowingCallable callable = () -> subject.findBySid(image.getSid());
+
+        // Then
+        assertThatThrownBy(callable).isInstanceOf(ProductImageNotFoundException.class);
+    }
 }
+

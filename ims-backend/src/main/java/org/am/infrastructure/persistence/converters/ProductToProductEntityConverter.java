@@ -1,7 +1,6 @@
 package org.am.infrastructure.persistence.converters;
 
 import org.am.commons.utils.Converter;
-import org.am.commons.utils.MappingUtil;
 import org.am.domain.catalog.Product;
 import org.am.library.entities.ProductEntity;
 import org.mapstruct.Mapper;
@@ -13,10 +12,10 @@ public interface ProductToProductEntityConverter
 
     @Override
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "sid", expression = MappingUtil.GENERATE_RANDOM_UUID)
+    @Mapping(target = "sid", source = "source.sid")
     @Mapping(source = "source.name", target = "name")
-    @Mapping(source = "source.category", target = "category")
-    @Mapping(source = "source.brand", target = "brand")
+    @Mapping(target = "category", source = "source.category")
+    @Mapping(target = "brand", source = "source.brand")
     @Mapping(target = "brand.id", ignore = true)
     @Mapping(target = "brand.products", ignore = true)
     @Mapping(target = "category.products", ignore = true)

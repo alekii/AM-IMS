@@ -2,6 +2,8 @@ package org.am.infrastructure.persistence.Configuration;
 
 import org.am.infrastructure.Address.AddressRepository;
 import org.am.infrastructure.Towns.TownRepository;
+import org.am.infrastructure.brand.BrandRepository;
+import org.am.infrastructure.category.CategoryRepository;
 import org.am.infrastructure.lineItems.LineItemsRepository;
 import org.am.infrastructure.productimages.ImagesRepository;
 import org.am.infrastructure.products.ProductRepository;
@@ -25,7 +27,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         ProductRepository.class,
         PurchaseRepository.class,
         LineItemsRepository.class,
-        ImagesRepository.class
+        ImagesRepository.class,
+        BrandRepository.class,
+        CategoryRepository.class
 })
 
 @EntityScan("org.am.library.entities")

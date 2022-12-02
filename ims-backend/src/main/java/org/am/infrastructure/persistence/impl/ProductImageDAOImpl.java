@@ -2,6 +2,7 @@ package org.am.infrastructure.persistence.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.ProductImage;
+import org.am.domain.catalog.exceptions.NotFound.ProductImageNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
 import org.am.infrastructure.persistence.api.ProductImageDAO;
 import org.am.infrastructure.persistence.converters.ProductImageConverter;
@@ -59,12 +60,20 @@ public class ProductImageDAOImpl implements ProductImageDAO {
     }
 
     @Override
-    public List<ProductImage> findByProductSid(UUID productSid) {
+    public List<ProductImage> findAllByProductSid(UUID productSid) {
 
         return imagesRepository.findByProductSid(productSid)
                 .stream()
                 .map(productImageConverter::convert)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductImage findBySid(UUID imageSid) {
+
+        ImageEntity image = imagesRepository.findBySid(imageSid)
+                .orElseThrow(() -> ProductImageNotFoundException.forSid(imageSid));
+        return productImageConverter.convert(image);
     }
 
     private List<ImageEntity> getImageEntities(List<ProductImage> images, ProductEntity productEntity) {

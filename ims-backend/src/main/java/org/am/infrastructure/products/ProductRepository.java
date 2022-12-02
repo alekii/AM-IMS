@@ -17,4 +17,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
             + "INNER JOIN FETCH p.supplied_by "
             + "WHERE p.sid = (:sid)")
     Optional<ProductEntity> findBySid(final @Param("sid") UUID sid);
+
+    Optional<ProductEntity> findByName(final String productName);
 }

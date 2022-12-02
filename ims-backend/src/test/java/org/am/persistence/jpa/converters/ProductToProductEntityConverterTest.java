@@ -39,7 +39,6 @@ public class ProductToProductEntityConverterTest {
         Assertions.assertThat(convertedProductEntity.getSid()).isInstanceOf(UUID.class);
         assertThat(convertedProductEntity)
                 .usingRecursiveComparison()
-                .ignoringFields("sid")
                 .isEqualTo(productEntity);
     }
 

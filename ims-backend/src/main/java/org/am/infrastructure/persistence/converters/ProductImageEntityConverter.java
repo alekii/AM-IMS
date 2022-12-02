@@ -11,7 +11,7 @@ public interface ProductImageEntityConverter extends Converter<ProductImage, Ima
 
     @Override
     @Mapping(target = "sid", source = "source.sid")
-    @Mapping(target = "id", source = "source.id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "imagePath", source = "source.imagePath")
     @Mapping(target = "product", ignore = true)
     ImageEntity convert(ProductImage source);

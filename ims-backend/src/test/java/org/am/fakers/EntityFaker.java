@@ -104,6 +104,8 @@ public class EntityFaker {
                 .quantity(faker.number().numberBetween(0, 1000))
                 .description(faker.lorem().characters(200, 400, true))
                 .discount(0.15)
+                .received_by(faker.name().fullName())
+                .date_received(Instant.now())
                 .warehouseSid(uuid());
     }
 

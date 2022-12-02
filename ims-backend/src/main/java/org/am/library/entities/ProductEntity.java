@@ -104,7 +104,7 @@ public class ProductEntity {
     @Column(name = PRODUCT_COLUMN_NAME, nullable = false)
     private String name;
 
-    @Column(name = PRODUCT_DATE_RECEIVED_COLUMN_NAME)
+    @Column(name = PRODUCT_DATE_RECEIVED_COLUMN_NAME, nullable = false, updatable = false)
     private Instant date_received;
 
     @ManyToOne
@@ -116,10 +116,10 @@ public class ProductEntity {
     private CategoryEntity category;
 
     @ManyToOne
-    @JoinColumn(name = FK_SUPPLIER_COLUMN_NAME, foreignKey = @ForeignKey(name = PRODUCT_SUPPLIER_FOREIGN_KEY), nullable = false)
+    @JoinColumn(name = FK_SUPPLIER_COLUMN_NAME, foreignKey = @ForeignKey(name = PRODUCT_SUPPLIER_FOREIGN_KEY), nullable = false, updatable = false)
     private SupplierEntity supplied_by;
 
-    @Column(name = PRODUCT_RECEIVED_BY, nullable = false)
+    @Column(name = PRODUCT_RECEIVED_BY, nullable = false, updatable = false)
     private String received_by;
 
     @Column(name = PRODUCT_SKU, nullable = false)
@@ -143,6 +143,6 @@ public class ProductEntity {
     @OneToMany(targetEntity = ImageEntity.class, fetch = FetchType.LAZY, mappedBy = ImageEntity.IMAGE_COLUMN_NAME)
     private List<ImageEntity> images;
 
-    @Column(name = WAREHOUSE_COLUMN_NAME)
+    @Column(name = WAREHOUSE_COLUMN_NAME, updatable = false)
     private UUID warehouseSid;
 }

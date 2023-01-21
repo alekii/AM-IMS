@@ -1,21 +1,37 @@
 package org.am.domain.configurations;
 
+import org.am.domain.api.CreateProductUseCase;
+import org.am.domain.api.CreatePurchaseUseCase;
 import org.am.domain.api.CreateSupplierUseCase;
 import org.am.domain.api.CreateWarehouseUseCase;
+import org.am.domain.api.GetProductUseCase;
+import org.am.domain.api.GetPurchaseUseCase;
 import org.am.domain.api.GetSupplierUseCase;
 import org.am.domain.api.GetWarehouseUseCase;
+import org.am.domain.api.UpdateProductUseCase;
+import org.am.domain.api.UpdatePurchaseUseCase;
 import org.am.domain.api.UpdateSupplierUseCase;
 import org.am.domain.api.UpdateWarehouseUseCase;
+import org.am.domain.impl.CreateProductUseCaseImpl;
+import org.am.domain.impl.CreatePurchaseUseCaseImpl;
 import org.am.domain.impl.CreateSupplierUseCaseImpl;
 import org.am.domain.impl.CreateWarehouseUseCaseImpl;
+import org.am.domain.impl.GetProductUseCaseImpl;
+import org.am.domain.impl.GetPurchaseUseCaseImpl;
 import org.am.domain.impl.GetSupplierUseCaseImpl;
 import org.am.domain.impl.GetWarehouseUseCaseImpl;
+import org.am.domain.impl.UpdateProductUseCaseImpl;
+import org.am.domain.impl.UpdatePurchaseUseCaseImpl;
 import org.am.domain.impl.UpdateSupplierUseCaseImpl;
 import org.am.domain.impl.UpdateWarehouseUseCaseImpl;
 import org.am.domain.validation.validators.SupplierValidator;
 import org.am.domain.validation.validators.WarehouseValidator;
+import org.am.infrastructure.persistence.api.ProductDAO;
+import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.api.SupplierDAO;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
+import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverter;
+import org.am.infrastructure.persistence.converters.PurchaseToPurchaseEntityConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -56,5 +72,41 @@ public class UseCaseConfiguration {
     UpdateSupplierUseCase updateSupplierUseCase(SupplierDAO supplierDAO, SupplierValidator supplierValidator) {
 
         return new UpdateSupplierUseCaseImpl(supplierDAO, supplierValidator);
+    }
+
+    @Bean
+    CreateProductUseCase createProductUseCase(ProductDAO productDAO) {
+
+        return new CreateProductUseCaseImpl(productDAO);
+    }
+
+    @Bean
+    UpdateProductUseCase updateProductUseCase(ProductDAO productDAO) {
+
+        return new UpdateProductUseCaseImpl(productDAO);
+    }
+
+    @Bean
+    GetProductUseCase getProductUseCase(ProductDAO productDAO) {
+
+        return new GetProductUseCaseImpl(productDAO);
+    }
+
+    @Bean
+    CreatePurchaseUseCase createPurchaseUseCase(PurchaseDAO purchaseDAO, PurchaseToPurchaseEntityConverter purchaseEntityConverter) {
+
+        return new CreatePurchaseUseCaseImpl(purchaseDAO, purchaseEntityConverter);
+    }
+
+    @Bean
+    UpdatePurchaseUseCase updatePurchaseUseCase(PurchaseDAO purchaseDAO) {
+
+        return new UpdatePurchaseUseCaseImpl(purchaseDAO);
+    }
+
+    @Bean
+    GetPurchaseUseCase getPurchaseUseCase(PurchaseDAO purchaseDAO, PurchaseEntityToPurchaseConverter purchaseConverter) {
+
+        return new GetPurchaseUseCaseImpl(purchaseDAO, purchaseConverter);
     }
 }

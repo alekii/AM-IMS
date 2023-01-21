@@ -1,9 +1,13 @@
 package org.am.domain.configurations;
 
+import org.am.domain.api.CreateBrandUseCase;
+import org.am.domain.api.CreateCategoryUseCase;
 import org.am.domain.api.CreateProductUseCase;
 import org.am.domain.api.CreatePurchaseUseCase;
 import org.am.domain.api.CreateSupplierUseCase;
 import org.am.domain.api.CreateWarehouseUseCase;
+import org.am.domain.api.GetBrandUseCase;
+import org.am.domain.api.GetCategoryUseCase;
 import org.am.domain.api.GetProductUseCase;
 import org.am.domain.api.GetPurchaseUseCase;
 import org.am.domain.api.GetSupplierUseCase;
@@ -12,10 +16,14 @@ import org.am.domain.api.UpdateProductUseCase;
 import org.am.domain.api.UpdatePurchaseUseCase;
 import org.am.domain.api.UpdateSupplierUseCase;
 import org.am.domain.api.UpdateWarehouseUseCase;
+import org.am.domain.impl.CreateBrandUseCaseImpl;
+import org.am.domain.impl.CreateCategoryUseCaseImpl;
 import org.am.domain.impl.CreateProductUseCaseImpl;
 import org.am.domain.impl.CreatePurchaseUseCaseImpl;
 import org.am.domain.impl.CreateSupplierUseCaseImpl;
 import org.am.domain.impl.CreateWarehouseUseCaseImpl;
+import org.am.domain.impl.GetBrandUseCaseImpl;
+import org.am.domain.impl.GetCategoryUseCaseImpl;
 import org.am.domain.impl.GetProductUseCaseImpl;
 import org.am.domain.impl.GetPurchaseUseCaseImpl;
 import org.am.domain.impl.GetSupplierUseCaseImpl;
@@ -26,6 +34,8 @@ import org.am.domain.impl.UpdateSupplierUseCaseImpl;
 import org.am.domain.impl.UpdateWarehouseUseCaseImpl;
 import org.am.domain.validation.validators.SupplierValidator;
 import org.am.domain.validation.validators.WarehouseValidator;
+import org.am.infrastructure.persistence.api.BrandDAO;
+import org.am.infrastructure.persistence.api.CategoryDAO;
 import org.am.infrastructure.persistence.api.ProductDAO;
 import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.api.SupplierDAO;
@@ -108,5 +118,29 @@ public class UseCaseConfiguration {
     GetPurchaseUseCase getPurchaseUseCase(PurchaseDAO purchaseDAO, PurchaseEntityToPurchaseConverter purchaseConverter) {
 
         return new GetPurchaseUseCaseImpl(purchaseDAO, purchaseConverter);
+    }
+
+    @Bean
+    CreateBrandUseCase createBrandUseCase(BrandDAO brandDAO) {
+
+        return new CreateBrandUseCaseImpl(brandDAO);
+    }
+
+    @Bean
+    CreateCategoryUseCase createCategoryUseCase(CategoryDAO categoryDAO) {
+
+        return new CreateCategoryUseCaseImpl(categoryDAO);
+    }
+
+    @Bean
+    GetBrandUseCase getBrandUseCase(BrandDAO brandDAO) {
+
+        return new GetBrandUseCaseImpl(brandDAO);
+    }
+
+    @Bean
+    GetCategoryUseCase getCategoryUseCase(CategoryDAO categoryDAO) {
+
+        return new GetCategoryUseCaseImpl(categoryDAO);
     }
 }

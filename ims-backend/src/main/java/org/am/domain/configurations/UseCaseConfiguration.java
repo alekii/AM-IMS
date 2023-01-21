@@ -2,12 +2,15 @@ package org.am.domain.configurations;
 
 import org.am.domain.api.CreateBrandUseCase;
 import org.am.domain.api.CreateCategoryUseCase;
+import org.am.domain.api.CreateProductImageUseCase;
 import org.am.domain.api.CreateProductUseCase;
 import org.am.domain.api.CreatePurchaseUseCase;
 import org.am.domain.api.CreateSupplierUseCase;
 import org.am.domain.api.CreateWarehouseUseCase;
+import org.am.domain.api.DeleteProductImageUseCase;
 import org.am.domain.api.GetBrandUseCase;
 import org.am.domain.api.GetCategoryUseCase;
+import org.am.domain.api.GetProductImageUseCase;
 import org.am.domain.api.GetProductUseCase;
 import org.am.domain.api.GetPurchaseUseCase;
 import org.am.domain.api.GetSupplierUseCase;
@@ -18,12 +21,15 @@ import org.am.domain.api.UpdateSupplierUseCase;
 import org.am.domain.api.UpdateWarehouseUseCase;
 import org.am.domain.impl.CreateBrandUseCaseImpl;
 import org.am.domain.impl.CreateCategoryUseCaseImpl;
+import org.am.domain.impl.CreateProductImageUseCaseImpl;
 import org.am.domain.impl.CreateProductUseCaseImpl;
 import org.am.domain.impl.CreatePurchaseUseCaseImpl;
 import org.am.domain.impl.CreateSupplierUseCaseImpl;
 import org.am.domain.impl.CreateWarehouseUseCaseImpl;
+import org.am.domain.impl.DeleteProductImageUseCaseImpl;
 import org.am.domain.impl.GetBrandUseCaseImpl;
 import org.am.domain.impl.GetCategoryUseCaseImpl;
+import org.am.domain.impl.GetProductImageUseCaseImpl;
 import org.am.domain.impl.GetProductUseCaseImpl;
 import org.am.domain.impl.GetPurchaseUseCaseImpl;
 import org.am.domain.impl.GetSupplierUseCaseImpl;
@@ -37,6 +43,7 @@ import org.am.domain.validation.validators.WarehouseValidator;
 import org.am.infrastructure.persistence.api.BrandDAO;
 import org.am.infrastructure.persistence.api.CategoryDAO;
 import org.am.infrastructure.persistence.api.ProductDAO;
+import org.am.infrastructure.persistence.api.ProductImageDAO;
 import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.api.SupplierDAO;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
@@ -142,5 +149,23 @@ public class UseCaseConfiguration {
     GetCategoryUseCase getCategoryUseCase(CategoryDAO categoryDAO) {
 
         return new GetCategoryUseCaseImpl(categoryDAO);
+    }
+
+    @Bean
+    CreateProductImageUseCase createProductImageUseCase(ProductImageDAO productImageDAO) {
+
+        return new CreateProductImageUseCaseImpl(productImageDAO);
+    }
+
+    @Bean
+    GetProductImageUseCase getProductImageUseCase(ProductImageDAO productImageDAO) {
+
+        return new GetProductImageUseCaseImpl(productImageDAO);
+    }
+
+    @Bean
+    DeleteProductImageUseCase deleteProductImageUseCase(ProductImageDAO productImageDAO) {
+
+        return new DeleteProductImageUseCaseImpl(productImageDAO);
     }
 }

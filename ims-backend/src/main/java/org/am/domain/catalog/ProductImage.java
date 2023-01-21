@@ -11,6 +11,8 @@ public class ProductImage {
 
     UUID sid;
 
+    int id;
+
     UUID productSid;
 
     String imagePath;

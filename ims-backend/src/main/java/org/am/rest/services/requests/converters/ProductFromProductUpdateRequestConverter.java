@@ -6,15 +6,13 @@ import org.am.domain.catalog.Category;
 import org.am.domain.catalog.Product;
 import org.am.rest.services.requests.ProductUpdateRequest;
 
-import java.util.UUID;
-
 public class ProductFromProductUpdateRequestConverter implements Converter<ProductUpdateRequest, Product> {
 
     @Override
     public Product convert(ProductUpdateRequest source) {
 
         return Product.builder()
-                .sid(UUID.randomUUID())
+                .sid(source.getSid())
                 .discount(source.getDiscount())
                 .price(source.getPrice())
                 .brand(Brand.builder()

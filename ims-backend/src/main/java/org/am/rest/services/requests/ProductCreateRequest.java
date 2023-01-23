@@ -43,6 +43,11 @@ public class ProductCreateRequest {
 
         @NotNull
         UUID sid;
+
+        public CategoryRequest() {
+
+            super();
+        }
     }
 
     @AllArgsConstructor
@@ -55,6 +60,11 @@ public class ProductCreateRequest {
 
         @NotNull
         UUID sid;
+
+        public BrandRequest() {
+
+            super();
+        }
     }
 
     @NotBlank
@@ -104,6 +114,11 @@ public class ProductCreateRequest {
 
         @Max(30)
         int leadTime;
+
+        public SupplierRequest() {
+
+            super();
+        }
     }
 
     String sku;

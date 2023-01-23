@@ -8,8 +8,6 @@ import org.am.domain.catalog.Supplier;
 import org.am.rest.services.requests.ProductCreateRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class ProductFromProductCreateRequestConverter implements Converter<ProductCreateRequest, Product> {
 
@@ -17,7 +15,7 @@ public class ProductFromProductCreateRequestConverter implements Converter<Produ
     public Product convert(ProductCreateRequest source) {
 
         return Product.builder()
-                .sid(UUID.randomUUID())
+                .sid(source.getSid())
                 .discount(source.getDiscount())
                 .price(source.getPrice())
                 .brand(Brand.builder()

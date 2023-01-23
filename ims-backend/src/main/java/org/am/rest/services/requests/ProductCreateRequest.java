@@ -1,6 +1,8 @@
 package org.am.rest.services.requests;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import org.am.domain.validation.validators.constants.ValidationConstants;
 
 import javax.validation.Valid;
@@ -14,7 +16,9 @@ import java.util.UUID;
 
 import static org.am.domain.validation.validators.constants.ValidationConstants.EMAIL_MAX_LENGTH;
 
-@Value
+@AllArgsConstructor
+@Getter
+@Builder(builderClassName = "Builder")
 public class ProductCreateRequest {
 
     @NotBlank
@@ -29,7 +33,9 @@ public class ProductCreateRequest {
     @Valid
     BrandRequest brand;
 
-    @Value
+    @AllArgsConstructor
+    @Getter
+    @lombok.Builder(builderClassName = "Builder")
     public static class CategoryRequest {
 
         @NotBlank
@@ -39,7 +45,9 @@ public class ProductCreateRequest {
         UUID sid;
     }
 
-    @Value
+    @AllArgsConstructor
+    @Getter
+    @lombok.Builder(builderClassName = "Builder")
     public static class BrandRequest {
 
         @NotBlank
@@ -75,7 +83,9 @@ public class ProductCreateRequest {
     @Valid
     SupplierRequest supplier;
 
-    @Value
+    @AllArgsConstructor
+    @Getter
+    @lombok.Builder(builderClassName = "Builder")
     public static class SupplierRequest {
 
         @NotNull
@@ -97,4 +107,9 @@ public class ProductCreateRequest {
     }
 
     String sku;
+
+    public ProductCreateRequest() {
+
+        super();
+    }
 }

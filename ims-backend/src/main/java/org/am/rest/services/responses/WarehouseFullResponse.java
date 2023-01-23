@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @Value
 @Builder
-@RequiredArgsConstructor
 public class WarehouseFullResponse {
 
     UUID sid;

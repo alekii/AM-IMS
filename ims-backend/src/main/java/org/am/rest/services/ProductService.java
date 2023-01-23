@@ -55,11 +55,11 @@ public class ProductService {
 
     private final ProductImageToProductImageResponseConverter productImageToProductImageResponseConverter;
 
-    public ProductMinimumResponse createProduct(ProductCreateRequest request) {
+    public ProductFullResponse createProduct(ProductCreateRequest request) {
 
         final Product product = productFromProductCreateRequestConverter.convert(request);
 
-        return productToMinimumResponseConverter.convert(createProductUseCase.create(product));
+        return productToFullResponseConverter.convert(createProductUseCase.create(product));
     }
 
     public ProductFullResponse findBySid(UUID productSid) {

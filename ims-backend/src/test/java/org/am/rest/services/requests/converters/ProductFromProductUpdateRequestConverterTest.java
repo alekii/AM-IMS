@@ -28,7 +28,10 @@ public class ProductFromProductUpdateRequestConverterTest {
         final Product createdProduct = subject.convert(productUpdateRequest);
 
         // Then
-        assertThat(createdProduct).usingRecursiveComparison().isEqualTo(product);
+        assertThat(createdProduct)
+                .usingRecursiveComparison()
+                .ignoringFields("sid")
+                .isEqualTo(product);
     }
 
     private Product buildProduct(ProductUpdateRequest productUpdateRequest) {

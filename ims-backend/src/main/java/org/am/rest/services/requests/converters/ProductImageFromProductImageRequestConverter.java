@@ -6,7 +6,7 @@ import org.am.rest.services.requests.ProductImageCreateRequest;
 
 import java.util.UUID;
 
-public class ProductImageFromProductImageRequestConveter implements Converter<ProductImageCreateRequest, ProductImage> {
+public class ProductImageFromProductImageRequestConverter implements Converter<ProductImageCreateRequest, ProductImage> {
 
     @Override
     public ProductImage convert(ProductImageCreateRequest source) {

@@ -14,7 +14,7 @@ import org.am.rest.services.requests.ProductImageCreateRequest;
 import org.am.rest.services.requests.ProductUpdateRequest;
 import org.am.rest.services.requests.converters.ProductFromProductCreateRequestConverter;
 import org.am.rest.services.requests.converters.ProductFromProductUpdateRequestConverter;
-import org.am.rest.services.requests.converters.ProductImageFromProductImageRequestConveter;
+import org.am.rest.services.requests.converters.ProductImageFromProductImageRequestConverter;
 import org.am.rest.services.responses.ProductFullResponse;
 import org.am.rest.services.responses.ProductImageResponse;
 import org.am.rest.services.responses.ProductMinimumResponse;
@@ -51,7 +51,7 @@ public class ProductService {
 
     private final ProductFromProductUpdateRequestConverter productFromProductUpdateRequestConverter;
 
-    private final ProductImageFromProductImageRequestConveter productImageFromProductImageRequestConveter;
+    private final ProductImageFromProductImageRequestConverter productImageFromProductImageRequestConveter;
 
     private final ProductImageToProductImageResponseConverter productImageToProductImageResponseConverter;
 

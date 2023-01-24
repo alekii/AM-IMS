@@ -13,7 +13,7 @@ public class ProductToMinimumResponseConverter {
                 .sid(product.getSid())
                 .name(product.getName())
                 .price(product.getPrice())
-                .discount(product.getPrice())
+                .discount(product.getDiscount())
                 .build();
     }
 }

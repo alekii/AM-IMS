@@ -17,7 +17,6 @@ import org.am.rest.services.requests.converters.ProductFromProductUpdateRequestC
 import org.am.rest.services.requests.converters.ProductImageFromProductImageRequestConverter;
 import org.am.rest.services.responses.ProductFullResponse;
 import org.am.rest.services.responses.ProductImageResponse;
-import org.am.rest.services.responses.ProductMinimumResponse;
 import org.am.rest.services.responses.converters.ProductImageToProductImageResponseConverter;
 import org.am.rest.services.responses.converters.ProductToFullResponseConverter;
 import org.am.rest.services.responses.converters.ProductToMinimumResponseConverter;
@@ -51,7 +50,7 @@ public class ProductService {
 
     private final ProductFromProductUpdateRequestConverter productFromProductUpdateRequestConverter;
 
-    private final ProductImageFromProductImageRequestConverter productImageFromProductImageRequestConveter;
+    private final ProductImageFromProductImageRequestConverter productImageFromProductImageRequestConverter;
 
     private final ProductImageToProductImageResponseConverter productImageToProductImageResponseConverter;
 
@@ -67,17 +66,17 @@ public class ProductService {
         return productToFullResponseConverter.convert(getProductUseCase.getBySid(productSid));
     }
 
-    public ProductMinimumResponse updateProduct(ProductUpdateRequest request) {
+    public ProductFullResponse updateProduct(ProductUpdateRequest request) {
 
         final Product product = productFromProductUpdateRequestConverter.convert(request);
 
-        return productToMinimumResponseConverter.convert(updateProductUseCase.update(product));
+        return productToFullResponseConverter.convert(updateProductUseCase.update(product));
     }
 
-    public void addProductImage(ProductImageCreateRequest request) {
+    public ProductImageResponse addProductImage(ProductImageCreateRequest request) {
 
-        ProductImage productImage = productImageFromProductImageRequestConveter.convert(request);
-        createProductImageUseCase.create(productImage);
+        final ProductImage productImage = productImageFromProductImageRequestConverter.convert(request);
+        return productImageToProductImageResponseConverter.convert(createProductImageUseCase.create(productImage));
     }
 
     public void deleteProductImage(int imageId) {

@@ -15,7 +15,7 @@ public class ProductToFullResponseConverterTest {
             = new ProductToFullResponseConverter();
 
     @Test
-    void convert_Warehouse_returnsWarehouseModelToWarehouseFullResponse() {
+    void convert_Warehouse_returnsProductToProductFullResponse() {
 
         // Given
         final Product product = faker.domain.product().build();

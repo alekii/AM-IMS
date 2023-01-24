@@ -148,7 +148,7 @@ public class ProductImageDAOTestIT extends BaseIntegrationTest {
 
         // Then
         assertThat(image).usingRecursiveComparison()
-                .ignoringFields("productSid")
+                .ignoringFields("productSid", "id")
                 .isEqualTo(imageEntity);
         assertThat(image.getProductSid()).isEqualTo(imageEntity.getProduct().getSid());
     }

@@ -7,15 +7,13 @@ import java.util.UUID;
 
 @Value
 @Builder
-public class SupplierResponse {
+public class ProductMinimumResponse {
 
     UUID sid;
 
     String name;
 
-    String email;
+    Double price;
 
-    String phoneNumber;
-
-    int leadTime;
+    Double discount;
 }

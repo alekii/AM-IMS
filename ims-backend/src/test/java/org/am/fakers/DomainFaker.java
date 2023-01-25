@@ -17,11 +17,19 @@ import org.am.domain.catalog.Warehouse;
 import org.am.fakers.util.TEST_CONSTANTS;
 import org.am.infrastructure.warehouses.projections.WarehouseProjection;
 import org.am.library.entities.util.PurchaseStatus;
+import org.am.rest.services.requests.BrandCreationRequest;
+import org.am.rest.services.requests.CategoryCreationRequest;
+import org.am.rest.services.requests.ProductCreateRequest;
+import org.am.rest.services.requests.ProductImageCreateRequest;
+import org.am.rest.services.requests.ProductUpdateRequest;
 import org.am.rest.services.requests.SupplierCreateRequest;
 import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.requests.WarehouseUpdateRequest;
+import org.am.rest.services.responses.ProductFullResponse;
+import org.am.rest.services.responses.ProductImageResponse;
+import org.am.rest.services.responses.ProductMinimumResponse;
 import org.am.rest.services.responses.SupplierResponse;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
@@ -245,7 +253,7 @@ public class DomainFaker {
     public Brand.Builder brand() {
 
         return Brand.builder()
-                .name(faker.book().genre().toString())
+                .name(faker.book().genre())
                 .sid(uuid());
     }
 
@@ -277,6 +285,116 @@ public class DomainFaker {
         return ProductImage.builder()
                 .sid(uuid())
                 .productSid(uuid())
+                .imagePath(faker.internet().url());
+    }
+
+    public ProductCreateRequest.Builder productCreateRequest() {
+
+        return ProductCreateRequest.builder()
+                .sid(UUID.randomUUID())
+                .name(faker.funnyName().name())
+                .price(faker.number().randomDouble(2, 1, 99999))
+                .sku(faker.funnyName().name())
+                .category(ProductCreateRequest.CategoryRequest.builder()
+                                  .sid(UUID.randomUUID())
+                                  .name(faker.name().name())
+                                  .build())
+                .brand(ProductCreateRequest.BrandRequest.builder()
+                               .sid(UUID.randomUUID())
+                               .name(faker.book().author())
+                               .build())
+                .supplier(ProductCreateRequest.SupplierRequest.builder()
+                                  .sid(UUID.randomUUID())
+                                  .email(faker.internet().emailAddress())
+                                  .name(faker.company().name())
+                                  .leadTime(faker.number().numberBetween(0, 30))
+                                  .phoneNumber(faker.phoneNumber().phoneNumber())
+                                  .build())
+                .dateReceived(Instant.now())
+                .receivedBy(faker.name().fullName())
+                .quantity(faker.number().numberBetween(1, 99999))
+                .warehouseSid(UUID.randomUUID())
+                .discount(faker.number().randomDouble(2, 10, 60));
+    }
+
+    public ProductUpdateRequest.Builder productUpdateRequest() {
+
+        return ProductUpdateRequest.builder()
+                .sid(UUID.randomUUID())
+                .name(faker.funnyName().name())
+                .price(faker.number().randomDouble(2, 1, 99999))
+                .sku(faker.funnyName().name())
+                .category(ProductUpdateRequest.CategoryRequest.builder()
+                                  .sid(UUID.randomUUID())
+                                  .name(faker.name().name())
+                                  .build())
+                .brand(ProductUpdateRequest.BrandRequest.builder()
+                               .sid(UUID.randomUUID())
+                               .name(faker.book().author())
+                               .build())
+                .quantity(faker.number().numberBetween(1, 99999))
+                .discount(faker.number().randomDouble(2, 10, 60));
+    }
+
+    public ProductImageCreateRequest.Builder productImageCreateRequest() {
+
+        return ProductImageCreateRequest.builder()
+                .productSid(UUID.randomUUID())
+                .imagePath(faker.internet().url());
+    }
+
+    public BrandCreationRequest.Builder brandCreationRequest() {
+
+        return BrandCreationRequest.builder()
+                .name(faker.name().fullName());
+    }
+
+    public CategoryCreationRequest.Builder categoryCreationRequest() {
+
+        return CategoryCreationRequest.builder()
+                .name(faker.name().name());
+    }
+
+    public ProductFullResponse.ProductFullResponseBuilder productFullResponse() {
+
+        return ProductFullResponse.builder()
+                .sid(UUID.randomUUID())
+                .brand(ProductFullResponse.BrandResponse.builder()
+                               .sid(UUID.randomUUID())
+                               .name(faker.name().name())
+                               .build())
+                .category(ProductFullResponse.CategoryResponse.builder()
+                                  .sid(UUID.randomUUID())
+                                  .name(faker.name().name())
+                                  .build())
+                .supplier(ProductFullResponse.SupplierResponse.builder()
+                                  .sid(UUID.randomUUID())
+                                  .name(faker.company().name())
+                                  .build())
+                .price(faker.number().randomDouble(2, 1, 99999))
+                .sku(faker.funnyName().name())
+                .description(faker.lorem().paragraphs(1).toString())
+                .name(faker.funnyName().name())
+                .dateReceived(Instant.now())
+                .receivedBy(faker.name().fullName())
+                .quantity(faker.number().numberBetween(1, 99999))
+                .warehouseSid(UUID.randomUUID())
+                .discount(faker.number().randomDouble(2, 10, 60));
+    }
+
+    public ProductMinimumResponse.ProductMinimumResponseBuilder productMinimumResponse() {
+
+        return ProductMinimumResponse.builder()
+                .name(faker.name().name())
+                .sid(UUID.randomUUID())
+                .discount(faker.number().randomDouble(2, 10, 60))
+                .price(faker.number().randomDouble(2, 1, 99999));
+    }
+
+    public ProductImageResponse.ProductImageResponseBuilder productImageResponse() {
+
+        return ProductImageResponse.builder()
+                .id(faker.number().numberBetween(0, 1024))
                 .imagePath(faker.internet().url());
     }
 }

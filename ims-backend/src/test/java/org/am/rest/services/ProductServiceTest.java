@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -34,6 +35,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -178,7 +180,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void getImageForProduct_whenProductImageExists_returnImages() {
+    void getImageForProduct_whenProductImageExists_returnImagesList() {
 
         //Given
         final ProductImage image = faker.domain.productImage().build();
@@ -189,6 +191,25 @@ public class ProductServiceTest {
 
         // Then
         verify(getProductImageUseCase).findAllByProductSid(any());
+    }
+
+    @Test
+    void getProductImages_whenProductImageNotExist_returnEmptyList() {
+
+        // Given
+        final List<ProductImage> productImages = new ArrayList<>();
+
+        doReturn(productImages)
+                .when(getProductImageUseCase)
+                .findAllByProductSid(any(UUID.class));
+
+        // When
+        final List<ProductImageResponse> result = subject.getProductImages(UUID.randomUUID());
+
+        //Then
+        verify(productImageToProductImageResponseConverter, never()).convert(any());
+
+        assertThat(result).isEmpty();
     }
 
     @Test

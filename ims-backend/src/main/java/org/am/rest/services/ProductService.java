@@ -19,7 +19,6 @@ import org.am.rest.services.responses.ProductFullResponse;
 import org.am.rest.services.responses.ProductImageResponse;
 import org.am.rest.services.responses.converters.ProductImageToProductImageResponseConverter;
 import org.am.rest.services.responses.converters.ProductToFullResponseConverter;
-import org.am.rest.services.responses.converters.ProductToMinimumResponseConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,8 +42,6 @@ public class ProductService {
     private final UpdateProductUseCase updateProductUseCase;
 
     private final ProductFromProductCreateRequestConverter productFromProductCreateRequestConverter;
-
-    private final ProductToMinimumResponseConverter productToMinimumResponseConverter;
 
     private final ProductToFullResponseConverter productToFullResponseConverter;
 
@@ -82,6 +79,11 @@ public class ProductService {
     public void deleteProductImage(int imageId) {
 
         deleteProductImageUseCase.delete(imageId);
+    }
+
+    public ProductImageResponse findByImageSid(UUID imageSid) {
+
+        return productImageToProductImageResponseConverter.convert(getProductImageUseCase.findBySid(imageSid));
     }
 
     public List<ProductImageResponse> getProductImages(UUID productSid) {

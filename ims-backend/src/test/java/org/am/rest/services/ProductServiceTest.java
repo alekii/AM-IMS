@@ -3,6 +3,7 @@ package org.am.rest.services;
 import org.am.domain.api.CreateProductImageUseCase;
 import org.am.domain.api.CreateProductUseCase;
 import org.am.domain.api.DeleteProductImageUseCase;
+import org.am.domain.api.GetProductImageUseCase;
 import org.am.domain.api.GetProductUseCase;
 import org.am.domain.api.UpdateProductUseCase;
 import org.am.domain.catalog.Product;
@@ -24,13 +25,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
@@ -48,6 +52,9 @@ public class ProductServiceTest {
 
     @Mock
     private CreateProductImageUseCase createProductImageUseCase;
+
+    @Mock
+    private GetProductImageUseCase getProductImageUseCase;
 
     @Mock
     private DeleteProductImageUseCase deleteProductImageUseCase;
@@ -153,5 +160,56 @@ public class ProductServiceTest {
 
         // Then
         assertThat(result).isEqualTo(productImageResponse);
+    }
+
+    @Test
+    void delete_calls_deleteUseCase() {
+
+        // Given
+        final ProductImage image = faker.domain.productImage().build();
+        final int imageId = image.getId();
+        doNothing().when(deleteProductImageUseCase).delete(imageId);
+
+        // When
+        subject.deleteProductImage(imageId);
+
+        //Then
+        verify(deleteProductImageUseCase).delete(eq(imageId));
+    }
+
+    @Test
+    void getImageForProduct_whenProductImageExists_returnImages() {
+
+        //Given
+        final ProductImage image = faker.domain.productImage().build();
+        doReturn(List.of(image)).when(getProductImageUseCase).findAllByProductSid(any(UUID.class));
+
+        //When
+        subject.getProductImages(UUID.randomUUID());
+
+        // Then
+        verify(getProductImageUseCase).findAllByProductSid(any());
+    }
+
+    @Test
+    void findBySid_whenProductImageExists_returnsProductImageSuccessfully() {
+
+        // Given
+        final ProductImage image = faker.domain.productImage().build();
+        final ProductImageResponse response = faker.domain.productImageResponse().build();
+
+        doReturn(image)
+                .when(getProductImageUseCase)
+                .findBySid(any(UUID.class));
+
+        doReturn(response)
+                .when(productImageToProductImageResponseConverter)
+                .convert(any(ProductImage.class));
+
+        // When
+        final ProductImageResponse result = subject.findByImageSid(image.getSid());
+
+        // Then
+        assertThat(result).usingRecursiveComparison().isEqualTo(response);
     }
 }

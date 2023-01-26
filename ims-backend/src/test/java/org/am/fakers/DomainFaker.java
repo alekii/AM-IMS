@@ -89,7 +89,7 @@ public class DomainFaker {
 
         return WarehouseFullResponse.builder()
                 .name(faker.company().name())
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .phoneNumber(PHONE_NUMBER)
                 .contactName(faker.name().fullName())
                 .address(WarehouseFullResponse.AddressResponse.builder()
@@ -99,10 +99,10 @@ public class DomainFaker {
                                  .latitude(Double.valueOf(faker.address().latitude()))
                                  .town(WarehouseFullResponse.AddressResponse.TownResponse.builder()
                                                .name(faker.address().cityName())
-                                               .sid(UUID.randomUUID())
+                                               .sid(uuid())
                                                .build())
                                  .county(WarehouseFullResponse.AddressResponse.CountyResponse.builder()
-                                                 .sid(UUID.randomUUID())
+                                                 .sid(uuid())
                                                  .name(faker.address().state())
                                                  .build())
                                  .build());
@@ -112,7 +112,7 @@ public class DomainFaker {
 
         return WarehouseMinimumResponse.builder()
                 .name(faker.company().name())
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .address(WarehouseMinimumResponse.AddressResponse.builder()
                                  .street(faker.address().streetName())
                                  .town(faker.address().cityName())
@@ -146,7 +146,7 @@ public class DomainFaker {
                 .latitude(Double.valueOf(faker.address().latitude()))
                 .longitude(Double.valueOf(faker.address().longitude()))
                 .town(WarehouseUpdateRequest.WarehouseAddressUpdateRequest.TownRequest.builder()
-                              .townSid(UUID.randomUUID()).build());
+                              .townSid(uuid()).build());
     }
 
     public WarehouseAddressCreationRequest.Builder warehouseAddressCreationrequest() {
@@ -163,13 +163,13 @@ public class DomainFaker {
     public WarehouseAddressCreationRequest.TownRequest.Builder townRequest() {
 
         return WarehouseAddressCreationRequest.TownRequest.builder()
-                .townSid(UUID.randomUUID());
+                .townSid(uuid());
     }
 
     public WarehouseAddressCreationRequest.CountyRequest.Builder countyRequest() {
 
         return WarehouseAddressCreationRequest.CountyRequest.builder()
-                .countySid(UUID.randomUUID());
+                .countySid(uuid());
     }
 
     public WarehouseProjection.Builder warehouseProjection() {
@@ -184,9 +184,9 @@ public class DomainFaker {
                 .addressLatitude(Double.valueOf(faker.address().latitude()))
                 .addressLongitude(Double.valueOf(faker.address().longitude()))
                 .addressStreet(faker.address().streetName())
-                .townSid(UUID.randomUUID())
+                .townSid(uuid())
                 .townName(faker.address().cityName())
-                .countySid(UUID.randomUUID())
+                .countySid(uuid())
                 .countyName(faker.address().state());
     }
 
@@ -277,7 +277,7 @@ public class DomainFaker {
                 .product((this.product().build()))
                 .quantity(faker.number().numberBetween(1, 10000))
                 .price(faker.number().randomDouble(2, 10, 9999999))
-                .sid(UUID.randomUUID());
+                .sid(uuid());
     }
 
     public ProductImage.Builder productImage() {
@@ -291,20 +291,20 @@ public class DomainFaker {
     public ProductCreateRequest.Builder productCreateRequest() {
 
         return ProductCreateRequest.builder()
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .name(faker.funnyName().name())
                 .price(faker.number().randomDouble(2, 1, 99999))
                 .sku(faker.funnyName().name())
                 .category(ProductCreateRequest.CategoryRequest.builder()
-                                  .sid(UUID.randomUUID())
+                                  .sid(uuid())
                                   .name(faker.name().name())
                                   .build())
                 .brand(ProductCreateRequest.BrandRequest.builder()
-                               .sid(UUID.randomUUID())
+                               .sid(uuid())
                                .name(faker.book().author())
                                .build())
                 .supplier(ProductCreateRequest.SupplierRequest.builder()
-                                  .sid(UUID.randomUUID())
+                                  .sid(uuid())
                                   .email(faker.internet().emailAddress())
                                   .name(faker.company().name())
                                   .leadTime(faker.number().numberBetween(0, 30))
@@ -313,23 +313,23 @@ public class DomainFaker {
                 .dateReceived(Instant.now())
                 .receivedBy(faker.name().fullName())
                 .quantity(faker.number().numberBetween(1, 99999))
-                .warehouseSid(UUID.randomUUID())
+                .warehouseSid(uuid())
                 .discount(faker.number().randomDouble(2, 10, 60));
     }
 
     public ProductUpdateRequest.Builder productUpdateRequest() {
 
         return ProductUpdateRequest.builder()
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .name(faker.funnyName().name())
                 .price(faker.number().randomDouble(2, 1, 99999))
                 .sku(faker.funnyName().name())
                 .category(ProductUpdateRequest.CategoryRequest.builder()
-                                  .sid(UUID.randomUUID())
+                                  .sid(uuid())
                                   .name(faker.name().name())
                                   .build())
                 .brand(ProductUpdateRequest.BrandRequest.builder()
-                               .sid(UUID.randomUUID())
+                               .sid(uuid())
                                .name(faker.book().author())
                                .build())
                 .quantity(faker.number().numberBetween(1, 99999))
@@ -339,7 +339,7 @@ public class DomainFaker {
     public ProductImageCreateRequest.Builder productImageCreateRequest() {
 
         return ProductImageCreateRequest.builder()
-                .productSid(UUID.randomUUID())
+                .productSid(uuid())
                 .imagePath(faker.internet().url());
     }
 
@@ -358,17 +358,17 @@ public class DomainFaker {
     public ProductFullResponse.ProductFullResponseBuilder productFullResponse() {
 
         return ProductFullResponse.builder()
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .brand(ProductFullResponse.BrandResponse.builder()
-                               .sid(UUID.randomUUID())
+                               .sid(uuid())
                                .name(faker.name().name())
                                .build())
                 .category(ProductFullResponse.CategoryResponse.builder()
-                                  .sid(UUID.randomUUID())
+                                  .sid(uuid())
                                   .name(faker.name().name())
                                   .build())
                 .supplier(ProductFullResponse.SupplierResponse.builder()
-                                  .sid(UUID.randomUUID())
+                                  .sid(uuid())
                                   .name(faker.company().name())
                                   .build())
                 .price(faker.number().randomDouble(2, 1, 99999))
@@ -378,7 +378,7 @@ public class DomainFaker {
                 .dateReceived(Instant.now())
                 .receivedBy(faker.name().fullName())
                 .quantity(faker.number().numberBetween(1, 99999))
-                .warehouseSid(UUID.randomUUID())
+                .warehouseSid(uuid())
                 .discount(faker.number().randomDouble(2, 10, 60));
     }
 
@@ -386,7 +386,7 @@ public class DomainFaker {
 
         return ProductMinimumResponse.builder()
                 .name(faker.name().name())
-                .sid(UUID.randomUUID())
+                .sid(uuid())
                 .discount(faker.number().randomDouble(2, 10, 60))
                 .price(faker.number().randomDouble(2, 1, 99999));
     }
@@ -394,6 +394,7 @@ public class DomainFaker {
     public ProductImageResponse.ProductImageResponseBuilder productImageResponse() {
 
         return ProductImageResponse.builder()
+                .sid(uuid())
                 .id(faker.number().numberBetween(0, 1024))
                 .imagePath(faker.internet().url());
     }

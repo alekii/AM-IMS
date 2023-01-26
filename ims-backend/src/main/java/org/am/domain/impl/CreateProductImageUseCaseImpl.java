@@ -19,7 +19,7 @@ public class CreateProductImageUseCaseImpl implements CreateProductImageUseCase 
     }
 
     @Override
-    public List<ProductImage> create(List<ProductImage> images) {
+    public List<ProductImage> createImages(List<ProductImage> images) {
 
         return productImageDAO.persist(images);
     }

@@ -283,7 +283,6 @@ public class DomainFaker {
     public ProductImage.Builder productImage() {
 
         return ProductImage.builder()
-                .id(1)
                 .sid(uuid())
                 .productSid(uuid())
                 .imagePath(faker.internet().url());

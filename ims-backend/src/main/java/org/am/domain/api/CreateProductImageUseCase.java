@@ -8,5 +8,5 @@ public interface CreateProductImageUseCase {
 
     ProductImage create(ProductImage image);
 
-    List<ProductImage> create(List<ProductImage> images);
+    List<ProductImage> createImages(List<ProductImage> images);
 }

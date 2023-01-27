@@ -5,9 +5,11 @@ import org.am.domain.catalog.Brand;
 import org.am.domain.catalog.Category;
 import org.am.domain.catalog.Product;
 import org.am.rest.services.requests.ProductUpdateRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class ProductFromProductUpdateRequestConverter implements Converter<ProductUpdateRequest, Product> {
 
     @Override

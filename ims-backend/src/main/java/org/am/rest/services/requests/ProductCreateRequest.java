@@ -84,9 +84,6 @@ public class ProductCreateRequest {
     @Size(max = 1024)
     String description;
 
-    @NotNull
-    UUID sid;
-
     UUID warehouseSid;
 
     @NotNull

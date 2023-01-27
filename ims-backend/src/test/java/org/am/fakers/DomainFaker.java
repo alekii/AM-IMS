@@ -28,6 +28,7 @@ import org.am.rest.services.requests.WarehouseAddressCreationRequest;
 import org.am.rest.services.requests.WarehouseCreateRequest;
 import org.am.rest.services.requests.WarehouseUpdateRequest;
 import org.am.rest.services.responses.BrandResponse;
+import org.am.rest.services.responses.CategoryResponse;
 import org.am.rest.services.responses.ProductFullResponse;
 import org.am.rest.services.responses.ProductImageResponse;
 import org.am.rest.services.responses.ProductMinimumResponse;
@@ -402,6 +403,13 @@ public class DomainFaker {
     public BrandResponse.Builder brandResponse() {
 
         return BrandResponse.builder()
+                .sid(uuid())
+                .name(faker.company().name());
+    }
+
+    public CategoryResponse.Builder categoryResponse() {
+
+        return CategoryResponse.builder()
                 .sid(uuid())
                 .name(faker.company().name());
     }

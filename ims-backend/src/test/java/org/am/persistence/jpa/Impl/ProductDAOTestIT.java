@@ -173,7 +173,7 @@ public class ProductDAOTestIT extends BaseIntegrationTest {
     }
 
     @Test
-    void update_whenProductExists_returnPersistedWarehouse() {
+    void update_whenProductExists_returnPersistedProduct() {
 
         // Given
         final ProductEntity productEntity = faker.entity.product().build();

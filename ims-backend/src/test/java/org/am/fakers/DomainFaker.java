@@ -292,7 +292,6 @@ public class DomainFaker {
     public ProductCreateRequest.Builder productCreateRequest() {
 
         return ProductCreateRequest.builder()
-                .sid(uuid())
                 .name(faker.funnyName().name())
                 .price(faker.number().randomDouble(2, 1, 99999))
                 .sku(faker.funnyName().name())

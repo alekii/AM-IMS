@@ -1,9 +1,12 @@
 package org.am.rest.services;
 
+import org.am.domain.api.CreateBrandUseCase;
 import org.am.domain.api.GetBrandUseCase;
 import org.am.domain.catalog.Brand;
 import org.am.domain.catalog.exceptions.NotFound.BrandNotFoundException;
 import org.am.fakers.Faker;
+import org.am.rest.services.requests.BrandCreationRequest;
+import org.am.rest.services.requests.converters.BrandFromCreationRequestConverter;
 import org.am.rest.services.responses.BrandResponse;
 import org.am.rest.services.responses.converters.BrandResponseConverter;
 import org.assertj.core.api.ThrowableAssert;
@@ -32,7 +35,13 @@ public class BrandServiceTest {
     private GetBrandUseCase getBrandUseCase;
 
     @Mock
+    private CreateBrandUseCase createBrandUseCase;
+
+    @Mock
     private BrandResponseConverter brandResponseConverter;
+
+    @Mock
+    private BrandFromCreationRequestConverter brandFromCreationRequestConverter;
 
     @InjectMocks
     private BrandService brandService;
@@ -88,5 +97,20 @@ public class BrandServiceTest {
 
         // Then
         assertThatThrownBy(throwingCallable).isInstanceOf(BrandNotFoundException.class);
+    }
+
+    @Test
+    void create_callsCreateBrandUseCaseAndBrandConverters() {
+
+        // Given
+        final BrandCreationRequest request = faker.domain.brandCreationRequest().build();
+
+        // When
+        brandService.create(request);
+
+        // Then
+        verify(brandFromCreationRequestConverter).convert(eq(request));
+        verify(createBrandUseCase).create(any());
+        verify(brandResponseConverter).convert(any());
     }
 }

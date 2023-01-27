@@ -45,7 +45,6 @@ public class ProductFromProductCreateRequestConverterTest {
                 .receivedBy(productCreateRequest.getReceivedBy())
                 .dateReceived(productCreateRequest.getDateReceived())
                 .quantity(productCreateRequest.getQuantity())
-                .sid(productCreateRequest.getSid())
                 .warehouseSid(productCreateRequest.getWarehouseSid())
                 .sku(productCreateRequest.getSku())
                 .brand(Brand.builder()
@@ -70,7 +69,6 @@ public class ProductFromProductCreateRequestConverterTest {
 
         return ProductCreateRequest.builder()
                 .name(faker.funnyName().name())
-                .sid(UUID.randomUUID())
                 .price(faker.number().randomDouble(2, 1, 99999))
                 .sku(faker.funnyName().name())
                 .category(ProductCreateRequest.CategoryRequest.builder()

@@ -191,7 +191,7 @@ public class SupplierControllerTest {
     }
 
     @Test
-    void updateWarehouse_whenServiceReturns_returns200() throws Exception {
+    void updateSupplier_whenServiceReturns_returns200() throws Exception {
 
         // Given
         final UUID supplierSid = UUID.randomUUID();
@@ -211,7 +211,6 @@ public class SupplierControllerTest {
         mvc
                 .perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.sid", is(supplierResponse.getSid().toString())))
                 .andExpect(jsonPath("$.name", is(supplierResponse.getName())))

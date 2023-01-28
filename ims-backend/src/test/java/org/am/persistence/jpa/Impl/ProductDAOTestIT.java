@@ -8,6 +8,7 @@ import org.am.domain.catalog.exceptions.NotFound.BrandNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.CategoryNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.SupplierNotFoundException;
+import org.am.domain.catalog.exceptions.conflicts.ProductAlreadyExistsException;
 import org.am.infrastructure.brand.BrandRepository;
 import org.am.infrastructure.category.CategoryRepository;
 import org.am.infrastructure.persistence.impl.ProductDAOImpl;
@@ -64,6 +65,23 @@ public class ProductDAOTestIT extends BaseIntegrationTest {
         assertThat(product).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expected);
+    }
+
+    @Test
+    void createProduct_whenProductExists_throwsProductAlreadyExistsException() {
+
+        // Given
+        final ProductEntity productEntity = integrationTestPersister.save(faker.entity.product().build());
+        final BrandEntity brandEntity = faker.entity.brand().build();
+        final CategoryEntity categoryEntity = faker.entity.category().build();
+        final SupplierEntity supplierEntity = faker.entity.supplier().build();
+        final Product product = buildProduct(productEntity, categoryEntity, brandEntity, supplierEntity);
+
+        // When
+        final ThrowableAssert.ThrowingCallable create = () -> subject.create(product);
+
+        // Then
+        assertThatThrownBy(create).isInstanceOf(ProductAlreadyExistsException.class);
     }
 
     @Test

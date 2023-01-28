@@ -2,6 +2,7 @@ package org.am.rest.services.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 @Builder(builderClassName = "Builder")
 public class ProductUpdateRequest {
 
@@ -33,6 +35,7 @@ public class ProductUpdateRequest {
 
     @AllArgsConstructor
     @Getter
+    @EqualsAndHashCode
     @lombok.Builder(builderClassName = "Builder")
     public static class CategoryRequest {
 
@@ -50,6 +53,7 @@ public class ProductUpdateRequest {
 
     @AllArgsConstructor
     @Getter
+    @EqualsAndHashCode
     @lombok.Builder(builderClassName = "Builder")
     public static class BrandRequest {
 
@@ -67,7 +71,7 @@ public class ProductUpdateRequest {
 
     Double price;
 
-    @Max(10000)
+    @Max(100000)
     int quantity;
 
     Double discount;

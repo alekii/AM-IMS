@@ -22,7 +22,7 @@ import static org.am.domain.validation.validators.constants.ValidationConstants.
 public class ProductCreateRequest {
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 255)
     String name;
 
     @NotNull
@@ -75,7 +75,7 @@ public class ProductCreateRequest {
 
     Double price;
 
-    @Max(10000)
+    @Max(100000)
     int quantity;
 
     Double discount;

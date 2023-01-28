@@ -315,7 +315,8 @@ public class DomainFaker {
                 .receivedBy(faker.name().fullName())
                 .quantity(faker.number().numberBetween(1, 99999))
                 .warehouseSid(uuid())
-                .discount(faker.number().randomDouble(2, 10, 60));
+                .discount(faker.number().randomDouble(2, 10, 60))
+                .description(faker.lorem().paragraphs(1).toString());
     }
 
     public ProductUpdateRequest.Builder productUpdateRequest() {
@@ -334,6 +335,7 @@ public class DomainFaker {
                                .name(faker.book().author())
                                .build())
                 .quantity(faker.number().numberBetween(1, 99999))
+                .description(faker.lorem().paragraphs(1).toString())
                 .discount(faker.number().randomDouble(2, 10, 60));
     }
 
@@ -374,7 +376,7 @@ public class DomainFaker {
                                   .build())
                 .price(faker.number().randomDouble(2, 1, 99999))
                 .sku(faker.funnyName().name())
-                .description(faker.lorem().paragraphs(1).toString())
+                .description(faker.lorem().characters(255))
                 .name(faker.funnyName().name())
                 .dateReceived(Instant.now())
                 .receivedBy(faker.name().fullName())

@@ -109,7 +109,7 @@ public class ProductDAOImpl implements ProductDAO {
         productEntityToUpdate.setId(persistedProductEntity.getId());
         productEntityToUpdate.setBrand(getBrandEntityBySid(product.getBrand().getSid()));
         productEntityToUpdate.setCategory(getCategoryEntityBySid(product.getCategory().getSid()));
-        productEntityToUpdate.setSupplied_by(getSupplierEntityBySid(product.getSupplier().getSid()));
+        productEntityToUpdate.setSupplied_by(persistedProductEntity.getSupplied_by());
         productEntityToUpdate.setDate_received(persistedProductEntity.getDate_received());
         productEntityToUpdate.setReceived_by(persistedProductEntity.getReceived_by());
         productEntityToUpdate.setWarehouseSid(persistedProductEntity.getWarehouseSid());

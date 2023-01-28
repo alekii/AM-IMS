@@ -30,7 +30,6 @@ public class ProductFromProductUpdateRequestConverterTest {
         // Then
         assertThat(createdProduct)
                 .usingRecursiveComparison()
-                .ignoringFields("sid")
                 .isEqualTo(product);
     }
 

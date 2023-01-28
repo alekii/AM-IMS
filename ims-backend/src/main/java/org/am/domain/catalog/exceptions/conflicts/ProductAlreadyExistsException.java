@@ -9,7 +9,7 @@ public class ProductAlreadyExistsException extends ConflictException {
 
     public ProductAlreadyExistsException(String message) {
 
-        super(ErrorCode.BRAND_ALREADY_EXISTS, message);
+        super(ErrorCode.PRODUCT_ALREADY_EXISTS, message);
     }
 
     public static ProductAlreadyExistsException forName(String productName) {

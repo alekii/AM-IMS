@@ -335,6 +335,7 @@ public class DomainFaker {
                                .name(faker.book().author())
                                .build())
                 .quantity(faker.number().numberBetween(1, 99999))
+                .description(faker.lorem().paragraphs(1).toString())
                 .discount(faker.number().randomDouble(2, 10, 60));
     }
 

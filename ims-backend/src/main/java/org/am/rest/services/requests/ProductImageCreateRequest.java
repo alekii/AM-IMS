@@ -2,6 +2,7 @@ package org.am.rest.services.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 @Builder(builderClassName = "Builder")
 public class ProductImageCreateRequest {
 

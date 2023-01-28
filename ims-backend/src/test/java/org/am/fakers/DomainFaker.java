@@ -32,11 +32,13 @@ import org.am.rest.services.responses.CategoryResponse;
 import org.am.rest.services.responses.ProductFullResponse;
 import org.am.rest.services.responses.ProductImageResponse;
 import org.am.rest.services.responses.ProductMinimumResponse;
+import org.am.rest.services.responses.PurchaseResponse;
 import org.am.rest.services.responses.SupplierResponse;
 import org.am.rest.services.responses.WarehouseFullResponse;
 import org.am.rest.services.responses.WarehouseMinimumResponse;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -268,6 +270,7 @@ public class DomainFaker {
                 .dateReceived(Instant.now())
                 .warehouseSid(uuid())
                 .supplier(this.supplier().build())
+                .products(List.of(this.product().build()))
                 .totalAmount(faker.number().randomDouble(2, 10, 9999999));
     }
 
@@ -414,5 +417,24 @@ public class DomainFaker {
         return CategoryResponse.builder()
                 .sid(uuid())
                 .name(faker.company().name());
+    }
+
+    public PurchaseResponse.Builder purchaseResponse() {
+
+        return PurchaseResponse.builder()
+                .sid(uuid())
+                .receivedBy(faker.name().fullName())
+                .invoice(123)
+                .totalAmount(faker.number().randomDouble(2, 1000, 1000000))
+                .dateReceived(Instant.now())
+                .productResponse(List.of(PurchaseResponse.ProductResponse.builder()
+                                                 .sid(uuid())
+                                                 .name(faker.name().name())
+                                                 .price(faker.number().randomDouble(2, 100, 100000))
+                                                 .build()))
+                .supplierResponse(PurchaseResponse.SupplierResponse.builder()
+                                          .sid(UUID.randomUUID())
+                                          .name(faker.name().name())
+                                          .build());
     }
 }

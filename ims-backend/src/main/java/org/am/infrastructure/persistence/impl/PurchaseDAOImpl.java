@@ -58,7 +58,10 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
         purchase.setLineItems(lineItems);
 
-        return purchaseEntityConverter.convert(purchasesRepository.save(purchase));
+        Purchase result = purchaseEntityConverter.convert(purchasesRepository.save(purchase));
+        result.setProducts(products);
+
+        return result;
     }
 
     private PurchaseProductEntity updateTotalPurchasesAmount(final PurchaseEntity purchase, PurchaseProductEntity lineItem) {

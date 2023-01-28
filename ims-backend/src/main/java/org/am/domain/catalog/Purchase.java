@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.am.library.entities.util.PurchaseStatus;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -27,15 +28,5 @@ public class Purchase {
 
     Double totalAmount;
 
-    @Setter
-    @Getter
-    @lombok.Builder(builderClassName = "Builder")
-    public static class WarehouseShortDetails {
-
-        UUID warehouseSid;
-
-        String name;
-
-        String town;
-    }
+    List<Product> products;
 }

@@ -5,6 +5,10 @@ import org.am.domain.api.GetPurchaseUseCase;
 import org.am.domain.api.UpdatePurchaseUseCase;
 import org.am.domain.catalog.Purchase;
 import org.am.fakers.Faker;
+import org.am.rest.services.requests.PurchaseCreateRequest;
+import org.am.rest.services.requests.PurchaseUpdateRequest;
+import org.am.rest.services.requests.converters.PurchaseFromPurchaseCreateRequestConverter;
+import org.am.rest.services.requests.converters.PurchaseFromPurchaseUpdateRequestConverter;
 import org.am.rest.services.responses.PurchaseResponse;
 import org.am.rest.services.responses.converters.PurchaseResponseConverter;
 import org.junit.jupiter.api.Test;
@@ -38,6 +42,12 @@ public class PurchaseServiceTest {
     @Mock
     private PurchaseResponseConverter purchaseResponseConverter;
 
+    @Mock
+    private PurchaseFromPurchaseCreateRequestConverter purchaseFromPurchaseCreateRequestConverter;
+
+    @Mock
+    private PurchaseFromPurchaseUpdateRequestConverter purchaseFromPurchaseUpdateRequestConverter;
+
     @InjectMocks
     private PurchaseService subject;
 
@@ -49,6 +59,11 @@ public class PurchaseServiceTest {
         // Given
         final Purchase purchase = faker.domain.purchase().build();
         final PurchaseResponse purchaseResponse = faker.domain.purchaseResponse().build();
+        final PurchaseCreateRequest purchaseCreateRequest = faker.domain.purchaseCreateRequest().build();
+
+        doReturn(purchase)
+                .when(purchaseFromPurchaseCreateRequestConverter)
+                .convert(any(PurchaseCreateRequest.class));
 
         doReturn(purchase)
                 .when(createPurchaseUseCase)
@@ -59,19 +74,26 @@ public class PurchaseServiceTest {
                 .convert(any(Purchase.class));
 
         // When
-        subject.create(purchase);
+        subject.create(purchaseCreateRequest);
 
         // Then
-        verify(createPurchaseUseCase).create(eq(purchase));
+        verify(purchaseFromPurchaseCreateRequestConverter).convert(eq(purchaseCreateRequest));
         verify(purchaseResponseConverter).convert(eq(purchase));
+        verify(createPurchaseUseCase).create(eq(purchase));
     }
 
     @Test
     void updatePurchase_whenUseCaseReturnsResult_convertResult() {
 
         // Given
+        final UUID purchaseSid = UUID.randomUUID();
         final Purchase purchase = faker.domain.purchase().build();
         final PurchaseResponse purchaseResponse = faker.domain.purchaseResponse().build();
+        final PurchaseUpdateRequest purchaseUpdateRequest = faker.domain.purchaseUpdateRequest().build();
+
+        doReturn(purchase)
+                .when(purchaseFromPurchaseUpdateRequestConverter)
+                .convert(any(PurchaseUpdateRequest.class), any());
 
         doReturn(purchase)
                 .when(updatePurchaseUseCase)
@@ -82,9 +104,10 @@ public class PurchaseServiceTest {
                 .convert(any(Purchase.class));
 
         // When
-        subject.update(purchase);
+        subject.update(purchaseUpdateRequest, purchaseSid);
 
         // Then
+        verify(purchaseFromPurchaseUpdateRequestConverter).convert(eq(purchaseUpdateRequest), eq(purchaseSid));
         verify(updatePurchaseUseCase).update(eq(purchase));
         verify(purchaseResponseConverter).convert(eq(purchase));
     }

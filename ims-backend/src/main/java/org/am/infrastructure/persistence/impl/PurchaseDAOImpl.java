@@ -78,8 +78,8 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
         return PurchaseProductEntity.builder()
                 .sid(UUID.randomUUID())
-                .price(product.getPrice())
-                .quantity(product.getQuantity())
+                .price(productEntity.getPrice())
+                .quantity(productEntity.getQuantity())
                 .product(productEntity)
                 .purchase(purchaseEntity)
                 .build();

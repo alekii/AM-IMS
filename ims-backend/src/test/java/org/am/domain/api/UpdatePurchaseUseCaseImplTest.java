@@ -35,7 +35,7 @@ public class UpdatePurchaseUseCaseImplTest {
     private UpdatePurchaseUseCaseImpl subject;
 
     @Test
-    void createPurchase_createsPurchase() {
+    void updatePurchase_whenPurchaseExist_updatesPurchase() {
 
         // Given
         final Purchase purchase = faker.domain.purchase().build();

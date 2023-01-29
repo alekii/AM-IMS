@@ -110,9 +110,11 @@ public class UseCaseConfiguration {
     }
 
     @Bean
-    CreatePurchaseUseCase createPurchaseUseCase(PurchaseDAO purchaseDAO, PurchaseToPurchaseEntityConverter purchaseEntityConverter) {
+    CreatePurchaseUseCase createPurchaseUseCase(PurchaseDAO purchaseDAO,
+                                                SupplierDAO supplierDAO,
+                                                PurchaseToPurchaseEntityConverter purchaseEntityConverter) {
 
-        return new CreatePurchaseUseCaseImpl(purchaseDAO, purchaseEntityConverter);
+        return new CreatePurchaseUseCaseImpl(purchaseDAO, supplierDAO, purchaseEntityConverter);
     }
 
     @Bean

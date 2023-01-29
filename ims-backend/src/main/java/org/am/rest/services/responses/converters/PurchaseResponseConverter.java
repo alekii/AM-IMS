@@ -4,10 +4,12 @@ import org.am.commons.utils.Converter;
 import org.am.domain.catalog.Product;
 import org.am.domain.catalog.Purchase;
 import org.am.rest.services.responses.PurchaseResponse;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class PurchaseResponseConverter implements Converter<Purchase, PurchaseResponse> {
 
     @Override

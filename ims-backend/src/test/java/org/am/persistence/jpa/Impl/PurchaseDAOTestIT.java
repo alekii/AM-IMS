@@ -2,6 +2,7 @@ package org.am.persistence.jpa.Impl;
 
 import org.am.domain.catalog.Product;
 import org.am.domain.catalog.Purchase;
+import org.am.domain.catalog.exceptions.NotFound.PurchaseNotFoundException;
 import org.am.infrastructure.persistence.converters.ProductEntityToProductConverter;
 import org.am.infrastructure.persistence.impl.PurchaseDAOImpl;
 import org.am.infrastructure.purchases.PurchaseRepository;
@@ -14,6 +15,7 @@ import org.am.library.entities.SupplierEntity;
 import org.am.library.entities.WarehouseEntity;
 import org.am.library.entities.util.PurchaseStatus;
 import org.am.persistence.jpa.configuration.BaseIntegrationTest;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PurchaseDAOTestIT extends BaseIntegrationTest {
 
@@ -111,6 +114,20 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
 
         // Then
         assertThat(persistedPurchase.getSid()).isEqualTo(purchaseEntity.getSid());
+    }
+
+    @Test
+    void findBySid_whenPurchaseDoesNotExist_throwsPurchaseNotFoundException() {
+
+        // Given
+        final UUID purchaseSid = UUID.randomUUID();
+
+        // When
+        final ThrowableAssert.ThrowingCallable throwingCallable = () -> subject.findBySid(purchaseSid);
+
+        // Then
+        assertThatThrownBy(throwingCallable)
+                .isInstanceOf(PurchaseNotFoundException.class);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package org.am.rest.services.responses;
 
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import java.util.UUID;
@@ -22,7 +21,6 @@ public class WarehouseFullResponse {
 
     @Value
     @Builder
-    @RequiredArgsConstructor
     public static class AddressResponse {
 
         String street;
@@ -39,7 +37,6 @@ public class WarehouseFullResponse {
 
         @Value
         @Builder
-        @RequiredArgsConstructor
         public static class TownResponse {
 
             UUID sid;
@@ -49,7 +46,6 @@ public class WarehouseFullResponse {
 
         @Value
         @Builder
-        @RequiredArgsConstructor
         public static class CountyResponse {
 
             UUID sid;

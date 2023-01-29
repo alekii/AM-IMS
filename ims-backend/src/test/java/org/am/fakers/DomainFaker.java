@@ -23,6 +23,7 @@ import org.am.rest.services.requests.ProductCreateRequest;
 import org.am.rest.services.requests.ProductImageCreateRequest;
 import org.am.rest.services.requests.ProductUpdateRequest;
 import org.am.rest.services.requests.PurchaseCreateRequest;
+import org.am.rest.services.requests.PurchaseUpdateRequest;
 import org.am.rest.services.requests.SupplierCreateRequest;
 import org.am.rest.services.requests.SupplierUpdateRequest;
 import org.am.rest.services.requests.WarehouseAddressCreationRequest;
@@ -451,5 +452,13 @@ public class DomainFaker {
                 .receivedBy(faker.name().fullName())
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .products(Arrays.asList(1, 2, 3));
+    }
+
+    public PurchaseUpdateRequest.Builder purchaseUpdateRequest() {
+
+        return PurchaseUpdateRequest.builder()
+                .invoice(faker.number().randomDigit())
+                .products(Arrays.asList(1, 2, 3))
+                .status(PurchaseStatus.AWAITING_DELIVERY);
     }
 }

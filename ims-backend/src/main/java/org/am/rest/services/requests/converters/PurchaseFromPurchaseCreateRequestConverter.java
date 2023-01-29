@@ -6,11 +6,13 @@ import org.am.domain.catalog.Purchase;
 import org.am.domain.catalog.Supplier;
 import org.am.library.entities.util.PurchaseStatus;
 import org.am.rest.services.requests.PurchaseCreateRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Component
 public class PurchaseFromPurchaseCreateRequestConverter implements Converter<PurchaseCreateRequest, Purchase> {
 
     @Override

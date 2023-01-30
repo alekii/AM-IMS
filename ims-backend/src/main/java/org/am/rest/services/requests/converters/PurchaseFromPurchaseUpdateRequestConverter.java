@@ -3,6 +3,7 @@ package org.am.rest.services.requests.converters;
 import org.am.commons.utils.Converter;
 import org.am.domain.catalog.Product;
 import org.am.domain.catalog.Purchase;
+import org.am.library.entities.util.PurchaseStatus;
 import org.am.rest.services.requests.PurchaseUpdateRequest;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,8 @@ public class PurchaseFromPurchaseUpdateRequestConverter
 
         return Purchase.builder()
                 .sid(purchaseSid)
-                .invoice(source.getInvoice())
                 .products(convertProducts(source.getProducts()))
-                .status(source.getStatus())
+                .status(PurchaseStatus.valueOf(source.getStatus()))
                 .build();
     }
 

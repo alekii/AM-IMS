@@ -444,21 +444,17 @@ public class DomainFaker {
     public PurchaseCreateRequest.Builder purchaseCreateRequest() {
 
         return PurchaseCreateRequest.builder()
-                .dateReceived(Instant.now())
                 .supplier(uuid())
                 .warehouseSid(uuid())
                 .invoice(faker.number().randomDigit())
-                .totalAmount(faker.number().randomDouble(2, 100, 1000000))
                 .receivedBy(faker.name().fullName())
-                .status(PurchaseStatus.PENDING_APPROVAL)
                 .products(Arrays.asList(1, 2, 3));
     }
 
     public PurchaseUpdateRequest.Builder purchaseUpdateRequest() {
 
         return PurchaseUpdateRequest.builder()
-                .invoice(faker.number().randomDigit())
                 .products(Arrays.asList(1, 2, 3))
-                .status(PurchaseStatus.AWAITING_DELIVERY);
+                .status("AWAITING_DELIVERY");
     }
 }

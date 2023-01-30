@@ -24,9 +24,7 @@ public class PurchaseFromPurchaseCreateRequestConverter implements Converter<Pur
                 .status(PurchaseStatus.PENDING_APPROVAL)
                 .supplier(convertSupplier(source.getSupplier()))
                 .products(convertProducts(source.getProducts()))
-                .dateReceived(source.getDateReceived())
                 .warehouseSid(source.getWarehouseSid())
-                .totalAmount(source.getTotalAmount())
                 .build();
     }
 

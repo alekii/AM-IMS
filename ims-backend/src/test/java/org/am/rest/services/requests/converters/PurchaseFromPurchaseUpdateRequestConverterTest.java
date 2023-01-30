@@ -3,6 +3,7 @@ package org.am.rest.services.requests.converters;
 import org.am.domain.catalog.Product;
 import org.am.domain.catalog.Purchase;
 import org.am.fakers.Faker;
+import org.am.library.entities.util.PurchaseStatus;
 import org.am.rest.services.requests.PurchaseUpdateRequest;
 import org.junit.jupiter.api.Test;
 
@@ -35,10 +36,10 @@ public class PurchaseFromPurchaseUpdateRequestConverterTest {
 
     private Purchase buildPurchase(PurchaseUpdateRequest purchaseUpdateRequest, UUID purchaseSid) {
 
-        return Purchase.builder()
+        return Purchase
+                .builder()
                 .sid(purchaseSid)
-                .invoice(purchaseUpdateRequest.getInvoice())
-                .status(purchaseUpdateRequest.getStatus())
+                .status(PurchaseStatus.valueOf(purchaseUpdateRequest.getStatus()))
                 .products(buildProducts(purchaseUpdateRequest.getProducts()))
                 .build();
     }

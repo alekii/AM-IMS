@@ -38,8 +38,6 @@ public class PurchaseFromPurchaseCreateRequestConverterTest {
                                    .warehouseSid(request.getWarehouseSid())
                                    .invoice(request.getInvoice())
                                    .supplier(buildSupplier(request.getSupplier()))
-                                   .dateReceived(request.getDateReceived())
-                                   .totalAmount(request.getTotalAmount())
                                    .products(buildProducts(request.getProducts()))
                                    .build());
     }

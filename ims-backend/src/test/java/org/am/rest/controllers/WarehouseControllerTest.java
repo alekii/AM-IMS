@@ -288,7 +288,7 @@ public class WarehouseControllerTest {
 
         final UUID warehouseSid = UUID.randomUUID();
 
-        doReturn(warehouseFullResponse).when(warehouseService).findBySid(warehouseSid);
+        doReturn(warehouseFullResponse).when(warehouseService).findBySid(eq(warehouseSid));
 
         // When
         MockHttpServletRequestBuilder requestBuilder = get("/api/warehouses/{warehouseSid}", warehouseSid);

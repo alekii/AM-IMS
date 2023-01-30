@@ -5,6 +5,7 @@ import org.am.domain.api.GetPurchaseUseCase;
 import org.am.domain.catalog.Purchase;
 import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverter;
+import org.am.library.entities.PurchaseEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,8 @@ public class GetPurchaseUseCaseImpl implements GetPurchaseUseCase {
     @Override
     public Purchase findBySid(final UUID purchaseSid) {
 
-        return purchaseConverter.convert(purchaseDAO.findBySid(purchaseSid));
+        PurchaseEntity purchaseEntity = purchaseDAO.findBySid(purchaseSid);
+        return purchaseConverter.convert(purchaseEntity);
     }
 
     @Override

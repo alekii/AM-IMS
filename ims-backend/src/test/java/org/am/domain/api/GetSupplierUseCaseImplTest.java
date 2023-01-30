@@ -37,7 +37,7 @@ public class GetSupplierUseCaseImplTest {
     private GetSupplierUseCaseImpl subject;
 
     @Test
-    void getWarehouses_SuppliersExist_returnsSuppliersList() {
+    void getSuppliers_whenSuppliersExist_returnsSuppliersList() {
 
         // Given
         final List<Supplier> suppliers = List.of(warehouseSupplier.get(), warehouseSupplier.get());

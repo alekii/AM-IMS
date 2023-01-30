@@ -1,4 +1,6 @@
-package org.am.domain.validation.validators;
+package org.am.domain.validation.annotations;
+
+import org.am.domain.validation.validators.UUIDValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

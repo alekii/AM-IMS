@@ -1,5 +1,7 @@
 package org.am.domain.validation.validators;
 
+import org.am.domain.validation.annotations.UUIDPattern;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.UUID;

@@ -6,7 +6,6 @@ import org.am.domain.catalog.Supplier;
 import org.am.domain.catalog.exceptions.NotFound.PurchaseNotFoundException;
 import org.am.infrastructure.persistence.converters.ProductEntityToProductConverter;
 import org.am.infrastructure.persistence.impl.PurchaseDAOImpl;
-import org.am.infrastructure.products.ProductRepository;
 import org.am.infrastructure.purchases.PurchaseRepository;
 import org.am.library.entities.BrandEntity;
 import org.am.library.entities.CategoryEntity;
@@ -38,9 +37,6 @@ public class PurchaseDAOTestIT extends BaseIntegrationTest {
 
     @Autowired
     private PurchaseRepository purchaseRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     private List<Product> products;
 

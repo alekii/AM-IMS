@@ -48,7 +48,6 @@ import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.api.SupplierDAO;
 import org.am.infrastructure.persistence.api.WarehouseDAO;
 import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverter;
-import org.am.infrastructure.persistence.converters.PurchaseToPurchaseEntityConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -110,11 +109,9 @@ public class UseCaseConfiguration {
     }
 
     @Bean
-    CreatePurchaseUseCase createPurchaseUseCase(PurchaseDAO purchaseDAO,
-                                                SupplierDAO supplierDAO,
-                                                PurchaseToPurchaseEntityConverter purchaseEntityConverter) {
+    CreatePurchaseUseCase createPurchaseUseCase(PurchaseDAO purchaseDAO) {
 
-        return new CreatePurchaseUseCaseImpl(purchaseDAO, supplierDAO, purchaseEntityConverter);
+        return new CreatePurchaseUseCaseImpl(purchaseDAO);
     }
 
     @Bean

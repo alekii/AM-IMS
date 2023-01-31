@@ -3,21 +3,25 @@ package org.am.infrastructure.persistence.impl;
 import lombok.RequiredArgsConstructor;
 import org.am.domain.catalog.Product;
 import org.am.domain.catalog.Purchase;
+import org.am.domain.catalog.Supplier;
 import org.am.domain.catalog.exceptions.NotFound.ProductNotFoundException;
 import org.am.domain.catalog.exceptions.NotFound.PurchaseNotFoundException;
+import org.am.domain.catalog.exceptions.NotFound.SupplierNotFoundException;
 import org.am.infrastructure.lineItems.LineItemsRepository;
 import org.am.infrastructure.persistence.api.PurchaseDAO;
 import org.am.infrastructure.persistence.converters.ProductEntityToProductConverter;
 import org.am.infrastructure.persistence.converters.PurchaseEntityToPurchaseConverter;
+import org.am.infrastructure.persistence.converters.PurchaseToPurchaseEntityConverter;
 import org.am.infrastructure.products.ProductRepository;
 import org.am.infrastructure.purchases.PurchaseRepository;
+import org.am.infrastructure.suppliers.SuppplierRepository;
 import org.am.library.entities.ProductEntity;
 import org.am.library.entities.PurchaseEntity;
 import org.am.library.entities.PurchaseProductEntity;
+import org.am.library.entities.SupplierEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -29,6 +33,8 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
     private final PurchaseRepository purchasesRepository;
 
+    private final SuppplierRepository supplierRepository;
+
     private final ProductRepository productRepository;
 
     private final LineItemsRepository lineItemsRepository;
@@ -37,44 +43,62 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
     private final ProductEntityToProductConverter productConverter;
 
+    private final PurchaseToPurchaseEntityConverter purchaseToPurchaseEntityConverter;
+
     @Override
     @Transactional
-    public Purchase create(final PurchaseEntity purchaseEntity, final List<Product> products) {
+    public Purchase create(final Purchase purchase) {
+
+        // Save transient
+        SupplierEntity supplierEntity = validateAndGetSupplier(purchase.getSupplier());
+        supplierRepository.save(supplierEntity);
+
+        final PurchaseEntity purchaseEntity = purchaseToPurchaseEntityConverter.convert(purchase);
+        purchaseEntity.setSupplier(supplierEntity);
 
         // Get persisted purchase with status pending
         final PurchaseEntity persistedPurchaseEntity = purchasesRepository.save(purchaseEntity);
 
-        return createLineItem(persistedPurchaseEntity, products);
+        return createLineItem(persistedPurchaseEntity, purchase.getProducts());
     }
 
     private Purchase createLineItem(final PurchaseEntity purchase, final List<Product> products) {
 
         List<PurchaseProductEntity> lineItems = products.stream()
-                .map(product ->
-                             lineItemsRepository.save(
-                                     buildLineItem(purchase, product))
-                )
-                .map(lineItem -> updateTotalPurchasesAmount(purchase, lineItem)).collect(Collectors.toList());
+                .map(product -> lineItemsRepository.save(buildLineItem(purchase, product)))
+                .collect(Collectors.toList());
 
         purchase.setLineItems(lineItems);
-
+        updateTotalPurchasesAmount(purchase);
         Purchase result = purchaseEntityConverter.convert(purchasesRepository.save(purchase));
-        result.setProducts(products);
 
+        return buildProductsList(lineItems, result);
+    }
+
+    private Purchase buildProductsList(List<PurchaseProductEntity> lineItems, Purchase result) {
+
+        List<Product> productList = lineItems.stream()
+                .map(PurchaseProductEntity::getProduct)
+                .map(productConverter::convert)
+                .collect(Collectors.toList());
+
+        result.setProducts(productList);
         return result;
     }
 
-    private PurchaseProductEntity updateTotalPurchasesAmount(final PurchaseEntity purchase, PurchaseProductEntity lineItem) {
+    private void updateTotalPurchasesAmount(final PurchaseEntity purchase) {
 
-        purchase.setBillValue(purchase.getBillValue() + lineItem.getPrice());
+        purchase.setBillValue(0.00);
 
-        return lineItem;
+        for (PurchaseProductEntity lineItem : purchase.getLineItems()) {
+            purchase.setBillValue(purchase.getBillValue() + lineItem.getPrice());
+        }
     }
 
     private PurchaseProductEntity buildLineItem(final PurchaseEntity purchaseEntity, final Product product) {
 
-        ProductEntity productEntity = productRepository.findBySid(product.getSid())
-                .orElseThrow(() -> ProductNotFoundException.forSid(product.getSid()));
+        ProductEntity productEntity = productRepository.findById(product.getId())
+                .orElseThrow(() -> new ProductNotFoundException(String.format("No Product found for id %d", product.getId())));
 
         return PurchaseProductEntity.builder()
                 .sid(UUID.randomUUID())
@@ -103,31 +127,38 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
     @Transactional
     @Override
-    public Purchase update(final PurchaseEntity purchase, List<Product> products) {
+    public Purchase update(final Purchase purchase) {
 
         final PurchaseEntity purchasePersisted = findBySid(purchase.getSid());
 
-        final PurchaseEntity purchaseToUpdate = updatePurchaseProducts(purchase, purchasePersisted, products);
+        updatePurchaseProducts(purchase, purchasePersisted);
 
-        purchaseToUpdate.setStatus(purchase.getStatus());
-        purchaseToUpdate.setInvoiceNumber(purchase.getInvoiceNumber());
-        purchaseToUpdate.setDateReceived(purchase.getDateReceived());
-        return purchaseEntityConverter.convert(purchasesRepository.save(purchaseToUpdate));
+        updateTotalPurchasesAmount(purchasePersisted);
+
+        purchasePersisted.setStatus(purchase.getStatus());
+        final Purchase createdPurchase = purchaseEntityConverter.convert(purchasesRepository.save(purchasePersisted));
+        return buildProductsList(purchasePersisted.getLineItems(), createdPurchase);
     }
 
-    private PurchaseEntity updatePurchaseProducts(final PurchaseEntity purchase,
-                                                  final PurchaseEntity purchasePersisted,
-                                                  final List<Product> products) {
+    private void updatePurchaseProducts(final Purchase purchase, PurchaseEntity purchasePersisted) {
 
-        Set<Product> existingSet = new HashSet<>();
-        Set<Product> newSet = new HashSet<>(products);
+        Set<Integer> existingSet = purchasePersisted.getLineItems().stream()
+                .map(lineItem -> lineItem.getProduct().getId())
+                .collect(Collectors.toSet());
 
-        List<PurchaseProductEntity> lineItems = purchasePersisted.getLineItems();
-        lineItems.forEach(v -> existingSet.add(productConverter.convert(v.getProduct())));
+        Set<Integer> newSet = purchase.getProducts().stream()
+                .map(Product::getId)
+                .collect(Collectors.toSet());
+
         existingSet.removeAll(newSet);
-        existingSet.forEach(product -> lineItemsRepository.deleteByProductId(product.getId()));
-        purchasePersisted.setLineItems(lineItemsRepository.findByPurchaseId(purchase.getId()));
-        purchasesRepository.save(purchasePersisted);
-        return findBySid(purchase.getSid());
+
+        existingSet.forEach(lineItemsRepository::deleteByProductId);
+        purchasePersisted.setLineItems(lineItemsRepository.findByPurchaseId(purchasePersisted.getId()));
+    }
+
+    private SupplierEntity validateAndGetSupplier(Supplier supplier) {
+
+        return supplierRepository.findBySid(supplier.getSid())
+                .orElseThrow(() -> SupplierNotFoundException.forSid(supplier.getSid()));
     }
 }

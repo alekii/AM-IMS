@@ -19,7 +19,6 @@ public class PurchaseResponseConverter implements Converter<Purchase, PurchaseRe
                 .sid(source.getSid())
                 .dateReceived(source.getDateReceived())
                 .invoice(source.getInvoice())
-                .status(source.getStatus().toString())
                 .supplierResponse(PurchaseResponse.SupplierResponse.builder()
                                           .sid(source.getSupplier().getSid())
                                           .name(source.getSupplier().getName())

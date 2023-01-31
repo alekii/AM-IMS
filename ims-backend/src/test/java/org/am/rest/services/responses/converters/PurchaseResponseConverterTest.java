@@ -32,7 +32,6 @@ public class PurchaseResponseConverterTest {
                 .isEqualTo(PurchaseResponse.builder()
                                    .sid(purchase.getSid())
                                    .invoice(purchase.getInvoice())
-                                   .status(purchase.getStatus().toString())
                                    .totalAmount(purchase.getTotalAmount())
                                    .dateReceived(purchase.getDateReceived())
                                    .supplierResponse(buildSupplierResponse(purchase.getSupplier()))

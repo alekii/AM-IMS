@@ -1,14 +1,12 @@
 package org.am.domain.catalog;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Value
 @Builder(builderClassName = "Builder")
 public class Product {
 

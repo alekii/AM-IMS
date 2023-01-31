@@ -22,7 +22,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -78,7 +77,7 @@ public class PurchaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = PURCHASES_SEQUENCE)
-    @SequenceGenerator(name = PurchaseEntity.PURCHASES_SEQUENCE, sequenceName = PurchaseEntity.PURCHASES_ID_SEQUENCE, allocationSize = 1)
+    @SequenceGenerator(name = PurchaseEntity.PURCHASES_SEQUENCE, sequenceName = PurchaseEntity.PURCHASES_ID_SEQUENCE)
     @Column(name = ID_PURCHASES_COLUMN_NAME)
     private int id;
 
@@ -107,10 +106,4 @@ public class PurchaseEntity {
 
     @Column(name = WAREHOUSE, nullable = false)
     private UUID warehouseSid;
-
-    @PrePersist
-    private void onCreate() {
-
-        this.dateReceived = Instant.now();
-    }
 }

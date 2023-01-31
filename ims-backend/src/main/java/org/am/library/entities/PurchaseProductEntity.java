@@ -68,7 +68,7 @@ public class PurchaseProductEntity {
     @Id
     @Column(name = ID_LINE_ITEM_COLUMN_NAME, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = LINE_ITEM_SEQUENCE)
-    @SequenceGenerator(name = PurchaseProductEntity.LINE_ITEM_SEQUENCE, sequenceName = PurchaseProductEntity.LINE_ITEM_ID_SEQUENCE, allocationSize = 1)
+    @SequenceGenerator(name = PurchaseProductEntity.LINE_ITEM_SEQUENCE, sequenceName = PurchaseProductEntity.LINE_ITEM_ID_SEQUENCE)
     private int id;
 
     @Column(name = EntityConstants.SID_COLUMN_NAME, nullable = false, updatable = false)

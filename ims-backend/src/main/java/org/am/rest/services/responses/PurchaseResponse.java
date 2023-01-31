@@ -15,8 +15,6 @@ public class PurchaseResponse {
 
     int invoice;
 
-    String status;
-
     Instant dateReceived;
 
     String receivedBy;

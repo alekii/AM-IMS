@@ -38,7 +38,7 @@ import static org.am.library.entities.util.EntityConstants.WAREHOUSE_COLUMN_NAME
                 @UniqueConstraint(name = ProductEntity.SID_UNIQUE_INDEX_NAME, columnNames = EntityConstants.SID_COLUMN_NAME)
         }
 )
-@SequenceGenerator(name = ProductEntity.PRODUCT_SEQUENCE, sequenceName = ProductEntity.PRODUCT_ID_SEQUENCE, allocationSize = 1)
+@SequenceGenerator(name = ProductEntity.PRODUCT_SEQUENCE, sequenceName = ProductEntity.PRODUCT_ID_SEQUENCE)
 @Getter
 @Setter
 @Builder(builderClassName = "Builder")

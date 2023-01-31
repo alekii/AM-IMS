@@ -60,7 +60,7 @@ public class ImageEntity {
     @Id
     @Column(name = ID_IMAGE_COLUMN_NAME, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = IMAGE_SEQUENCE)
-    @SequenceGenerator(name = IMAGE_SEQUENCE, sequenceName = IMAGE_ID_SEQUENCE)
+    @SequenceGenerator(name = IMAGE_SEQUENCE, sequenceName = IMAGE_ID_SEQUENCE, allocationSize = 1)
     private int id;
 
     @Type(type = EntityConstants.PG_UUID)

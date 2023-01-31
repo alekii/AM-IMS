@@ -77,7 +77,7 @@ public class PurchaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = PURCHASES_SEQUENCE)
-    @SequenceGenerator(name = PurchaseEntity.PURCHASES_SEQUENCE, sequenceName = PurchaseEntity.PURCHASES_ID_SEQUENCE)
+    @SequenceGenerator(name = PurchaseEntity.PURCHASES_SEQUENCE, sequenceName = PurchaseEntity.PURCHASES_ID_SEQUENCE, allocationSize = 1)
     @Column(name = ID_PURCHASES_COLUMN_NAME)
     private int id;
 

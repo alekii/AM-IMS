@@ -17,7 +17,8 @@ scripts/db-reset.sh
 cd -
 
 cd ims-backend/scripts/
-db/migrate.sh
+db/migrate
+db/insert-dummy-data
 
 pg_dump > db/initial-dump.sql
 cd -

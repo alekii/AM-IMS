@@ -23,5 +23,5 @@ public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Inte
     Optional<WarehouseEntity> findBySid(final @Param("sid") UUID sid);
 
     @Query("SELECT w.sid FROM WarehouseEntity w WHERE LOWER(w.name) = LOWER(:name)")
-    Optional<UUID> findSidByName(final @Param("name") String warehouseName);
+    Optional<UUID> findSidByName(final @Param("name") String name);
 }

@@ -6,5 +6,6 @@ if [[ -z "$IMS_HOME" ]]; then
 fi
 
 echo 'Cleaning db...'
-./gradlew flywayClean -Purl=$FLYWAY_URL
-echo 'Task complete -> Cleaning db'
+x=$(./gradlew flywayClean -Purl=$FLYWAY_URL)
+
+echo "$x"

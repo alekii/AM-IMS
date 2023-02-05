@@ -415,6 +415,12 @@ ALTER TABLE ONLY public.warehouses ALTER COLUMN id_warehouse SET DEFAULT nextval
 --
 
 COPY public.addresses (id_address, street_name, latitude, longitude, map_url, fk_town) FROM stdin;
+1	5th Avenue	30.82609	148.20398	http://map1.com	1
+11	Lumber Way	5.87776	40.45254	http://map2.com	41
+21	Lilypad Passage	14.94752	15.83095	http://map3.com	31
+31	Sapphire Way	39.28248	58.25683	http://map4.com	21
+41	5th Avenue	-21.18794	-48.18496	http://map5.com	11
+51	42nd Freedom Avenue	-24.59142	67.39737	http://map6.com	31
 \.
 
 
@@ -423,6 +429,7 @@ COPY public.addresses (id_address, street_name, latitude, longitude, map_url, fk
 --
 
 COPY public.brands (id_brand, name, sid) FROM stdin;
+1	sony	36b327c1-3451-0fb7-8f5b-1324d90de4ec
 \.
 
 
@@ -431,6 +438,7 @@ COPY public.brands (id_brand, name, sid) FROM stdin;
 --
 
 COPY public.categories (id_category, sid, name) FROM stdin;
+1	18b327c1-0598-4fb7-8f5b-4321d90de4ec	electronics
 \.
 
 
@@ -439,6 +447,11 @@ COPY public.categories (id_category, sid, name) FROM stdin;
 --
 
 COPY public.counties (id_county, name, sid) FROM stdin;
+1	ELDORET	1d545f3d-7dce-4463-9ca6-48f45f03d444
+11	MOMBASA	4af2a28d-5c9a-428a-badd-6249275c06c4
+21	NAIROBI	1e965b1c1-1c63-4012-a1da-26cd32a5307
+31	NAKURU	f960fd96-32d9-4caa-85c8-edb476d7ebcc
+41	KIAMBU	ecc40f2d-1844-4004-b497-f947f561444d
 \.
 
 
@@ -470,6 +483,7 @@ COPY public.images (id_image, sid, fk_product, image_path) FROM stdin;
 --
 
 COPY public.line_items (id_line_item, sid, fk_product, fk_purchases, price, quantity) FROM stdin;
+1	14b327c1-6789-5fb7-8f5b-4321d00de4ec	1	1	4	6564
 \.
 
 
@@ -478,6 +492,7 @@ COPY public.line_items (id_line_item, sid, fk_product, fk_purchases, price, quan
 --
 
 COPY public.products (id_product, name, sid, date_received, fk_brand, fk_category, fk_supplier, received_by, sku, price, discount, quantity, description, warehouse) FROM stdin;
+1	socket	18b401c1-0598-4fb7-9f5b-5678d23de4ec	2022-10-11 21:09:00.252271	1	1	1	me	fjhfgsdhfgsdhfgdshfg	34534	0	4	this is a socket	90b327c1-0598-4fb7-8f5b-4321d09de4ec
 \.
 
 
@@ -486,6 +501,7 @@ COPY public.products (id_product, name, sid, date_received, fk_brand, fk_categor
 --
 
 COPY public.purchases (id_purchases, sid, fk_supplier, invoice_number, date_received, bill_value, purchase_status, warehouse) FROM stdin;
+1	1d545f3d-7dce-4463-9ca6-43f43f03d324	1	22362735	2022-10-11 21:05:42.252271	4234	1	06f60db0-90b6-4119-b267-7246a8c8428c
 \.
 
 
@@ -494,6 +510,7 @@ COPY public.purchases (id_purchases, sid, fk_supplier, invoice_number, date_rece
 --
 
 COPY public.suppliers (id_supplier, name, sid, lead_time, phone_number, email) FROM stdin;
+1	XB Suppliers	1d545f3d-7dce-4463-9ca6-43f43f03d324	2	+254789098987	xbsuppliers@xb.com
 \.
 
 
@@ -502,6 +519,11 @@ COPY public.suppliers (id_supplier, name, sid, lead_time, phone_number, email) F
 --
 
 COPY public.towns (id_town, name, sid, fk_county) FROM stdin;
+1	Eldoret	7fd1ba57-b0c9-403c-bf27-e8e4457cc33c	1
+11	Mombasa	be5652f5-e6c3-41e2-a8f3-10f2c6dfb8b1	11
+21	Nairobi	d040a3f8-58be-448c-ad26-015b9be054fc	21
+31	Nakuru	b6015b7f-abfc-4bb9-8630-221fece27cd4	31
+41	Kiambu	2064eb28-d366-4323-b000-a8a27a0d6eb0	41
 \.
 
 
@@ -518,6 +540,12 @@ COPY public.warehouse_town_coverages (id_warehouse_town_coverage, fk_town, fk_wa
 --
 
 COPY public.warehouses (id_warehouse, name, sid, phone_number, fk_address, contact_name, tracking_numbers_count, created_at) FROM stdin;
+1	Warehouse1	969f795c-b550-4f4e-80de-0db4c317581a	+254734567892	1	Manager1	365423	2022-09-06 21:07:15.039575
+51	Warehouse2	06f60db0-90b6-4119-b267-7246a8c8428c	+254767234156	11	Manager2	158355	2022-09-06 21:06:47.051642
+101	Warehouse3	3e083c68-f193-4bfc-b53c-7a58869c9048	+254723890567	21	Manager3	159452	2022-09-06 21:06:13.669522
+151	Warehouse4	18b401c1-0598-4fb7-9f5b-7417d25de8ec	+254737234678	31	Manager4	337433	2022-09-06 20:53:58.864771
+201	Warehouse5	a9b3746f-63d0-41d6-9589-f3ac4aadf44c	+254712908453	41	Manager5	116564	2022-09-06 21:05:42.252271
+251	Warehouse6	9d771afd-ff6c-49c5-a120-c7da7774b0f5	+254708452985	51	Manager6	721218	2022-09-06 21:01:40.593941
 \.
 
 
@@ -525,28 +553,28 @@ COPY public.warehouses (id_warehouse, name, sid, phone_number, fk_address, conta
 -- Name: address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.address_id_seq', 1, false);
+SELECT pg_catalog.setval('public.address_id_seq', 51, true);
 
 
 --
 -- Name: brand_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.brand_id_seq', 1, false);
+SELECT pg_catalog.setval('public.brand_id_seq', 1, true);
 
 
 --
 -- Name: category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.category_id_seq', 1, false);
+SELECT pg_catalog.setval('public.category_id_seq', 1, true);
 
 
 --
 -- Name: counties_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.counties_id_seq', 1, false);
+SELECT pg_catalog.setval('public.counties_id_seq', 41, true);
 
 
 --
@@ -560,42 +588,42 @@ SELECT pg_catalog.setval('public.image_id_seq', 1, false);
 -- Name: line_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.line_item_id_seq', 1, false);
+SELECT pg_catalog.setval('public.line_item_id_seq', 1, true);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.product_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_id_seq', 1, true);
 
 
 --
 -- Name: purchases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.purchases_id_seq', 1, false);
+SELECT pg_catalog.setval('public.purchases_id_seq', 1, true);
 
 
 --
 -- Name: supplier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.supplier_id_seq', 1, false);
+SELECT pg_catalog.setval('public.supplier_id_seq', 1, true);
 
 
 --
 -- Name: towns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.towns_id_seq', 1, false);
+SELECT pg_catalog.setval('public.towns_id_seq', 41, true);
 
 
 --
 -- Name: warehouse_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.warehouse_id_seq', 1, false);
+SELECT pg_catalog.setval('public.warehouse_id_seq', 251, true);
 
 
 --

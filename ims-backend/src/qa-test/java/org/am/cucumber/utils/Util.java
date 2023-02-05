@@ -22,7 +22,7 @@ public class Util {
 
     private String backendHost;
 
-    private String resourcesPath = "src/test/resources/";
+    private String resourcesPath = "src/qa-test/resources/";
 
     public Util() {
 

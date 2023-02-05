@@ -14,5 +14,4 @@ PGPASSWORD=$PGPASS psql -h $HOST -p $PORT -U $USER -d $DB -c "DROP SCHEMA IF EXI
 PGPASSWORD=$PGPASS psql -h $HOST -p $PORT -U $USER -d $DB -c "CREATE SCHEMA public;" &&
 
 PGPASSWORD=$PGPASS psql -h $HOST -p $PORT -U $USER -d $DB < db/initial-dump.sql &&
-
 echo "Task complete -> db reset"

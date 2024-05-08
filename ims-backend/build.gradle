@@ -80,6 +80,7 @@ dependencies {
     //Spring
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
     api group: 'org.springframework.kafka', name: 'spring-kafka', version: springKafkaVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
 
     // Data sources
     implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion

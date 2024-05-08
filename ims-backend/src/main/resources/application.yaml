@@ -74,3 +74,11 @@ springdoc:
     enabled: true
     path: "/api/swagger-ui.html"
 
+management:
+  health:
+    livenessstate:
+      enabled: true
+    probes:
+      enabled: true
+    readinessstate:
+      enabled: true

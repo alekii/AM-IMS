@@ -7,6 +7,7 @@ buildscript {
 plugins {
     id "application"
     id "org.flywaydb.flyway" version "8.0.5"
+    id 'org.springframework.boot' version '2.6.2'
 }
 
 application {
@@ -16,6 +17,18 @@ application {
 repositories {
     mavenCentral()
 }
+
+archivesBaseName = 'am-ims'
+
+bootJar {
+    mainClassName = 'org.am.Main'
+    manifest {
+        attributes 'Implementation-Title': 'AM-IMS API'
+        attributes 'Implementation-Version': project.version
+    }
+    archiveFileName = "${archiveBaseName.get()}-${rootProject.version}.${archiveExtension.get()}"
+}
+
 sourceSets {
     qaTest {
         java {
@@ -52,7 +65,7 @@ flyway {
 
 dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    compile group: 'org.apache.commons', name: 'commons-text', version: commonsTextVersion
+    compileOnly group: 'org.apache.commons', name: 'commons-text', version: commonsTextVersion
     compileOnly group: 'org.apache.commons', name: 'commons-exec', version: commonsExecVersion
     compileOnly group: 'commons-io', name: 'commons-io', version: commonsIOversion
 
@@ -66,7 +79,7 @@ dependencies {
 
     //Spring
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
-    compile group: 'org.springframework.kafka', name: 'spring-kafka', version: springKafkaVersion
+    api group: 'org.springframework.kafka', name: 'spring-kafka', version: springKafkaVersion
 
     // Data sources
     implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
@@ -163,7 +176,7 @@ configurations {
     }
 }
 
-task cucumber() {
+tasks.register('cucumber') {
     dependsOn assemble, testClasses
     doLast {
         javaexec {

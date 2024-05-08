@@ -72,6 +72,7 @@ public class Rest {
         }
         return false;
     }
+import org.apache.commons.text.StringSubstitutor;
 
     private RequestSpecification prepareRequest() {
 

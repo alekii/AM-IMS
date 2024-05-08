@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'jacoco'
 }
+
 sourceCompatibility = 11
 targetCompatibility = 11
 
@@ -48,5 +49,6 @@ subprojects {
         springDocVersion = '1.4.5'
     }
 }
+
 
 

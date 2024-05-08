@@ -6,4 +6,4 @@ set -e
 
 cd "$(dirname "$0")/../../../docker"
 
-docker-compose down
+docker compose down

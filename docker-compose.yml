@@ -1,8 +1,34 @@
 version: "3"
 
 services:
+  am-ims:
+    image: 218291069433.dkr.ecr.us-east-1.amazonaws.com/amweb:f1a3d38
+    container_name: am-ims
+    environment:
+      - IMS_HOME = <ABSOLUTE_PATH_TO_PROJECT_ROOT>
+      - IMS_BACKEND_HOST=http://localhost:8088/api/
+      - IMS_API_PORT=8088
+      - PGHOST=localhost
+      - PGPORT=5432
+      - PGDATABASE=ims
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - FLYWAY_URL=jdbc:postgresql://localhost:5432/ims
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=postgres
+      - EXPOSED_DATABASE_PORT=5432
+      - EXPOSED_KAFKA_BROKER_PORT=9092
+      - KAFKA_BOOTSTRAP_SERVERS=http://localhost:9092
+      - EXPOSED_ZOOKEEPER_PORT=2181
+      - EXPOSED_KAFDROP_PORT=9999
+    depends_on:
+     - ims-db
+    ports:
+      - '8089:8089'
+
   ims-db:
-    build: db
+    container_name: ims-db
+    build: docker/db
     environment:
       - DB=ims
       - POSTGRES_USER=postgres

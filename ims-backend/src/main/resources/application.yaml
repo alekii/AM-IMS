@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8089
   shutdown: graceful
 
 spring:
@@ -21,7 +21,7 @@ spring:
       pool-name: ims
   flyway:
     check-location: true
-    locations: filesystem:/home/alex/project/AM-IMS/ims-backend/src/main/resources/
+    locations: filesystem:/home/alex/devops/AM-IMS/ims-backend/src/main/resources/
 
   jpa:
     open-in-view: true

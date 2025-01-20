@@ -5,7 +5,7 @@ Enterprise Inventory Management System for an ecommerce application.
 # Tech concepts
 
 Java 11, Spring boot, RabbitMQ, Kafka, BDD with Cucumber, Flyway, Unit tests, PostgresQl, Gradle, 
-integration tests, clean code, event driven architecture, SOLID principles, Shell scripting
+integration tests, clean code, event driven architecture, SOLID principles, Shell scripting, Hibernate, JPA
 
 
 ## Requirements
